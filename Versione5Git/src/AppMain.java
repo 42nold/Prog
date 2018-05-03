@@ -24,7 +24,7 @@ public class AppMain implements Serializable{
 		Sistema.eliminaDecaduti();//cerco decaduti a inizio di ogni sessione
 		Sistema.eliminaPrestitiScaduti();
 		Sistema.idCorrente();		
-		System.out.println("Benvenuto");
+		System.out.println("Benvenuto e questo è il mio commit");
 		
 		MyMenu menuPrincipale = new MyMenu(TITOLO, voci);
 		int scelta;
