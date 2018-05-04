@@ -1,3 +1,5 @@
+package dafault;
+
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,16 +33,16 @@ public class Archivio implements Serializable {
 	
 	private static Storico storico = new Storico();
 	
-	private static ArrayList<CategoriaPrimoLivello> categorie;
+	private static ArrayList<CategoriaPrimoLivello<? extends Risorsa>> categorie;
 	/**
 	 * istanzia la classe archivio con due categorie e due sottocategorie
 	 * 
 	 */
 	public Archivio(){
-		categorie = new ArrayList<CategoriaPrimoLivello>();
+		categorie = new ArrayList<CategoriaPrimoLivello<? extends Risorsa>>();
 		
-		aggiungiCategoria("Libri", DURATA_PRESTITO_LIBRI, DURATA_PROROGA_LIBRI, TERMINE_PROROGA_LIBRI, MAX_RISORSE_PER_LIBRI, ID_LIBRI); //inizializzazione di default
-		aggiungiCategoria("Film", DURATA_PRESTITO_FILM, DURATA_PROROGA_FILM, TERMINE_PROROGA_FILM, MAX_RISORSE_PER_FILM, ID_FILM); //inizializzazione di default
+		aggiungiCategoria("libreria","Libri", DURATA_PRESTITO_LIBRI, DURATA_PROROGA_LIBRI, TERMINE_PROROGA_LIBRI, MAX_RISORSE_PER_LIBRI, ID_LIBRI); //inizializzazione di default
+		aggiungiCategoria("videoteca","Film", DURATA_PRESTITO_FILM, DURATA_PROROGA_FILM, TERMINE_PROROGA_FILM, MAX_RISORSE_PER_FILM, ID_FILM); //inizializzazione di default
 		
 		categorie.get(0).aggiungiSottoCategoria("Giallo");
 		categorie.get(0).aggiungiSottoCategoria("Romanzo");
@@ -260,12 +262,19 @@ public class Archivio implements Serializable {
  * @pre nome!= null && durataMassimaPrestito>=0 && durataProrogaLibri>=0 && termineProroga>=0 && maxiRisorseLibri>0 && id>=0
  * @post categorieSize() == categorieSize()@pre+1
  */
-	public void aggiungiCategoria(String nome, int durataMassimaPrestito, int durataProrogaLibri, int termineProroga, int maxRisorsePerLibri, int id) {
+	public void aggiungiCategoria(String tipo,String nome, int durataMassimaPrestito, int durataProrogaLibri, int termineProroga, int maxRisorsePerLibri, int id) {
 	assert  nome!= null && durataMassimaPrestito>=0 && durataProrogaLibri>=0 && termineProroga>=0 && maxRisorsePerLibri>0 && id>=0;
 	int categoriePre = categorie.size();
 	
-		CategoriaPrimoLivello nuovo = new CategoriaPrimoLivello(nome, durataMassimaPrestito, durataProrogaLibri, termineProroga, maxRisorsePerLibri, id);
-		categorie.add(nuovo);
+	CategoriaPrimoLivello<?> nuovo = null;
+	
+	if(tipo.equals("libreria"))
+		nuovo = new LibreriaContenitore(nome, durataMassimaPrestito, durataProrogaLibri, termineProroga, maxRisorsePerLibri, id);
+	
+	if(tipo.equals("videoteca"))
+		nuovo = new VideotecaContenitore(nome, durataMassimaPrestito, durataProrogaLibri, termineProroga, maxRisorsePerLibri, id);
+
+	categorie.add(nuovo);
 		
 		assert invariante() && categoriePre==categorie.size()-1;
 	}
@@ -320,7 +329,7 @@ public class Archivio implements Serializable {
 		
 		File f = new File(NOMEFILECATEGORIE);
 		@SuppressWarnings("unchecked")
-		 ArrayList<CategoriaPrimoLivello> a = ( ArrayList<CategoriaPrimoLivello>)ServizioFile.caricaSingoloOggetto(f);
+		 ArrayList<CategoriaPrimoLivello<? extends Risorsa>> a = ( ArrayList<CategoriaPrimoLivello<? extends Risorsa>>)ServizioFile.caricaSingoloOggetto(f);
 		
 		if( a==null ) {
 			assert invariante();

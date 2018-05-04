@@ -1,3 +1,5 @@
+package dafault;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -5,7 +7,7 @@ import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
 
 @SuppressWarnings("serial")
-public abstract class Categoria implements Serializable {
+public abstract class Categoria<T extends Risorsa> implements Serializable {
 
 	/**
 	 * @invariant invariante()
@@ -15,8 +17,8 @@ public abstract class Categoria implements Serializable {
 	private static final String[] OPZIONI = {"visualizza risorse","aggiungi risorsa","elimina risorsa","modifica risorsa"} ;
 	
 	protected String nome;
-	protected ArrayList<Libro> libri;
-	protected ArrayList<Film> film;
+
+	protected ArrayList<T> risorse;
 	static int idRisorsa;														
 	protected int idCategoria;
 	
@@ -27,58 +29,35 @@ public abstract class Categoria implements Serializable {
 	 * @post libri!=null && film!=null
 	 * 
 	 */
-	public Categoria(String param) {
+	public  Categoria(String param ) {
 		assert param!=null;
 		
 		nome= param;
-		libri= new ArrayList<Libro>();
-		film= new ArrayList<Film>();
+	
+		risorse=  new ArrayList<T>() ;
 		
-		assert invarianteC() && (libri!=null && film!=null) ;
+		assert invarianteC() && (risorse!=null ) ;
 	}
-/**
- * 	cerca l'id risorsa pi� alto tra le risorse della categoria
- * @pre true
- * @post @nochange
- * @return il valore dell'id trovato
- */
-	protected int idMax() {
-		assert invarianteC();
-		Categoria categoriaPre = this;
-		
-		int idLibro, idFilm;
-		idLibro=idMaxLibro();
-		idFilm=idMaxFilm();
-		
-		assert invarianteC() && categoriaPre==this;
-		
-		if(idLibro>idFilm)
-			return idLibro;
-		
-		if(idFilm>=idLibro)
-			return idFilm;
-		
-		return -1;
-	}
+
 	/**
 	 * cerca nelle risorse libro l'indice di risorsa massimo
 	 * @pre true
 	 * @post @nochange
 	 * @return il valore dell'id risorsa pi� alto trovato oppure -1
 	 */
-	private int idMaxLibro() {	
+	protected int idMax() {	
 
 		assert invarianteC();
 		Categoria categoriaPre = this;
 		
 		
-		if (libri.size() > 0) {
-			int max=libri.get(0).getId();
+		if (risorse.size() > 0) {
+			int max=risorse.get(0).getId();
 			
-			for(int i=1; i<libri.size();i++)
+			for(int i=1; i<risorse.size();i++)
 				
-				if(libri.get(i).getId()>max) {
-					max=libri.get(i).getId();
+				if(risorse.get(i).getId()>max) {
+					max=risorse.get(i).getId();
 				}
 			
 			assert invarianteC() && categoriaPre==this;
@@ -88,114 +67,16 @@ public abstract class Categoria implements Serializable {
 		assert invarianteC() && categoriaPre==this;
 		return -1;			
 	}
-/**
- * 	cerca nelle risorse film l'indice di risorsa massimo
- * @pre true
- * @post @nochange
- * @return il valore dell'id risorsa pi� alto trovato
- */
-	private int idMaxFilm() {
-		assert invarianteC();
-		Categoria categoriaPre = this;
-		
-		if (film.size() > 0) {
-			int max=film.get(0).getId();
-			
-			for(int i=1; i<film.size();i++)
-				if(film.get(i).getId()>max) {
-					max=film.get(i).getId();
-				}
 
-			assert invarianteC() && categoriaPre==this;
-			return max;
-		}
-		
-		assert invarianteC() && categoriaPre==this;
-		return 0;			
-	}
 /**
  * chiede all'utente i dati necessari alla creazione di una risorsa e la crea
  * @pre true
  * @post (sizeLibri()==sizeLibri()@pre+1 || sizeFilm()==sizeFilm()@pre+1) && idRisorse()==idRisorse()@pre+1 
  * 	
  */
-	public void aggiungiRisorsa() {		
-		assert invarianteC();
-		int libriPre = libri.size();
-		int filmPre = film.size();
-		int idPre = idRisorsa;
-		
-		String nome= InputDati.leggiStringaNonVuota("inserisci il nome della risorsa");
-		String gen= InputDati.leggiStringaNonVuota("inserisci il genere della risorsa");
-		String lin= InputDati.leggiStringaNonVuota("inserisci la lingua della risorsa");
-		int anno = InputDati.leggiInteroPositivo("inserisci l'anno di uscita");
-		int numLicenze = InputDati.leggiInteroPositivo("inserisci il numero di licenze");
-		
-		switch (idCategoria) {
-			case 0:
-				aggiungiLibro(nome, gen, lin, anno, numLicenze);
-				break;
-			case 1:
-				aggiungiFilm(nome, gen, lin, anno, numLicenze);
-				break;
-			default:
-				break;
-		}
-		
-		assert invarianteC() && (libri.size()==libriPre+1 || film.size()==filmPre+1) && idRisorsa==idPre+1 ;
-	}
-/**
- * aggiungi una risorsa libro alla categoria 	
- * @param nome nome del libro
- * @param gen genere
- * @param lin lingua
- * @param anno anno di pubblicazione
- * @param numLicenze numero di licenze del libro
- * @pre nome!=null && gen!=null && lin!=null && anno>=0 && numLicenze>=0
- * @post idRisorse()==idRisorse()@pre+1 && sizeLibri()==sizeLibri()@pre+1 
- */
-	protected void aggiungiLibro(String nome, String gen, String lin,int anno, int numLicenze) {	
-		assert invarianteC() && nome!=null && gen!=null && lin!=null && anno>=0 && numLicenze>=0;
-		int idPre = idRisorsa;
-		int libriSizePre = libri.size();
-		
-		String aut= InputDati.leggiStringaNonVuota("inserisci l'autore del libro");
-		String casa= InputDati.leggiStringaNonVuota("inserisci la casa editrice del libro");
-		int pagine = InputDati.leggiInteroPositivo("inserisci il numero di pagine");
-		int id = idRisorsa;
-		idRisorsa++;
-	
-		libri.add(new Libro(nome,aut,casa,gen,lin,anno,pagine,id,numLicenze));
-		Storico.risorsaAggiunta(id);
-		
-		assert invarianteC() && idPre+1==idRisorsa && libri.size()==libriSizePre+1;	
-	}
-/**
- * aggiunge un film alla categoria	
- * @param nome
- * @param gen genere
- * @param lin lingua
- * @param anno anno di uscita
- * @param numLicenze numero di licenze
- * @pre nome!=null && gen!=null && lin!=null && anno>=0 && numLicenze>=0
- * @post idRisorse()==idRisorse()@pre+1 && numFilm()==numFilm()@pre+1 
- */
-	protected void aggiungiFilm(String nome, String gen, String lin, int anno,int numLicenze) {	
-		assert invarianteC() && nome!=null && gen!=null && lin!=null && anno>=0 && numLicenze>=0 ;
-		int idPre = idRisorsa;
-		int filmSizePre = film.size();
-		
-		String regista= InputDati.leggiStringaNonVuota("inserisci il regista del film");
-		String casa= InputDati.leggiStringaNonVuota("inserisci la casa di produzione del film");
-		int durata = InputDati.leggiInteroPositivo("inserisci la durata del film in minuti");
-		int id = idRisorsa;
-		idRisorsa++ ;
-		
-		film.add(new Film(nome,regista,casa,gen,lin,anno,durata,id,numLicenze));
-		Storico.risorsaAggiunta(id);
-		
-		assert invarianteC() && idPre+1==idRisorsa && film.size()==filmSizePre+1;
-	}
+	public abstract void aggiungiRisorsa() ;
+
+
 	
 /**ritorna un elenco dei nomi delle risorse presenti nella categoria
  * @pre true
@@ -204,43 +85,17 @@ public abstract class Categoria implements Serializable {
  */
 	public String[] elencoRisorse() {	
 		assert invarianteC();
-		Categoria thisPre = this ;
+		Categoria<T> thisPre = this ;
 		
-		switch (idCategoria) {
-			case 0:
-				String [] elencoLibri = elencoLibri();
-				assert invarianteC() && thisPre==this && elencoLibri!=null;
-				return elencoLibri;
-				
-			case 1:
-				String[] elencoFilm = elencoFilm();
-				assert invarianteC() && thisPre==this && elencoFilm!=null;
-				return elencoFilm ;
-				
-			default:
-				assert false ;
-				return null;
-				
-		}
-	}
-/**
- * 	restituisce l'elenco dei nomi dei libri nella categoria
- * @pre true
- * @post @nochange && @return != null
- * @return elenco di nomi 
- */
-	protected String[] elencoLibri() {	
-		assert invarianteC();
-		Categoria thisPre = this ;
 		String[] risultato = new String[0];
 		
-		if (libri.size()<1) 
+		if (risorse.size()<1) 
 			return risultato;	
 		else {
-			String[] elenco = new String[libri.size()];
+			String[] elenco = new String[risorse.size()];
 			
 			int i=0;			
-			for(Libro l : libri) {
+			for(Risorsa l : risorse) {
 				elenco[i]=l.toString();
 				i++;					
 			}
@@ -248,31 +103,8 @@ public abstract class Categoria implements Serializable {
 			return elenco;
 		}
 	}
-	/**
-	 * 	restituisce l'elenco dei nomi dei film nella categoria
-	 * @pre true
-	 * @post @nochange && @return!= null
-	 * @return elenco di nomi 
-	 */
-	protected String[] elencoFilm() {		
-		assert invarianteC();
-		Categoria thisPre = this ;
-		
-		String[] risultato = new String[0];
-		if (film.size()<1) 
-			return risultato;	
-		else {
-			String[] elenco = new String[film.size()];
-			
-			int i=0;			
-			for(Film f : film) {
-				elenco[i]=f.toString();
-				i++;					
-			}
-			assert invarianteC() && thisPre==this && elenco!=null ;
-			return elenco;
-		}
-	}
+
+
 	/**
 	 * restituisce il nome della classe
 	 * @pre true
@@ -318,15 +150,13 @@ public abstract class Categoria implements Serializable {
 */
 	protected void showRisorsa(int id) {
 		assert invarianteC();
-		Categoria thisPre = this;
+		Categoria<T> thisPre = this;
 		
-				if(libri.size()>0)
-					for(Libro l : libri) 
+				if(risorse.size()>0)
+					for(T l : risorse) 
 						if(l.getId()==id) System.out.println(l.toString());
 			
-				if(film.size()>0)
-					for(Film f : film) 
-						if(f.getId()==id) System.out.println(f.toString());
+				
 		
 		assert invarianteC() && thisPre==this;
 	}
@@ -338,20 +168,16 @@ public abstract class Categoria implements Serializable {
  */
 	protected void modifica(int idRisorsaDaModificare) {	
 		assert invarianteC();
-		int libriPre = libri.size();
-		int filmPre = film.size();
+		int libriPre = risorse.size();
 		
-				if(libri.size()>0)
-					for(Libro l : libri)
+				if(risorse.size()>0)
+					for(T l : risorse)
 						if (l.getId() == idRisorsaDaModificare) 
 							l.modifica();
 			
-				if(film.size()>0)
-					for(Film f : film)
-						if (f.getId() == idRisorsaDaModificare) 
-							f.modifica();
+			
 				
-		assert invarianteC() && libriPre==libri.size() && filmPre==film.size();
+		assert invarianteC() && libriPre==risorse.size() ;
 	}
 /**
  * rimuove la risorsa che possiede l'id specificato dal parametro in ingresso	
@@ -361,31 +187,17 @@ public abstract class Categoria implements Serializable {
  */
 	protected void rimuoviRisorsa(int indice) {		
 		assert invarianteC();
-		Categoria thisPre = this;
-		int libriPre = libri.size();
-		int filmPre = film.size();
+		Categoria<T> thisPre = this;
+		int libriPre = risorse.size();
 		
-		switch (idCategoria) {
-			case 0:
-				for(int i=0; i <libri.size();i++)
-					if (libri.get(i).getId() == indice) {
-						Storico.risorsaEliminata(libri.get(i).getId());
-						libri.remove(i);
+		
+				for(int i=0; i <risorse.size();i++)
+					if (risorse.get(i).getId() == indice) {
+						Storico.risorsaEliminata(risorse.get(i).getId());
+						risorse.remove(i);
 					}
-				assert invarianteC() && (libriPre+filmPre==libri.size()+film.size()-1 || thisPre==this);
-				break;
-			case 1:
-				for(int i=0; i <film.size();i++)
-					if (film.get(i).getId() == indice) {
-						Storico.risorsaEliminata(film.get(i).getId());
-						film.remove(i);
-						}
-				assert invarianteC() && (libriPre+filmPre==libri.size()+film.size()-1 || thisPre==this);
-				break;
-			default:
-				assert false;
-				break;
-		}
+				assert invarianteC() && (libriPre==risorse.size() || thisPre==this);
+			
 	}
 	
 	/**
@@ -396,27 +208,19 @@ public abstract class Categoria implements Serializable {
 	 */
  	public int scegliRisorsa() {
  		assert invarianteC();
- 		Categoria thisPre = this;
+ 		Categoria<T> thisPre = this;
  		
 		MyMenu menuRisorse = new MyMenu(TITOLO_RISORSE, this.elencoRisorse());
 		int risorsaSelezionata = menuRisorse.scegli();
 		if (risorsaSelezionata==0)
 			return -1;
 		
-			switch(idCategoria) {
-			case 0:
-				int risultatoLibri=  libri.get(risorsaSelezionata-1).getId() ;
+		
+				int risultatoLibri=  risorse.get(risorsaSelezionata-1).getId() ;
 				assert invarianteC() && thisPre==this;
 				return risultatoLibri;
-			case 1:
-				int risultatoFilm = film.get(risorsaSelezionata-1).getId();
-				assert invarianteC() && thisPre==this;
-				return risultatoFilm;	
-			default:
-				assert false;
-			}
-		assert invarianteC() && thisPre==this;
-		return -1;
+			
+		
 	}
 /**
  * cerca se una risorsa nella categoria � presente
@@ -427,19 +231,16 @@ public abstract class Categoria implements Serializable {
  */
 	public boolean cercaRisorsa(int risorsaScelta) {	
 		assert invarianteC();
- 		Categoria thisPre = this;
+ 		Categoria<T> thisPre = this;
  		
 		boolean trovato = false;
 		
-		for (int i = 0; i < libri.size(); i++) {
-			if (libri.get(i).getId()==risorsaScelta)
+		for (int i = 0; i < risorse.size(); i++) {
+			if (risorse.get(i).getId()==risorsaScelta)
 				trovato = true;
 		}
 		
-		for ( int i = 0; i < film.size(); i++) {
-			if (film.get(i).getId()==risorsaScelta) 
-				trovato = true;
-		}
+		
 		assert invarianteC() && thisPre==this;
 		return trovato;
 
@@ -453,11 +254,11 @@ public abstract class Categoria implements Serializable {
  */
 	public String getDescrizioneRisorsa(int idRisorsa) {							
 		assert invarianteC();
- 		Categoria thisPre = this;
+ 		Categoria<T> thisPre = this;
  		
-		if(libri.size()>0) {
+		if(risorse.size()>0) {
 			
-			for(Libro l : libri) {
+			for(T l : risorse) {
 				if(l.getId()==idRisorsa) {
 					String descrizioneLibro = l.descrizionePrestito();	
 					assert invarianteC() && thisPre==this;
@@ -465,15 +266,7 @@ public abstract class Categoria implements Serializable {
 				}
 			}
 		}			
-		if(film.size()>0) {
-			for(Film f : film) {
-				if(f.getId()==idRisorsa) {
-					String descrizioneFilm = f.descrizionePrestito();
-					assert invarianteC() && thisPre==this;
-					return descrizioneFilm;
-				}
-			}
-		}
+		
 		assert invarianteC() && thisPre==this;
 		return null;
 	}
@@ -486,10 +279,10 @@ public abstract class Categoria implements Serializable {
  */
 	public String getNomeRisorsa(int id) {											
 		assert invarianteC();
- 		Categoria thisPre = this;
+ 		Categoria<T> thisPre = this;
  		
-		if(libri.size()>0) {
-			for(Libro l : libri) {
+		if(risorse.size()>0) {
+			for(T l : risorse) {
 				if(l.getId()==id) {
 					String descrizionelibro = l.getNome();
 					assert invarianteC() && thisPre==this;
@@ -498,15 +291,7 @@ public abstract class Categoria implements Serializable {
 			}
 		}				
 
-		if(film.size()>0) {
-			for(Film f : film) {
-				if(f.getId()==id) {
-					String descrizioneFilm = f.getNome();
-			     	assert invarianteC() && thisPre==this;
-					return descrizioneFilm;
-					}
-			}
-		}
+		
 		assert invarianteC() && thisPre==this;
 		return null;
 		
@@ -520,9 +305,9 @@ public abstract class Categoria implements Serializable {
  */
 	public int numeroLicenzeRisorsa(int risorsaScelta) {							
 		assert invarianteC();
- 		Categoria thisPre = this;
+ 		Categoria<T> thisPre = this;
  		
-				for(Libro l: libri)
+				for(T l: risorse)
 					if(l.getId()==risorsaScelta) {
 						int licenzeLibro = l.getNumLicenze();
 						assert invarianteC() && thisPre==this;
@@ -530,12 +315,7 @@ public abstract class Categoria implements Serializable {
 					}
 
 			
-				for(Film f: film)
-					if(f.getId()==risorsaScelta) {
-						int licenzeFilm = f.getNumLicenze();
-						assert invarianteC() && thisPre==this;
-						return licenzeFilm;
-					}
+				
 
 		     	assert invarianteC() && thisPre==this;
 				return -1;		
@@ -549,19 +329,14 @@ public abstract class Categoria implements Serializable {
 	 */
 	public void aggiornaLicenze(int risorsaScelta, int flag) {						
 		assert invarianteC() && ((flag==0 && numeroLicenzeRisorsa(risorsaScelta)>0) || (flag==0 && numeroLicenzeRisorsa(risorsaScelta)==-1) || flag!=0) ;
-				for(Libro l: libri)
+				for(T l: risorse)
 					if(l.getId()==risorsaScelta)
 						if (flag==0)
 							l.decrementaLicenze();
 						else
 							l.incrementaLicenze();
 			
-				for(Film f: film)
-					if(f.getId()==risorsaScelta)
-						if (flag==0)
-							f.decrementaLicenze();
-						else
-							f.incrementaLicenze();
+				
 			assert invarianteC();
 	}
 /**
@@ -575,11 +350,10 @@ public abstract class Categoria implements Serializable {
  */
 	public ArrayList<Integer> filtraRisorse(int attributoScelto, String chiaveDiRicerca,int numDiRicerca) {			
 		assert invarianteC() && chiaveDiRicerca!=null && (!chiaveDiRicerca.equals("") || numDiRicerca >0);
-		Categoria thisPre = this;
+		Categoria<T> thisPre = this;
 		
 				ArrayList<Integer> r = new ArrayList<Integer>();
-				r= filtraLibri(attributoScelto, chiaveDiRicerca, numDiRicerca);
-				r.addAll(filtraFilm(attributoScelto, chiaveDiRicerca, numDiRicerca));
+				r= filtra(attributoScelto, chiaveDiRicerca, numDiRicerca);
 				
 		assert invarianteC() && thisPre==this;
 		return r;		
@@ -593,101 +367,8 @@ public abstract class Categoria implements Serializable {
  * @pre chiaveDiRicerca!=null && attributoScelto>=1 && attributoScelto<=7
  * @post @nochange
  */
-	protected ArrayList<Integer> filtraLibri(int attributoScelto, String chiaveDiRicerca,int numDiRicerca) {		
-		assert invarianteC() && chiaveDiRicerca!=null && attributoScelto>=1 && attributoScelto<=8;
-		Categoria thisPre = this;
-		
-		ArrayList<Integer> risultato = new ArrayList<Integer>();
-		
-		if (libri.size()>0)
-			switch(attributoScelto) {
-		
-				default : break;
-				
-				case 1:
-					for(Libro l: libri)
-						if(l.matchNome(chiaveDiRicerca)) risultato.add(l.getId());
-					break;
-				case 2:
-					for(Libro l: libri)
-						if(l.matchAutore(chiaveDiRicerca)) risultato.add(l.getId());
-					break;
-				case 3:
-					for(Libro l: libri)
-						if(l.matchCasaEditrice(chiaveDiRicerca)) risultato.add(l.getId());
-					break;
-				case 4:
-					for(Libro l: libri)
-						if(l.matchGenere(chiaveDiRicerca)) risultato.add(l.getId());
-					break;
-				case 5:
-					for(Libro l: libri)
-						if(l.matchLingua(chiaveDiRicerca)) risultato.add(l.getId());
-					break;
-				case 6:
-					for(Libro l: libri)
-						if(l.matchAnno(numDiRicerca)) risultato.add(l.getId());
-					break;
-				case 7:
-					for(Libro l: libri)
-						if(l.matchPagine(numDiRicerca)) risultato.add(l.getId());
-					break;		
-				}	
-			assert invarianteC() && thisPre==this;
-			return risultato;
-	}	
-	/**
-	 * 	raggruppa tutti i film che fanno match con i requisiti richiesti
-	 * @param attributoScelto attributo da confrontare
-	 * @param chiaveDiRicerca stringa da confrontare con l'attributo
-	 * @param numDiRicerca intero da cofrontare con l'attributo
-	 * @return lista di identificativi relativi ai match positivi
-	 * @pre chiaveDiRicerca!=null && attributoScelto>=1 && attributoScelto<=8
-	 * @post @nochange
-	 */
-	protected ArrayList<Integer> filtraFilm(int attributoScelto, String chiaveDiRicerca,int numDiRicerca) {	
-		assert invarianteC() && chiaveDiRicerca!=null && attributoScelto>=1 && attributoScelto<=8&& (!chiaveDiRicerca.equals("") || numDiRicerca>0);
-		Categoria thisPre = this;
-		
-		ArrayList<Integer> risultato = new ArrayList<Integer>();
-		
-		if(film.size()>0)
-			switch(attributoScelto) {
-		
-				default : break;
-				
-				case 1:
-					for(Film f: film)
-						if(f.matchNome(chiaveDiRicerca)) risultato.add(f.getId());
-					break;
-				case 2:
-					for(Film f: film)
-						if(f.matchRegista(chiaveDiRicerca)) risultato.add(f.getId());
-					break;
-				case 3:
-					for(Film f: film)
-						if(f.matchCasaProduzione(chiaveDiRicerca)) risultato.add(f.getId());
-					break;
-				case 4:
-					for(Film f: film)
-						if(f.matchGenere(chiaveDiRicerca)) risultato.add(f.getId());
-					break;
-				case 5:
-					for(Film f: film)
-						if(f.matchLingua(chiaveDiRicerca)) risultato.add(f.getId());
-					break;
-				case 6:
-					for(Film f: film)
-						if(f.matchAnno(numDiRicerca)) risultato.add(f.getId());
-					break;
-				case 8:
-					for(Film f: film)
-						if(f.matchDurata(numDiRicerca)) risultato.add(f.getId());
-					break;		
-			}
-		assert invarianteC() && thisPre==this;	
-		return risultato;
-	}	
+	protected  abstract ArrayList<Integer> filtra(int attributoScelto, String chiaveDiRicerca,int numDiRicerca) ;
+
 /**
  * restituisce l'id della risorsa indicata	
  * @param posArray posizione della risorsa nell'array di categoria
@@ -696,22 +377,14 @@ public abstract class Categoria implements Serializable {
  * @post @nochange
  */
 	protected int getId(int posArray) {
-		assert invarianteC() && (idCategoria==0 && posArray>=0 && posArray<=libri.size()) || (idCategoria==1 && posArray>=0 && posArray<=film.size())  ;
-		Categoria thisPre = this;
+		assert invarianteC() && (idCategoria==0 && posArray>=0 && posArray<=risorse.size()) || (idCategoria==1 && posArray>=0 )  ;
+		Categoria<T> thisPre = this;
 		
-		switch(idCategoria) {
-			case 0:
-				int idLibro = libri.get(posArray).getId();
+	
+				int id = risorse.get(posArray).getId();
 				assert invarianteC() && thisPre==this;
-				return idLibro;
-			case 1:
-				int idFilm = film.get(posArray).getId();
-				assert invarianteC() && thisPre==this;
-				return idFilm;	
-			default:
-				assert false;
-				return -1;
-		}
+				return id;
+		
 	}
 	
 /**
@@ -807,24 +480,18 @@ public abstract class Categoria implements Serializable {
  */
 	public int getIdCategoria(int idRisorsa) {
 		assert invarianteC();
-		Categoria thisPre = this;
+		Categoria<T> thisPre = this;
 		
-		if(libri.size()>0) {
-			for(Libro l : libri) {
+		if(risorse.size()>0) {
+			for(T l : risorse) {
 				if (l.getId() == idRisorsa) {
 					assert invarianteC() && thisPre==this;
-					return 0;
+					if(l.getClass()==new Libro("","","","","",1,1,1,1).getClass())        {return 0;}
+					if(l.getClass()==new Film("", "", "", "", "", 1, 1, 1, 1).getClass()) {return 1;}
 					}
 			}
 		}
-		if(film.size()>0) {
-			for(Film f : film) {
-				if (f.getId() == idRisorsa) {
-					assert invarianteC() && thisPre==this;
-					return 1;
-				}
-			}
-		}
+	
 		assert invarianteC() && thisPre==this;
 		return -1;
 	}
@@ -836,10 +503,10 @@ public abstract class Categoria implements Serializable {
 
  */
 	protected  boolean invarianteC() {
-		Categoria categoriaPre = this;
+		Categoria<T> categoriaPre = this;
 		
 		boolean invariante=false;
-		if(getNome()==nome && nome!=null && idRisorsa>=0 && (idCategoria==0 || idCategoria==1) && (libri.size()==0||film.size()==0) && libri!=null && film!=null )invariante=true;
+		if(getNome()==nome && nome!=null && idRisorsa>=0 && (idCategoria==0 || idCategoria==1) && (risorse.size()==0) && risorse!=null  )invariante=true;
 		
 		assert categoriaPre==this;
 		
