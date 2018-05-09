@@ -1,3 +1,5 @@
+package dafault;
+
 import java.io.Serializable;
 
 @SuppressWarnings("serial")

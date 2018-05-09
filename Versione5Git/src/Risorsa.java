@@ -1,3 +1,5 @@
+package dafault;
+
 import java.io.Serializable;
 
 import it.unibs.ing.mylib.InputDati;

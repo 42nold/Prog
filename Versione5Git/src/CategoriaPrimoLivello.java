@@ -1,14 +1,16 @@
+package dafault;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import it.unibs.ing.mylib.MyMenu;
 
 @SuppressWarnings("serial")
-public class CategoriaPrimoLivello extends Categoria implements Serializable {
+public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria<T> implements Serializable {
 	/**
 	 * @invariant invariante()
 	 */
 	private static final String TITOLO_SOTTOCATEGORIA = "Scegli la sottocategoria";
-	private ArrayList<CategoriaSecondoLivello> sottocategorie;
+	protected ArrayList<Categoria<T>> sottocategorie;
 	private int durataMassimaPrestito;
 	private int durataMassimaProroga;
 	private int termineProroga;
@@ -22,7 +24,7 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
 		this.termineProroga = termineProroga;
 		this.maxRisorse = maxRisorse;
 		this.idCategoria=id;
-		sottocategorie = new ArrayList<CategoriaSecondoLivello>();
+		sottocategorie = new ArrayList<Categoria<T>>();
 		
 		idRisorsa=idMax();		
 		
@@ -35,7 +37,7 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
  		 * @return true se gli attributi assumono valori validi e l'invariante della superclasse è verificata e i getters ritornano i giusti valori
  		 */
  	protected boolean invariante() {
- 		CategoriaPrimoLivello thisPre =	this;
+ 		CategoriaPrimoLivello<T> thisPre =	this;
  		
  		boolean invariante = false;
  		if( super.invarianteC() && durataMassimaPrestito>0 && durataMassimaProroga>0 && termineProroga>=0 && maxRisorse>0 && sottocategorie!=null && getDurataMassimaPrestito()==durataMassimaPrestito && getDurataMassimaProroga()== durataMassimaProroga && getMaxRisorse()==maxRisorse && getSottoCategorie()==sottocategorie && getTermineProroga()==termineProroga) invariante = true;
@@ -50,14 +52,7 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
  * @post sizeSottoCategorie()=sizeSottoCategorie()@pre+1
  * 
  */
- 	public void aggiungiSottoCategoria(String nome) {
- 		assert invariante();
- 		int lunghPre = sottocategorie.size() ;
- 		
-		sottocategorie.add(new CategoriaSecondoLivello(nome));
-		
-		assert invariante() && lunghPre+1==sottocategorie.size();
-	}
+ 	public abstract void aggiungiSottoCategoria(String nome) ;
 /**
  * rimuovi la sottocategoria scelta	
  * @param indice relativo alla posizione della sottocategoria
@@ -81,7 +76,7 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
 	 */
 	public String[] elencoSottoCategorie() {
 		assert invariante();
-		CategoriaPrimoLivello thisPre = this;
+		CategoriaPrimoLivello<T> thisPre = this;
 		
 		String[] elenco = new String[sottocategorie.size()];
 		String[] vuoto = new String [0] ;
@@ -90,7 +85,7 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
 		else {
 				int i=0;
 				
-				for(CategoriaSecondoLivello s : sottocategorie) {
+				for(Categoria<T> s : sottocategorie) {
 					
 					elenco[i]=s.getNome();
 					i++;
@@ -110,14 +105,8 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
 	public boolean hasRisorse() {
 		assert invariante();
 		
-		switch (idCategoria) {
-			case 0:
-				if(libri.size()>0) return true; break;
-			case 1:
-				if(film.size()>0) return true; break;
-			default:
-				assert false;
-		}	
+		
+				if(risorse.size()>0) return true; 
 		
 		return false;
 	}
@@ -131,7 +120,7 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
 	public void usaSottoCategoria(int scelta) {													
 		assert invariante() &&  scelta>=0 && scelta<sottocategorie.size() ;
 		
-		CategoriaSecondoLivello sottocategoria = sottocategorie.get(scelta);		
+		Categoria<T> sottocategoria = sottocategorie.get(scelta);		
 		sottocategoria.gestioneRisorse();
 		
 		assert invariante();		
@@ -168,7 +157,7 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
  * @pre true
  * @post @nochange
  */
-	public ArrayList<CategoriaSecondoLivello> getSottoCategorie() {
+	public ArrayList<Categoria<T>> getSottoCategorie() {
 		
 		return sottocategorie;
 	}
@@ -186,7 +175,7 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
 			super.azioneDaRicerca(id, eliMod);
 
 		else 
-			for(CategoriaSecondoLivello s : sottocategorie)  
+			for(Categoria<T> s : sottocategorie)  
 				s.azioneDaRicerca(id,eliMod);  
 		
 		assert invariante();
@@ -203,11 +192,11 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
 	 */
 	public ArrayList<Integer> filtraSottoCategorie(int attributoScelto, String chiaveDiRicerca, int numDiRicerca) {		
 		assert invariante() && attributoScelto>=0 && (chiaveDiRicerca!=null || numDiRicerca>=0);
-		CategoriaPrimoLivello thisPre = this;
+		CategoriaPrimoLivello<T> thisPre = this;
 		
 		 ArrayList<Integer> risultato = new  ArrayList<Integer>();
 		
-		 for(CategoriaSecondoLivello s : sottocategorie) {
+		 for(Categoria<T> s : sottocategorie) {
 			
 			ArrayList<Integer> risorseDiSottocategoria = s.filtraRisorse(attributoScelto,chiaveDiRicerca,numDiRicerca);
 	
@@ -226,7 +215,7 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
  */
 	public int selezionaSottoCategoria() {
 		assert invariante();
-		CategoriaPrimoLivello thisPre = this;
+		CategoriaPrimoLivello<T> thisPre = this;
 		
 		MyMenu menuSottoCategoria = new MyMenu(TITOLO_SOTTOCATEGORIA, this.elencoSottoCategorie());
 		int categoriaScelta = menuSottoCategoria.scegli();
@@ -245,7 +234,7 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
  */
 	public boolean cercaRisorsa(int risorsaScelta) {
 		assert invariante();
-		CategoriaPrimoLivello thisPre = this;
+		CategoriaPrimoLivello<T> thisPre = this;
 		
 		boolean trovato = false;
 		if (hasRisorse()) {
@@ -361,13 +350,13 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
 	 */
 	public String getDescrizioneRisorsa(int idRisorsa) {
 		assert invariante();
-		CategoriaPrimoLivello thisPre = this;
+		CategoriaPrimoLivello<T> thisPre = this;
 		
 		String descrizione = null;
 		String varAppoggio = null;
 		
 		if(hasSottoCategoria()) {
-			for(CategoriaSecondoLivello sottocategoria : sottocategorie) {
+			for(Categoria<T> sottocategoria : sottocategorie) {
 
 				varAppoggio = sottocategoria.getDescrizioneRisorsa(idRisorsa);
 				if (varAppoggio!=null)  {
@@ -389,7 +378,7 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
  */
 	public int scegliRisorsa() {
 		assert invariante();
-		CategoriaPrimoLivello thisPre = this;
+		CategoriaPrimoLivello<T> thisPre = this;
 		
 		if(hasRisorse()) {
 			int risultato = super.scegliRisorsa();
@@ -410,12 +399,12 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
  */
 	public String getNomeRisorsa(int risorsaScelta) {
 		assert invariante();
-		CategoriaPrimoLivello thisPre = this;
+		CategoriaPrimoLivello<T> thisPre = this;
 		
 		String risultato = null;
 		if(hasSottoCategoria()) {
 			
-			for(CategoriaSecondoLivello sottocategoria : sottocategorie) {
+			for(Categoria<T> sottocategoria : sottocategorie) {
 				risultato=sottocategoria.getNomeRisorsa(risorsaScelta);
 
 				if(risultato!=null) {
@@ -433,9 +422,9 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
  * @pre true
  * @post @nochange
  */
-	private CategoriaSecondoLivello trovaSottoCategoria(int risorsaScelta) {					
+	private Categoria trovaSottoCategoria(int risorsaScelta) {					
 		assert invariante();
-		CategoriaPrimoLivello thisPre = this;
+		CategoriaPrimoLivello<T> thisPre = this;
 		
 		int pos = -1;
 		for (int i = 0; i < sottocategorie.size(); i++) {
@@ -460,10 +449,10 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
 	 */
 	public int numeroLicenzeRisorsa(int risorsaScelta) {
 		assert invariante();
-		CategoriaPrimoLivello thisPre = this;
+		CategoriaPrimoLivello<T> thisPre = this;
 		
 		if(hasSottoCategoria()) {
-			CategoriaSecondoLivello sottoc= trovaSottoCategoria(risorsaScelta);
+			Categoria<T> sottoc= trovaSottoCategoria(risorsaScelta);
 				if(sottoc != null) {
 					int risultato = sottoc.numeroLicenzeRisorsa(risorsaScelta);
 					
@@ -488,7 +477,7 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
 	public void aggiornaLicenze(int risorsaScelta, int flag) {
 		assert invariante() && (flag==0 && numeroLicenzeRisorsa(risorsaScelta)>0 || flag==0 && numeroLicenzeRisorsa(risorsaScelta)==-1 || flag!=0 )  ;
 		if(hasSottoCategoria()) {
-			CategoriaSecondoLivello sottoc= trovaSottoCategoria(risorsaScelta);
+			Categoria<T> sottoc= trovaSottoCategoria(risorsaScelta);
 				if(sottoc != null)
 					sottoc.aggiornaLicenze(risorsaScelta, flag);
 		
@@ -505,12 +494,12 @@ public class CategoriaPrimoLivello extends Categoria implements Serializable {
 	 */
 	public int idMax() {
 		assert invariante();
-		CategoriaPrimoLivello categoriaPre = this;
+		CategoriaPrimoLivello<T> categoriaPre = this;
 		
 		int risultato=-1;
 		
 		if(this.hasSottoCategoria()) {
-			for(CategoriaSecondoLivello sottocategoria : sottocategorie) {
+			for(Categoria<T> sottocategoria : sottocategorie) {
 				int var = sottocategoria.idMax();
 				if(var>risultato) risultato=var ;
 			}
