@@ -12,10 +12,11 @@ public class Sistema  implements Serializable{
 	/**
 	 * @invariant invariante() 
 	 */
-	private static final String NOMEFILEUTENTI = "Utenti.dat";
+	private static final String NOMEFILEFRUITORI = "Fruitori.dat";
+	private static final String NOMEFILEOPERATORI = "Operatori.dat";
 	
-	static final String TITOLO_MENU_FRUITORE = "Menu Fruitore";
-	static final String[] vociMenuFruitore = {"Visualizza Prestiti", "Richiedi prestito", "Rinnova prestito", "Rinnovo iscrizione"};
+	private static final String TITOLO_MENU_FRUITORE = "Menu Fruitore";
+	private static final String[] vociMenuFruitore = {"Visualizza Prestiti", "Richiedi prestito", "Rinnova prestito", "Rinnovo iscrizione"};
 	
 	private static final String TITOLO_SELEZIONA_ATTRIBUTO = "Scegli attributo con cui filtrare la ricerca";
 	private static final String[] vociMenuSelezionaAttributo = {"Nome","Autore/Regista","Casa editrice/Casa Di produzione","Genere","Lingua","Anno di pubblicazione","Numero di pagine", "Durata"};
@@ -33,13 +34,13 @@ public class Sistema  implements Serializable{
 	private static final String BUON_FINE = "Operazione eseguita correttamente";
 	private static final String TITOLO_MENU_STORICO = "scegli l'opzione desiderata";
 	private static final String[] vociMenuStorico = {"visualizza storico completo","visualizza numero prestiti per anno solare","visualizza numero proroghe per anno solare","visualizza risorsa prestata pi� volte per anno solare","visualizza i prestiti per fruitore per anno solare"};
-	private static final int LIMITE_ABILITAZIONE_RINNOVO_ISCRIZIONE=10;
 	
-	private static Archivio archivio = new Archivio();
 	
-	private static ArrayList<Utente<? extends Utente>> utenti;
+	private static Archivio archivio = new Archivio();//questo inizializza l'archivio con i dati di default che verranno poi sovrascritti dal caricamento da file
 	
-
+	private static ArrayList<Operatore> operatori;
+	private static ArrayList<Fruitore> fruitori;
+	
 	
 		/**
 		 * verifica che le invarianti di classe siano verificate
@@ -49,111 +50,118 @@ public class Sistema  implements Serializable{
 		 */
 	private static boolean invariante() {
 		boolean invariante = false ;
-		ArrayList<Utente<? extends Utente>> operatoriPre = utenti ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
 		Archivio archivioPre = archivio ;
 
-		if( utenti.size()>0  && utenti!= null && archivio!=null) invariante = true ;
+		if( operatori.size()>0 && fruitori!= null && operatori!= null && archivio!=null) invariante = true ;
 	
-		assert operatoriPre==utenti && archivioPre == archivio;
+		assert operatoriPre==operatori && fruitoriPre == fruitori && archivioPre == archivio;
 		return invariante ;
 	}
            
 	
+	// metodi relativi ai fruitori-----------------------------------------------------------------------------------------------------
 	
 	
 	/**
-	 * verifica se l'utente relativo a username e password � iscritto (l'usernam e degli utenti deve essere univoco)
+	 * verifica se il fruitore relativo a username e password � iscritto
 	 * @param username del fruitore
 	 * @param password del fruitore
 	 * @return true se il fruitore � iscritto
 	 * @pre username!=null && password!=null 
 	 * @post @nochange
 	 */
-	public static boolean cercaUtente(String username, String password) {
+	public static boolean cercaFruitore(String username, String password) {
 		assert invariante() && username!=null && password!=null  ;
-		ArrayList<Utente<? extends Utente>> fruitoriPre = utenti ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
 		Archivio archivioPre = archivio ;
 		int numFruitore;
 		
-		if((numFruitore = posizioneUtente(username)) != -1 ) {									
+		if((numFruitore = posizioneFruitore(username)) != -1 ) {									
 			
-			if(utenti.get(numFruitore).getPassword().equals(password)) {
+			if(fruitori.get(numFruitore).getPassword().equals(password)) {
 				
-				assert invariante()&& fruitoriPre == utenti && archivioPre == archivio;
+				assert invariante() && operatoriPre==operatori && fruitoriPre == fruitori && archivioPre == archivio;
 				return true;
 			}
 		}
-		assert invariante()&& fruitoriPre == utenti && archivioPre == archivio;
+		assert invariante() && operatoriPre==operatori && fruitoriPre == fruitori && archivioPre == archivio;
 		return false;
 	}
 	
 	/**
-	 *  cerca l'operatore scelto e restituisco la sua posizione nell'array
-	 * @param username dell'operatore scelto
-	 * @return il valore della sua posizione nell'array
-	 * @pre username!= null && username!= ""
+	 * cerca fruitore tramite username e restituisce posizione nell'array dei fruitori        						
+	 * @param username del fruitore
+	 * @return posizione del fruitore
+	 * @pre username != null 
 	 * @post @nochange
 	 */
-	static int posizioneUtente(String username) {	
-		assert invariante() && username!= null && username!= "" ;
-		ArrayList<Utente<? extends Utente>> fruitoriPre = utenti ;
+	private static int posizioneFruitore(String username) {
+		assert invariante() && username!= null ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
 		Archivio archivioPre = archivio ;
 		
-		for (int i=0; i<utenti.size(); i++) 
-			if(utenti.get(i).getUsername().equals(username)) {
+		for (int i=0; i<fruitori.size(); i++) 
+			if(fruitori.get(i).getUsername().equals(username)) {
 				
-				assert invariante() &&  fruitoriPre == utenti && archivioPre == archivio ;
+				assert invariante() && operatoriPre==operatori && fruitoriPre == fruitori && archivioPre == archivio;
 				return i;
-			}
-		assert invariante()&& fruitoriPre == utenti && archivioPre == archivio ;
+				}
+		assert invariante() && operatoriPre==operatori && fruitoriPre == fruitori && archivioPre == archivio;		
 		return -1;
 	}
-	
 	/**
 	 * iscrive nuovo fruitore se maggiorenne chiedendo dati necessari all'utente
 	 * @pre true 
 	 * @post @return!= null &&(@nochange || fruitori.size()@pre +1==fruitori.size() )
 	 * @return l'username del fruitore iscritto oppure una stringa vuota
 	 */
-	public static  String iscrizioneFruitore() {
+	public static String iscrizioneFruitore() {
 		assert invariante() ;
-		ArrayList<Utente<? extends Utente>> utentiPre = utenti ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
 		Archivio archivioPre = archivio ;
-		int utentiLun = utenti.size() ;
+		int fruitoriLun = fruitori.size() ;
 		
-		String username;
+		String nome, cognome, password, username;
+		int eta;
+		Calendar data_iscrizione, data_scadenza;
 		boolean finito=false;
+		
+		nome=InputDati.leggiStringaNonVuota("Inserisci nome\n");
+		cognome=InputDati.leggiStringaNonVuota("Inserisci cognome\n");
+		eta=InputDati.leggiIntero("inserisci la tua et�\n");
+		
+		if(eta<18) {
+			System.out.println("Servizio riservato ai soli cittadini maggiorenni\n");
+			assert invariante() && ((operatoriPre==operatori && fruitoriPre == fruitori && archivioPre == archivio)|| fruitori.size() == fruitoriLun);		
+			return "";
+		}	
 		
 		do {
 			username=InputDati.leggiStringaNonVuota("Inserisci username\n");
-			if (posizioneUtente(username) != -1)
+			if (posizioneFruitore(username) != -1)
 				System.out.println("username gi� presente \n");
 			else
 				finito=true;
 		}while(!finito);
 		
-	
-		utenti.add(	Utente.registrati(username));
-		rimuoviUtentiNulli();
+		password=InputDati.leggiStringaNonVuota("Inserisci password\n");		
 		
+		data_iscrizione=Calendar.getInstance();
+		data_scadenza=Calendar.getInstance();
+		data_scadenza.add(Calendar.YEAR, 5);
+		
+		fruitori.add(new Fruitore(nome, cognome, eta, username, password, data_iscrizione, data_scadenza));
 		archivio.storiaIscrizioneFruitore(username) ; //crea evento nell'archivio storico 
 		
-		assert invariante() && (( utentiPre == utenti && archivioPre == archivio)|| utenti.size() == utentiLun) && username != null;		
+		assert invariante() && ((operatoriPre==operatori && fruitoriPre == fruitori && archivioPre == archivio)|| fruitori.size() == fruitoriLun) && username != null;		
 		return username;
 	}
 	
-	private static void rimuoviUtentiNulli() {
-
-		for(int i=0;i<utenti.size();i++)
-	
-			if(utenti.get(i)==null)
-			
-				utenti.remove(i);
-	}
-
-
-
-
 	/**
 	 * elimino fruitori decaduti e aggiorno il numero di licenze delle risorse liberate
 	 * @pre true
@@ -161,28 +169,27 @@ public class Sistema  implements Serializable{
 	 */
 	public static void eliminaDecaduti() {
 		assert invariante();
+		ArrayList<Operatore> operatoriPre = operatori ;
 		
-		if(utenti!=null) {
-			for (int i=0; i<utenti.size(); i++) 
-				if(utenti.get(i).iscrizioneScaduta()) {
+		if(fruitori!=null) {
+			for (int i=0; i<fruitori.size(); i++) 
+				if(fruitori.get(i).getDataScadenza().before(Calendar.getInstance())) {
 					
 					//array contenente gli id delle risorse relative a prestiti da restituire
-					ArrayList<Integer> prestitiDaRestituire = utenti.get(i).restituisciRisorseInPrestito();
-					
-					int catRisorsa;
+					ArrayList<Integer> prestitiDaRestituire = fruitori.get(i).restituisciRisorseInPrestito();
 					
 					if(prestitiDaRestituire!=null)
 						for (int j=0; j<prestitiDaRestituire.size(); j++) {
-							catRisorsa=archivio.trovaIdCategoria(prestitiDaRestituire.get(i));
-							if(catRisorsa==0 || catRisorsa==1)
-								archivio.aggiornaLicenze(prestitiDaRestituire.get(j), 1); 
+							if(archivio.trovaTipoCategoria(prestitiDaRestituire.get(i))!=null)
+
+								archivio.aggiornaLicenze(prestitiDaRestituire.get(j), 1); //1 � il flag per incrementare numeroLicenze
 						}
 
-					archivio.storiaFruitoreDecaduto(utenti.get(i).getUsername());
+					archivio.storiaFruitoreDecaduto(fruitori.get(i).getUsername());
 
-					utenti.remove(i);
+					fruitori.remove(i);
 				}
-			assert invariante()  ;
+			assert invariante() && operatoriPre == operatori ;
 		}
 	}
 /**
@@ -192,49 +199,50 @@ public class Sistema  implements Serializable{
  */
 	public static void eliminaPrestitiScaduti() {
 		assert invariante();
+		ArrayList<Operatore> operatoriPre = operatori ;
 		
-		if(utenti!=null) {
-			for (int i=0; i<utenti.size(); i++) {
-				
+		if(fruitori!=null) {
+			for (int i=0; i<fruitori.size(); i++) {
 				//array contenente gli id delle risorse relative a prestiti scaduti
-				ArrayList<Integer> prestitiScaduti = utenti.get(i).eliminaPrestitiScaduti();
+				ArrayList<Integer> prestitiScaduti = new ArrayList<Integer>();
 				
+				prestitiScaduti=fruitori.get(i).eliminaPrestitiScaduti();
 				int catRisorsa;
 				
 				if(prestitiScaduti!=null)
 					for (int j=0; j<prestitiScaduti.size(); j++) {
-						catRisorsa=archivio.trovaIdCategoria(prestitiScaduti.get(i));
-						if(catRisorsa==0 || catRisorsa==1)
+						if(archivio.trovaTipoCategoria(prestitiScaduti.get(i))!=null)
 							archivio.aggiornaLicenze(prestitiScaduti.get(j), 1); //1 � il mio flag per incrementare numeroLicenze
 						if(archivio.numeroLicenzeRisorsa(prestitiScaduti.get(j))==1) archivio.risorsaDisponibile(prestitiScaduti.get(j));
 					}
 			}
+			assert invariante() && operatoriPre == operatori ; 
 		}
 	}
 	/**
 	 * rinnova l'iscrizione del fruitore selezionato
-	 * @param numUtente posizione del fruitore nell'array
+	 * @param numFruitore posizione del fruitore nell'array
 	 * @pre numFruitore>=0 && numFruitore<fruitori.size() 
 	 * @post operatoriNoChange()
 	 */
-	private static void rinnovoIscrizioneFruitore(int numUtente) {
-		assert invariante() && numUtente>=0 && numUtente<utenti.size() ;
+	private static void rinnovoIscrizioneFruitore(int numFruitore) {
+		assert invariante() && numFruitore>=0 && numFruitore<fruitori.size() ;
+		ArrayList<Operatore> operatoriPre = operatori ;
 		
-		Calendar data_scadenza=utenti.get(numUtente).getDataScadenza();
+		Calendar data_scadenza=fruitori.get(numFruitore).getDataScadenza();
 		Calendar data_odierna=Calendar.getInstance();
-	
-		if(data_scadenza!=null) {
+		
 		//calcolo della differenza di giorni tra data scadenza e data odierna 
 		long diff=(data_scadenza.getTimeInMillis()-data_odierna.getTimeInMillis())/ 86400000;
 		
-		if (diff > LIMITE_ABILITAZIONE_RINNOVO_ISCRIZIONE) {
-			Stampa.aVideo("mancano ancora "+ diff+" giorni alla scadenza, impossibile soddisfare richiesta\n");
+		if (diff>10) {
+			System.out.println("mancano ancora "+ diff+" giorni alla scadenza, impossibile soddisfare richiesta\n");
 
 		}else {
-			utenti.get(numUtente).aggiornaDataScadenza();
-			archivio.storiaRinnovoIscrizioneFruitore(utenti.get(numUtente).getUsername());
+			fruitori.get(numFruitore).aggiornaDataScadenza();
+			archivio.storiaRinnovoIscrizioneFruitore(fruitori.get(numFruitore).getUsername());
 		}
-		}
+		assert invariante() && operatoriPre == operatori ; 
 	}
 /**
  * ritorna la descrizione di tutti i fruitori iscritti	
@@ -244,19 +252,18 @@ public class Sistema  implements Serializable{
  */
 	public static String elencoFruitori() {
 		assert invariante() ;
-		ArrayList<Utente<? extends Utente>> fruitoriPre = utenti ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
 		Archivio archivioPre = archivio ;
 
-		if(utenti==null || utenti.size()==0) Stampa.aVideo("elenco fruitori vuoto");
+		if(fruitori==null || fruitori.size()==0) System.out.println("elenco fruitori vuoto");
 		
 		StringBuffer descrizione = new StringBuffer();
-		for(Utente<?> f: utenti) {
-			if(f.isFruitore())
-			descrizione.append(f.toString()+"\n\n");
-		}
+		for(Fruitore f: fruitori) 
+			descrizione.append(f.visualizzaDatiFruitore()+"\n\n");
 		String risultato = descrizione.toString();	
 	
-		assert invariante() && fruitoriPre == utenti && archivioPre == archivio && risultato != null;
+		assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio && risultato != null;
 		return risultato ;
 	}
 	
@@ -268,19 +275,18 @@ public class Sistema  implements Serializable{
  */
 	public static String elencoFruitoriFull() {
 		assert invariante() ;
-		ArrayList<Utente<? extends Utente>> fruitoriPre = utenti ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
 		Archivio archivioPre = archivio ;
 
-		if(utenti==null || utenti.size()==0 ) Stampa.aVideo("elenco fruitori vuoto");
+		if(fruitori==null || fruitori.size()==0) System.out.println("elenco fruitori vuoto");
 		
 		StringBuffer descrizione = new StringBuffer();
-		for(Utente<? extends Utente> f: utenti)
-			if(f.isFruitore())
-			descrizione.append(f.visualizzaTutto()+"\n\n");
+		for(Fruitore f: fruitori) 
+			descrizione.append(f.toString()+"\n\n");
 		String risultato = descrizione.toString();	
 		
-		assert invariante()  && fruitoriPre == utenti && archivioPre == archivio && risultato != null;
-		if(risultato==null) return "";
+		assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio && risultato != null;
 		return risultato;
 	}
 	
@@ -292,19 +298,21 @@ public class Sistema  implements Serializable{
 	 */
 	public static void usaFruitore(String username) {
 		assert invariante() && username!= null;
+		ArrayList<Operatore> operatoriPre = operatori ;
 		
 		MyMenu menu_fruitore = new MyMenu(TITOLO_MENU_FRUITORE, vociMenuFruitore);
 		int scelta, numFruitore;
 		
-		numFruitore = posizioneUtente(username);//numero fruitore nell'array
+		numFruitore = posizioneFruitore(username);//numero fruitore nell'array
 		
 		
-		if (numFruitore==-1 || !utenti.get(numFruitore).isFruitore()) {
-			assert invariante();
+		//se non lo trovo esco
+		if (numFruitore==-1) {
+			assert invariante() && operatoriPre==operatori;
 			return;
 			}
 		
-		utenti.get(numFruitore).setIdPrestito();
+		fruitori.get(numFruitore).setIdPrestito();
 				
 		do {
 			scelta = menu_fruitore.scegli();
@@ -312,16 +320,66 @@ public class Sistema  implements Serializable{
 			switch (scelta) {
 			
 				case 1:
-					Stampa.aVideo(BelleStringhe.incornicia(utenti.get(numFruitore).visualizzaPrestitiFruitore()));
+					Stampa.aVideo(BelleStringhe.incornicia(fruitori.get(numFruitore).visualizzaPrestitiFruitore()));
 					break;
 					
 				case 2:
-					richiediPrestito(numFruitore);
+					int risorsaScelta = selezionaRisorsa();
+					if (risorsaScelta==-1) {
+						System.out.println("Nessuna corrispondenza");
+						break;
+					}
+					
+					boolean rispettaPrerequisiti = verificaPrerequisitiPrestito(fruitori.get(numFruitore), risorsaScelta);
+				
+					if (rispettaPrerequisiti) {
+						archivio.aggiornaLicenze(risorsaScelta, 0); // flag per diminuire numeroLicenze
+						String descrizioneRisorsa = archivio.getDescrizioneRisorsa(risorsaScelta);
+						
+						int durataPrestito = archivio.durataPrestitoDataUnaRisorsa(risorsaScelta);
+						int durataProroga = archivio.durataProrogaDataUnaRisorsa(risorsaScelta);
+						int termineProroga = archivio.termineProrogaDataUnaRisorsa(risorsaScelta);
+						
+						
+						
+						Calendar inizio = Calendar.getInstance();
+						Calendar fine = Calendar.getInstance();
+						fine.add(Calendar.DAY_OF_YEAR, durataPrestito);
+						
+						fruitori.get(numFruitore).richiediPrestito(risorsaScelta, descrizioneRisorsa, inizio, fine, durataProroga, termineProroga);
+						Stampa.aVideo(BelleStringhe.rigaIsolata(BUON_FINE));
+						archivio.storiaNuovoPrestito(risorsaScelta,archivio.numeroLicenzeRisorsa(risorsaScelta),fruitori.get(numFruitore).getUsername());
+					} else {
+						Stampa.aVideo(MESSAGGIO_PRESTITO_NON_CONCESSO);
+					}
 					break;
 					
 				case 3:
-					rinnovaPrestito(numFruitore);
 					
+					ArrayList<Integer> inScadenza = fruitori.get(numFruitore).inScadenza();
+					
+					if (inScadenza != null) {
+						String[] inScadenzaString = new String[inScadenza.size()];
+						
+						for (int i = 0; i < inScadenzaString.length; i++) {
+							inScadenzaString[i] = fruitori.get(numFruitore).getDescrizionePrestito(inScadenza.get(i));
+						}
+						
+						MyMenu menuInScadenza = new MyMenu(TITOLO_IN_SCADENZA, inScadenzaString);
+						int scegliDaRinnovare = menuInScadenza.scegli();
+						
+						switch (scegliDaRinnovare) {
+						case 0:
+							break;
+
+						default:
+							fruitori.get(numFruitore).rinnova(inScadenza.get(scegliDaRinnovare-1));
+							archivio.prorogaPrestito(fruitori.get(numFruitore).getUsername(),inScadenza.get(scegliDaRinnovare-1));
+							break;
+						}
+					} else {
+						Stampa.aVideo(NO_IN_SCADENZA);
+					}
 					break;
 					
 				case 4:
@@ -329,74 +387,9 @@ public class Sistema  implements Serializable{
 					break;
 			}
 		}while(scelta!=0);
-		assert invariante() ;
+		assert invariante() && operatoriPre==operatori;
 		return;
 	}
-
-	
-	
-	private static void rinnovaPrestito(int numFruitore) {
-
-
-		ArrayList<Integer> inScadenza = utenti.get(numFruitore).inScadenza();
-		
-		if (inScadenza != null) {
-			String[] inScadenzaString = new String[inScadenza.size()];
-			
-			for (int i = 0; i < inScadenzaString.length; i++) {
-				inScadenzaString[i] = utenti.get(numFruitore).getDescrizionePrestito(inScadenza.get(i));
-			}
-			
-			MyMenu menuInScadenza = new MyMenu(TITOLO_IN_SCADENZA, inScadenzaString);
-			int scegliDaRinnovare = menuInScadenza.scegli();
-			
-			switch (scegliDaRinnovare) {
-			case 0:
-				break;
-
-			default:
-				utenti.get(numFruitore).rinnova(inScadenza.get(scegliDaRinnovare-1));
-				archivio.prorogaPrestito(utenti.get(numFruitore).getUsername(),inScadenza.get(scegliDaRinnovare-1));
-				break;
-			}
-		} else {
-			Stampa.aVideo(NO_IN_SCADENZA);
-		}
-	}
-
-
-
-
-	private static void richiediPrestito(int numFruitore) {
-
-	int risorsaScelta = selezionaRisorsa();
-	if (risorsaScelta==-1) {
-		Stampa.aVideo("Nessuna corrispondenza");
-		return ;
-		}
-	
-
-	if (verificaPrerequisitiPrestito(utenti.get(numFruitore), risorsaScelta)) {
-		
-		archivio.aggiornaLicenze(risorsaScelta, 0); // flag per diminuire numeroLicenze
-		
-		Calendar fine = Calendar.getInstance();
-		fine.add(Calendar.DAY_OF_YEAR,  archivio.durataPrestitoDataUnaRisorsa(risorsaScelta));
-		
-		utenti.get(numFruitore).richiediPrestito(risorsaScelta, archivio.getDescrizioneRisorsa(risorsaScelta), Calendar.getInstance(), fine, archivio.durataProrogaDataUnaRisorsa(risorsaScelta), archivio.termineProrogaDataUnaRisorsa(risorsaScelta));
-		
-		Stampa.aVideo(BelleStringhe.rigaIsolata(BUON_FINE));
-		archivio.storiaNuovoPrestito(risorsaScelta,archivio.numeroLicenzeRisorsa(risorsaScelta),utenti.get(numFruitore).getUsername());
-	}
-	
-	else {
-		Stampa.aVideo(MESSAGGIO_PRESTITO_NON_CONCESSO);
-	}
-	}
-
-
-
-
 /**
  * 	verifica se � possibile dare la risorsa scelta in prestito al fruitore scelto
  * @param fruitore scelto
@@ -405,24 +398,23 @@ public class Sistema  implements Serializable{
  * @pre id>=0 fruitore!=null 
  * @post @nochange
  */
-	private static boolean verificaPrerequisitiPrestito(Utente<? extends Utente> fruitore, int risorsaScelta) {
+	private static boolean verificaPrerequisitiPrestito(Fruitore fruitore, int risorsaScelta) {
 		assert invariante() && risorsaScelta>=0 && fruitore!= null;
-		ArrayList<Utente<? extends Utente>> fruitoriPre = utenti ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
 		Archivio archivioPre = archivio ;
 
-		if(!fruitore.isFruitore())return false;
-		
 		int maxRisorsePerCategoria = archivio.maxRisorsePerCategoriaDataUnaRisorsa(risorsaScelta);
 		
 		ArrayList<Integer> idRisorseGiaPossedute = fruitore.getPrestiti();
 		
 		int match=0;
 		
-		int catRisorsa=archivio.trovaIdCategoria(risorsaScelta);
-		int catPosseduta;
+		Class<? extends Risorsa> catRisorsa=archivio.trovaTipoCategoria(risorsaScelta);
+		Class<? extends Risorsa> catPosseduta;
 		
 		for (Integer idInEsame : idRisorseGiaPossedute) {
-			catPosseduta=archivio.trovaIdCategoria(idInEsame);
+			catPosseduta=archivio.trovaTipoCategoria(idInEsame);
 		
 			if(catRisorsa==catPosseduta)
 				match++;
@@ -433,14 +425,17 @@ public class Sistema  implements Serializable{
 		
 		if( !fruitore.giaPresente(risorsaScelta) && match < maxRisorsePerCategoria && numLicenze>0 ) {
 			
-			assert invariante()  && fruitoriPre == utenti && archivioPre == archivio ;
+			assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
 			return true;	
 			}
-		assert invariante() && fruitoriPre == utenti && archivioPre == archivio ;
+		assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
 		return false;
 	}
 
-				
+	
+			
+	//inizio metodi relativi  operatori------------------------------------------------------------------------------------------------------
+			
 	
 	
 	/**
@@ -451,16 +446,15 @@ public class Sistema  implements Serializable{
 	 */
 	public static void usaOperatore(String username){
 		assert invariante() ;
-		ArrayList<Utente<? extends Utente>> fruitoriPre = utenti ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
 		
 		MyMenu menu_operatore= new MyMenu(TITOLO_MENU_OPERATORE, VOCI_MENU_OPERATORE);
 		int numOperatore, scelta;
 		
+		numOperatore=posizioneOperatore(username);        
 		
-		numOperatore=posizioneUtente(username);        
-		
-		if (numOperatore==-1 || utenti.get(numOperatore).isFruitore()) {                          
-		assert invariante() && fruitoriPre == utenti ;
+		if (numOperatore==-1) {                          
+		assert invariante() && fruitoriPre == fruitori ;
 			return;
 		}
 				
@@ -477,100 +471,138 @@ public class Sistema  implements Serializable{
 					break;	
 					
 				case 3:
-					if(archivio.vuoto()) {
-						System.out.println("archivio vuoto");
-						break;
-						}
-					cercaRisorse();
+					if(archivio.vuoto()) {System.out.println("archivio vuoto");
 					break;
+			}
+					MyMenu menu_ricerca = new MyMenu("Scegli il metodo di ricerca delle risorse :", OPZIONI_MENU_RICERCA);
+						
+							boolean ricercaValida = false;
+							int ricercaScelta = 0;
+							
+							while(!ricercaValida) {
+							
+								 ricercaScelta = menu_ricerca.scegli();
+								if(ricercaScelta>=0 && ricercaScelta<=OPZIONI_MENU_RICERCA.length) ricercaValida=true;
+									}
+							switch(ricercaScelta) {
+							
+							default : break;
+							
+							case 1:
+							
+								MyMenu menu_archivio= new MyMenu("Categorie",archivio.elencoCategorie());
+						
+								boolean sceltaValida = false;
+							
+								while(!sceltaValida) {
+								
+									int categoriaScelta=menu_archivio.scegli();
+									
+									if(categoriaScelta>0 && categoriaScelta<=archivio.size()) {
+									
+										archivio.usaCategoria(categoriaScelta-1);
+									
+										sceltaValida=true;
+										}
+									if(categoriaScelta==0)break;
+									}
+									break;
+							
+							case 2:
+								
+								MyMenu menu_attributi= new MyMenu(TITOLO_SELEZIONA_ATTRIBUTO, vociMenuSelezionaAttributo);
+							
+								int attributoScelto = menu_attributi.scegli();
+																	
+								if(attributoScelto!=0)
+									archivio.cercaPerAttributoOmode(attributoScelto);
+								
+								break;
+								
+							}
+							break;
 				case 4: 	
-					operazioniStorico();
-					break;
+					
+					MyMenu menu_storico= new MyMenu(TITOLO_MENU_STORICO, vociMenuStorico);
+					int sceltaMenuStorico = menu_storico.scegli();
+					
+					switch(sceltaMenuStorico) {
+					
+					case 1: 
+						Stampa.aVideo(archivio.getDescrizioneStorico());
+						break;
+					case 2:
+						archivio.numEventoAnnoSolare(Archivio.NUOVO_PRESTITO,"prestiti");
+						break;
+					case 3:
+						archivio.numEventoAnnoSolare(Archivio.PROROGA_PRESTITO,"proroghe");
+						break;
+					case 4:
+						archivio.risorsaPiuPrestata();
+						break;
+					case 5:
+						archivio.prestitiFruitoriAnnoSolare();
+						break;
+					default : break;					
+
+					}
+					
 					}
 					
 					
 				}while(scelta!=0);
 		
-			assert invariante() && fruitoriPre == utenti ;
+			assert invariante() && fruitoriPre == fruitori ;
 			return;
 			}
-
-			
-	
-
-
-
-
-
-private static void operazioniStorico() {
-
-	MyMenu menu_storico= new MyMenu(TITOLO_MENU_STORICO, vociMenuStorico);
-	int sceltaMenuStorico = menu_storico.scegli();
-	
-	switch(sceltaMenuStorico) {
-	
-	case 1: 
-		Stampa.aVideo(archivio.getDescrizioneStorico());
-		break;
-	case 2:
-		archivio.numEventoAnnoSolare(Archivio.NUOVO_PRESTITO,"prestiti");
-		break;
-	case 3:
-		archivio.numEventoAnnoSolare(Archivio.PROROGA_PRESTITO,"proroghe");
-		break;
-	case 4:
-		archivio.risorsaPiuPrestata();
-		break;
-	case 5:
-		archivio.prestitiFruitoriAnnoSolare();
-		break;
-	default : break;					
-
-	}
-	}
-
-
-
-
-private static void cercaRisorse() {
-
-
-	MyMenu menu_ricerca = new MyMenu("Scegli il metodo di ricerca delle risorse :", OPZIONI_MENU_RICERCA);
+/**
+ * verifica se l'username e la password in ingresso corrispondono ad un operatore registrato
+ * @param username dell'operatore
+ * @param password dell'operatore
+ * @return true se esiste un operatore corrispondente
+ * @pre username!= null && password!= null && password != "" && username != ""
+ * @post @nochange
+ */
+	public static boolean cercaOperatore(String username, String password) {
+		assert invariante() && username!= null && password!= null && password != "" && username != "" ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
+		Archivio archivioPre = archivio ;
+				
+		int numOperatore;
 		
-	
-			switch(menu_ricerca.scegli()) {
+		if((numOperatore=posizioneOperatore(username)) != -1) { 												
 			
-			default : break;
-			
-			case 1:
-			
-				    MyMenu menu_archivio= new MyMenu("Categorie",archivio.elencoCategorie());
-						
-					int categoriaScelta=menu_archivio.scegli();
-					
-					if(categoriaScelta==0) break;
-					
-					archivio.usaCategoria(categoriaScelta-1);
-									
-					break;
-			
-			case 2:
-				
-				MyMenu menu_attributi= new MyMenu(TITOLO_SELEZIONA_ATTRIBUTO, vociMenuSelezionaAttributo);
-			
-				int attributoScelto = menu_attributi.scegli();
-													
-				if(attributoScelto!=0)
-					archivio.cercaPerAttributoOmode(attributoScelto);
-				
-				break;
-				
-			}
+			if(operatori.get(numOperatore).getPassword().equals(password))
+			assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
+			return true;
+		}
+		assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
+		return false;
 	}
-
-
-
-
+			
+	/**
+	 *  cerca l'operatore scelto e restituisco la sua posizione nell'array
+	 * @param username dell'operatore scelto
+	 * @return il valore della sua posizione nell'array
+	 * @pre username!= null && username!= ""
+	 * @post @nochange
+	 */
+	private static int posizioneOperatore(String username) {	
+		assert invariante() && username!= null && username!= "" ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
+		Archivio archivioPre = archivio ;
+		
+		for (int i=0; i<operatori.size(); i++) 
+			if(operatori.get(i).getUsername().equals(username)) {
+				
+				assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
+				return i;
+			}
+		assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
+		return -1;
+	}
 /**
  * ritorna la descrizione di tutti gli operatori esistenti
  * @pre true
@@ -579,16 +611,16 @@ private static void cercaRisorse() {
  */
 	public String elencoOperatori() {
 		assert invariante() ;
-		ArrayList<Utente<? extends Utente>> fruitoriPre = utenti ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
 		Archivio archivioPre = archivio ;
 		
 				StringBuffer descrizione = new StringBuffer();
-				for(Utente<? extends Utente> o: utenti) 
-					if(!o.isFruitore())
+				for(Operatore o: operatori) 
 					descrizione.append(o.toString()+"\n\n");
 				
 				String risultato = descrizione.toString();
-				assert invariante() && fruitoriPre == utenti && archivioPre == archivio && risultato!= null;
+				assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio && risultato!= null;
 				return 	risultato ;	
 			}
 			
@@ -601,17 +633,19 @@ private static void cercaRisorse() {
  */
 	public static void salvaFruitoriOperatori() {
 			assert	invariante() ;	
-			ArrayList<Utente<? extends Utente>> fruitoriPre = utenti ;
+			ArrayList<Operatore> operatoriPre = operatori ;
+			ArrayList<Fruitore> fruitoriPre = fruitori ;
 			Archivio archivioPre = archivio ;
 			
 			
-				
+				File g = new File(NOMEFILEOPERATORI);
+				ServizioFile.salvaSingoloOggetto(g, operatori);
 					
-				File f = new File(NOMEFILEUTENTI);
-				ServizioFile.salvaSingoloOggetto(f, utenti);
+				File f = new File(NOMEFILEFRUITORI);
+				ServizioFile.salvaSingoloOggetto(f, fruitori);
 			
 				
-				assert invariante()  && fruitoriPre == utenti && archivioPre == archivio ;
+				assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
 			}
 			
 	
@@ -623,15 +657,21 @@ private static void cercaRisorse() {
  */
 	public static void importaFruitoriOperatori() {
 				
-				File f = new File(NOMEFILEUTENTI);
+				File f = new File(NOMEFILEFRUITORI);
 				@SuppressWarnings("unchecked")
-				 ArrayList<Utente<? extends Utente>> a = ( ArrayList<Utente<? extends Utente>>)ServizioFile.caricaSingoloOggetto(f);
-				if(a==null) {utenti = new ArrayList<Utente<? extends Utente>>();}
-				else {utenti=a; }
+				 ArrayList<Fruitore> a = ( ArrayList<Fruitore>)ServizioFile.caricaSingoloOggetto(f);
+				if(a==null) {fruitori = new ArrayList<Fruitore>();}
+				else {fruitori=a; }
 				
+				File g = new File(NOMEFILEOPERATORI);
+				@SuppressWarnings("unchecked")
+				 ArrayList<Operatore> b = ( ArrayList<Operatore>)ServizioFile.caricaSingoloOggetto(g);
 			
+				if(b==null) {operatori  = new ArrayList<Operatore>();}
 				
-				if(utenti.size()==0) {utenti.add(new Operatore("admin", "admin", 18, "admin", "admin")) ; }     //inizializzazione di default 
+				else {operatori=b; }
+				
+				if(operatori.size()==0) {operatori.add(new Operatore("admin", "admin", 18, "admin", "admin")) ; }     //inizializzazione di default 
 				
 				
 				
@@ -643,11 +683,12 @@ private static void cercaRisorse() {
  * @post fruritoriOperatoriNoChange()
  */
 	public static void importaArchivio() {
-		ArrayList<Utente<? extends Utente>> fruitoriPre = utenti ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
 		
 		archivio.importaDati();
 
-		assert invariante() && fruitoriPre == utenti ;
+		assert invariante() && fruitoriPre == fruitori && operatoriPre == operatori;
 	}
 /** 
  * salva dati dell'archivio e dello storico su file
@@ -656,12 +697,13 @@ private static void cercaRisorse() {
  */
 	public static void salvaArchivio() {//e storico
 		assert invariante();
-		ArrayList<Utente<? extends Utente>> fruitoriPre = utenti ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
 		Archivio archivioPre = archivio ;
 		
 		archivio.salvaDati();	
 		
-		assert invariante()  && fruitoriPre == utenti && archivioPre == archivio ;
+		assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
 	}
 	
 	/**
@@ -672,7 +714,8 @@ private static void cercaRisorse() {
 	 */
 	public static int selezionaRisorsa() {
 		assert invariante() ;
-		ArrayList<Utente<? extends Utente>> fruitoriPre = utenti ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
 		Archivio archivioPre = archivio ;
 		
 		int risorsaScelta = -1;
@@ -686,7 +729,7 @@ private static void cercaRisorse() {
 				case 1:
 					MyMenu menu_attributi= new MyMenu(TITOLO_SELEZIONA_ATTRIBUTO, vociMenuSelezionaAttributo);
 					int attributoScelto = menu_attributi.scegli();
-					if(attributoScelto!=0 ) risorsaScelta = archivio.cercaPerAttributoFmode(attributoScelto);
+					if(attributoScelto!=0 ) risorsaScelta = archivio.cercaPerAttributoFmode(attributoScelto);//attributoScelto dovra essere compreso tra 0 e #attributi
 				break;
 			
 				case 2:
@@ -698,7 +741,7 @@ private static void cercaRisorse() {
 				break;
 			}
 			
-			assert invariante()  && fruitoriPre == utenti && archivioPre == archivio && risorsaScelta>=-1;		
+			assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio && risorsaScelta>=-1;		
 			return risorsaScelta;
 	}
 /**
@@ -709,10 +752,4 @@ private static void cercaRisorse() {
 	public static void idCorrente() {
 		archivio.idCorrente();
 	}
-
-
-public static boolean isFruitore(int posizioneUtente) {
-
-	return utenti.get(posizioneUtente).isFruitore();
-}
 }

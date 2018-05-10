@@ -655,21 +655,21 @@ public class Archivio implements Serializable {
  * @pre idRisorsa>=0 
  * @post( @return==-1||@return==0||@return==1 )  && @nochange
  */
-	public int trovaIdCategoria(int idRisorsa) {
+	public Class<? extends Risorsa> trovaTipoCategoria(int idRisorsa) {
 		assert invariante() && idRisorsa>=0;
 		Archivio archivioPre = this ;
 		
-		int idCat;
-		for (CategoriaPrimoLivello c: categorie) {
-			idCat=c.getIdCategoria(idRisorsa);
-			if(idCat!=-1) {
+		for (CategoriaPrimoLivello<? extends Risorsa> c: categorie) {
+			
+			
+			if(c.getTipoCategoria(idRisorsa) != null) {
 				
-				assert invariante() && archivioPre == this && ( idCat==0||idCat==1 );
-				return idCat;
+				assert invariante() && archivioPre == this ;
+				return c.getTipoCategoria(idRisorsa) ;
 			}
 		}
 		assert invariante() && archivioPre== this;
-		return -1;
+		return null;
 	}
 /**
  * triggera la generazione evento di iscrizione nuovo fruitore nello storico

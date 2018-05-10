@@ -4,12 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import it.unibs.ing.mylib.BelleStringhe;
-import it.unibs.ing.mylib.MyMenu;
-import it.unibs.ing.mylib.Stampa;
-
 @SuppressWarnings("serial")
-public class Fruitore extends Utente<Fruitore> implements Serializable{
+public class Fruitore extends Utente implements Serializable{
 	/**
 	 * @invariant invariante()
 	 */
@@ -185,7 +181,7 @@ public class Fruitore extends Utente<Fruitore> implements Serializable{
 	 * @post @return!= null && @nochange
 	 * @return la descrizione
 	 */
-	public String toString() {
+	public String visualizzaDatiFruitore() {
 		assert invariante() ;
 		Fruitore fruitorePre = this ;
 	
@@ -226,12 +222,12 @@ public class Fruitore extends Utente<Fruitore> implements Serializable{
  * @post @return!= null && @nochange
  * @return la stringa descrittiva	
  */
-	public String  visualizzaTutto() {
+	public String  toString() {
 		assert invariante() ;
 		Fruitore fruitorePre = this;
 		
 		StringBuffer descrizione = new StringBuffer();
-		descrizione.append(toString());
+		descrizione.append(visualizzaDatiFruitore());
 		descrizione.append(visualizzaPrestitiFruitore());
 		String risultato = descrizione.toString();	
 		
@@ -386,12 +382,4 @@ public class Fruitore extends Utente<Fruitore> implements Serializable{
 		assert invariante() && listaId != null && fruitorePre == this;
 		return listaId;
 	}
-	@Override
-	public boolean iscrizioneScaduta() {
-	
-		if(getDataScadenza().before(Calendar.getInstance())) return true;
-		
-		return false;
-	}
-	
 }

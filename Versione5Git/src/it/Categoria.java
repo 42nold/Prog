@@ -3,8 +3,8 @@ package dafault;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
+import it.unibs.ing.mylib.Stampa;
 
 @SuppressWarnings("serial")
 public abstract class Categoria<T extends Risorsa> implements Serializable {
@@ -17,9 +17,10 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 	private static final String[] OPZIONI = {"visualizza risorse","aggiungi risorsa","elimina risorsa","modifica risorsa"} ;
 	
 	protected String nome;
-
 	protected ArrayList<T> risorse;
+
 	static int idRisorsa;														
+	
 	protected int idCategoria;
 	
 	/**
@@ -48,7 +49,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 	protected int idMax() {	
 
 		assert invarianteC();
-		Categoria<T> categoriaPre = this;
+		Categoria categoriaPre = this;
 		
 		
 		if (risorse.size() > 0) {
@@ -359,7 +360,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 		return r;		
 	}
 /**
- * 	raggruppa tutti i libri che fanno match con i requisiti richiesti
+ * 	raggruppa tutte le risorse che fanno match con i requisiti richiesti
  * @param attributoScelto attributo da confrontare
  * @param chiaveDiRicerca stringa da confrontare con l'attributo
  * @param numDiRicerca intero da cofrontare con l'attributo
@@ -416,14 +417,8 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 				
 					case 1:
 						
-						System.out.println("Risorse contenute in " + nome + " :" );				
+						Stampa.elenco(elenco,"Risorse contenute in " + nome + " :" );				
 						
-						for (int i=0; i<elenco.length; i++) {
-							
-							System.out.println( (i+1) + ") " +elenco[i]);
-						}
-						
-						System.out.println();		
 						break;
 						
 					case 2:
@@ -432,9 +427,8 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 						break;
 					
 					case 3:
-						MyMenu menu_eliminaRisorse = new MyMenu("Scegli la risorsa da eliminare", elenco);
 						
-					    int risorsaDaEliminare = menu_eliminaRisorse.scegli();
+					    int risorsaDaEliminare = new MyMenu("Scegli la risorsa da eliminare", elenco).scegli();
 						
 						if (risorsaDaEliminare==0) break;
 						
@@ -443,10 +437,8 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 						break;
 						
 					case 4:
-						
-						MyMenu menu_modificaRisorse = new MyMenu("Scegli la risorsa da modificare", elenco);
-					
-						int risorsaDaModificare = menu_modificaRisorse.scegli();
+											
+						int risorsaDaModificare = new MyMenu("Scegli la risorsa da modificare", elenco).scegli();
 							
 						if (risorsaDaModificare==0) break;
 						
@@ -478,7 +470,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
  * @pre true
  * @post @nochange
  */
-	public int getIdCategoria(int idRisorsa) {
+	public Class<? extends Risorsa> getTipoCategoria(int idRisorsa) {
 		assert invarianteC();
 		Categoria<T> thisPre = this;
 		
@@ -486,14 +478,14 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 			for(T l : risorse) {
 				if (l.getId() == idRisorsa) {
 					assert invarianteC() && thisPre==this;
-					if(l.getClass()==new Libro("","","","","",1,1,1,1).getClass())        {return 0;}
-					if(l.getClass()==new Film("", "", "", "", "", 1, 1, 1, 1).getClass()) {return 1;}
+					
+					return l.getClass();
 					}
 			}
 		}
 	
 		assert invarianteC() && thisPre==this;
-		return -1;
+		return null ;
 	}
 /**
  * verifica che le propriet� invarianti della classe siano mantenute 

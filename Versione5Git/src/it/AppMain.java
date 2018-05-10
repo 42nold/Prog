@@ -27,7 +27,7 @@ public class AppMain implements Serializable{
 		Sistema.eliminaDecaduti();//cerco decaduti a inizio di ogni sessione
 		Sistema.eliminaPrestitiScaduti();
 		Sistema.idCorrente();		
-		System.out.println("Benvenuto  questo è il mio commit");
+		System.out.println("Benvenuto  questo  il mio commit");
 		
 		MyMenu menuPrincipale = new MyMenu(TITOLO, voci);
 		int scelta;
@@ -76,11 +76,11 @@ public class AppMain implements Serializable{
 			username = InputDati.leggiStringaNonVuota(INPUT_USERNAME);
 			password = InputDati.leggiStringaNonVuota(INPUT_PASSWORD);
 			
-			if (Sistema.cercaUtente(username, password) && Sistema.isFruitore(Sistema.posizioneUtente(username))) {
+			if (Sistema.cercaFruitore(username, password)) {
 				Sistema.usaFruitore(username);
 				finito = true;
 			}else {
-				if(Sistema.cercaUtente(username, password)&& !Sistema.isFruitore(Sistema.posizioneUtente(username))) {
+				if(Sistema.cercaOperatore(username, password)) {
 					Sistema.usaOperatore(username);
 					finito = true;
 				}else {
