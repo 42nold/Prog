@@ -1,5 +1,7 @@
 package dafault;
 
+//Commit di prova. questo Ã¨ il commit.
+
 import java.io.Serializable;
 
 
@@ -27,7 +29,7 @@ public class AppMain implements Serializable{
 		Sistema.eliminaDecaduti();//cerco decaduti a inizio di ogni sessione
 		Sistema.eliminaPrestitiScaduti();
 		Sistema.idCorrente();		
-		System.out.println("Benvenuto  questo è il mio commit");
+		System.out.println("Benvenuto  questo ï¿½ il mio commit");
 		
 		MyMenu menuPrincipale = new MyMenu(TITOLO, voci);
 		int scelta;
