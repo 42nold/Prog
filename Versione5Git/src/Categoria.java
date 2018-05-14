@@ -3,7 +3,6 @@ package dafault;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
 
 @SuppressWarnings("serial")

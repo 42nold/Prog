@@ -2,7 +2,6 @@ package dafault;
 
 import java.io.Serializable;
 
-
 import it.unibs.ing.mylib.BelleStringhe;
 import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
