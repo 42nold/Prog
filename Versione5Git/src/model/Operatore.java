@@ -1,4 +1,4 @@
-package dafault;
+package model;
 
 
 @SuppressWarnings("serial")

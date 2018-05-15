@@ -1,4 +1,4 @@
-package dafault;
+package model;
 
 
 import it.unibs.ing.mylib.InputDati;

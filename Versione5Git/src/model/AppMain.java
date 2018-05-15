@@ -1,4 +1,4 @@
-package dafault;
+package model;
 
 //Commit di prova. questo è il commit.
 
@@ -21,13 +21,16 @@ public class AppMain implements Serializable{
 	private static final String MESSAGGIO_ERRORE = "Scelta non valida";
 	private static final String ARRIVEDERCI = "Arrivederci";
 	
+
 	public static void main(String[] args){
 		
-		Sistema.importaFruitoriOperatori();//caricare fruitori e operatori da file a inizio sessione
-		Sistema.importaArchivio();//importa archivio da file 
-		Sistema.eliminaDecaduti();//cerco decaduti a inizio di ogni sessione
-		Sistema.eliminaPrestitiScaduti();
-		Sistema.idCorrente();		
+		Sistema sistema = new Sistema();
+
+		sistema.importaFruitoriOperatori();//caricare fruitori e operatori da file a inizio sessione
+		sistema.importaArchivio();//importa archivio da file 
+		sistema.eliminaDecaduti();//cerco decaduti a inizio di ogni sessione
+		sistema.eliminaPrestitiScaduti();
+		sistema.idCorrente();		
 		System.out.println("Benvenuto  questo � il mio commit");
 		
 		MyMenu menuPrincipale = new MyMenu(TITOLO, voci);
@@ -43,7 +46,7 @@ public class AppMain implements Serializable{
 					break;
 					
 				case 1:
-					login();
+					login(sistema);
 					break;
 				
 				case 2:
@@ -68,7 +71,7 @@ public class AppMain implements Serializable{
 		Stampa.aVideo(BelleStringhe.incornicia(ARRIVEDERCI));
 	}
 	
-	public static void login() {
+	public static void login(Sistema sistema) {
 		boolean finito = false;
 		boolean continua = true;
 		String username, password;
@@ -82,7 +85,7 @@ public class AppMain implements Serializable{
 				finito = true;
 			}else {
 				if(Sistema.cercaOperatore(username, password)) {
-					Sistema.usaOperatore(username);
+					sistema.usaOperatore(username);
 					finito = true;
 				}else {
 					Stampa.aVideo(BelleStringhe.rigaIsolata(ERRORE));

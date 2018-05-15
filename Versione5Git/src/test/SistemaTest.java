@@ -7,8 +7,8 @@ import java.util.Calendar;
 
 import org.junit.Test;
 
-import dafault.Fruitore;
-import dafault.Sistema;
+import model.Fruitore;
+import model.Sistema;
 
 public class SistemaTest {
 

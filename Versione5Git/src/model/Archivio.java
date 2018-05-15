@@ -1,12 +1,19 @@
+package model;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observer;
+import java.util.Vector;
+
+import javax.swing.text.View;
 
 import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
 import it.unibs.ing.mylib.ServizioFile;
 import it.unibs.ing.mylib.Stampa;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 
 @SuppressWarnings("serial")
 public class Archivio implements Serializable {
@@ -14,8 +21,7 @@ public class Archivio implements Serializable {
 	 * @invariant invariante()
 	 */
 	private static final String TITOLO_CATEGORIA = "Scegli la categoria";
-	private static final String TITOLO_ELI_O_MOD = "seleziona l'azione desiderata";
-	private static final String[] OPZIONI_ELI_O_MOD = {"visualizza", "modifica", "elimina"};
+	
 	private static final String NOMEFILECATEGORIE = "Categorie.dat";
 	private static final int DURATA_PRESTITO_LIBRI = 30;
 	private static final int DURATA_PROROGA_LIBRI = 30;
@@ -33,13 +39,16 @@ public class Archivio implements Serializable {
 	private static Storico storico = new Storico();
 	
 	private static ArrayList<CategoriaPrimoLivello<? extends Risorsa>> categorie;
+	
+	private int attributoScelto;
+	private ArrayList<Integer> match;
+	
 	/**
 	 * istanzia la classe archivio con due categorie e due sottocategorie
 	 * 
 	 */
 	public Archivio(){
 		categorie = new ArrayList<CategoriaPrimoLivello<? extends Risorsa>>();
-		
 		aggiungiCategoria("libreria","Libri", DURATA_PRESTITO_LIBRI, DURATA_PROROGA_LIBRI, TERMINE_PROROGA_LIBRI, MAX_RISORSE_PER_LIBRI, ID_LIBRI); //inizializzazione di default
 		aggiungiCategoria("videoteca","Film", DURATA_PRESTITO_FILM, DURATA_PROROGA_FILM, TERMINE_PROROGA_FILM, MAX_RISORSE_PER_FILM, ID_FILM); //inizializzazione di default
 		
@@ -92,91 +101,63 @@ public class Archivio implements Serializable {
 	 * @pre scelta>=0 && scelta<categorieSize()
 	 * @post categorieSize()@pre==categorieSize()
 	 */
-	public void usaCategoria(int scelta) {
+	 boolean haRisorseEsottocategorie(int scelta) {
 		assert invariante() && scelta>=0 && scelta<categorie.size();
-		int categoriePre = categorie.size();
 		
+		int categoriePre = size();
+
 		CategoriaPrimoLivello categoriaPrimoLivello = categorie.get(scelta);
-		
+
 		if (categoriaPrimoLivello.hasRisorse() && categoriaPrimoLivello.hasSottoCategoria())
-			{
-			System.out.println("errore! questa categoria ha sia risorse che sottocategorie!"); 
-			assert invariante() && categoriePre==categorie.size();
-			return;
-			}
-
-		if (categoriaPrimoLivello.hasRisorse())
-			categoriaPrimoLivello.gestioneRisorse();
-		
-		else {
-			
-			if( !categoriaPrimoLivello.hasSottoCategoria() ) { 
-				System.out.println("non ci sono sottocategorie nè risorse in questa categoria"); 
-				categoriaPrimoLivello.gestioneRisorse(); 
-			}
-			else {
-				
-				MyMenu menu_categoria= new MyMenu("Sottocategorie", categoriaPrimoLivello.elencoSottoCategorie());
-		
-				boolean sceltaValida = false ;
-				
-				while (!sceltaValida) {
-					int sottoCategoriaScelta=menu_categoria.scegli();
-					
-					if(sottoCategoriaScelta>0 ) {
-						categoriaPrimoLivello.usaSottoCategoria(sottoCategoriaScelta-1);
-											
-					}
-
-					 sceltaValida=true;
-				}
-			}
+		{
+		assert invariante() && categoriePre==categorie.size();
+		return true;
 		}
 		assert invariante() && categoriePre==categorie.size();
+		return false;
 	}
-/**
- * metodo per la ricerca di risorse tramite attributo , richiesta all'utente su ricerca da eseguire e su azione da compiere sulla risorsa	
- * @param attributoScelto attributo da confrontare col parametro di ricerca
- * @pre attributoScelto>=0
- * @post true
- */
-	public void cercaPerAttributoOmode(int attributoScelto) {	
-		assert invariante() && attributoScelto>=0;
 
-		String chiaveDiRicerca = null;
-		int numDiRicerca = 0;
-		if(attributoScelto<6)  chiaveDiRicerca = InputDati.leggiStringaNonVuota("inserisci la stringa da cercare nell'attributo selezionato");
-		else numDiRicerca = InputDati.leggiInteroNonNegativo("inserisci il valore da cercare per l'attributo selezionato");
-			
-		ArrayList<Integer> match = filtraRisorse(attributoScelto,chiaveDiRicerca,numDiRicerca);
+	 public boolean categoriaHaRisorse(int scelta) {
+		 
+
+			CategoriaPrimoLivello categoriaPrimoLivello = categorie.get(scelta);
+
 		
-		if(match.size()<1) return;
-		
-		String[] opzioniEsiti= new String[match.size()];
-		int i=0;
-		for(int r : match) { 
-			if(getNomeRisorsa(r)!=null) {	opzioniEsiti[i]= getNomeRisorsa(r); i++; } }
-		
-		MyMenu menu_esitoRicerca = new MyMenu("ecco l'esito della ricerca :", opzioniEsiti);
-		
-		int  risorsaScelta= menu_esitoRicerca.scegli();
-			
-		if(risorsaScelta!=0) {
-			MyMenu menu_eli_o_mod = new MyMenu(TITOLO_ELI_O_MOD, OPZIONI_ELI_O_MOD);
-			int eliMod;
-			
-			do{	
-				 eliMod=menu_eli_o_mod.scegli();
-		
-				 if(eliMod==0) return;
-				 
-				 azioneDaRicerca(match.get(risorsaScelta-1),eliMod);
-				 
-			}while (eliMod==1);
-		
+			return categoriaPrimoLivello.hasRisorse();
+	 }
+	 
+	 public void gestioneRisorse(int scelta) {
+
+
+			CategoriaPrimoLivello categoriaPrimoLivello = categorie.get(scelta);
+
+			categoriaPrimoLivello.gestioneRisorse();
+
 		}
-	 assert invariante();
-	}	
+	 
+	 public boolean categoriaHaSottoCategoria(int scelta) {
+
+			CategoriaPrimoLivello categoriaPrimoLivello = categorie.get(scelta);
+
+		 return categoriaPrimoLivello.hasSottoCategoria();
+		}
+	 
+		public String[] elencoSottoCategorie(int scelta) {
+
+			CategoriaPrimoLivello categoriaPrimoLivello = categorie.get(scelta);
+
+			 return categoriaPrimoLivello.elencoSottoCategorie();
+		}
+		
+		public void usaSottoCategoria(int categoria,int sottocategoria) {
+
+			CategoriaPrimoLivello categoriaPrimoLivello = categorie.get(categoria);
+
+			categoriaPrimoLivello.usaSottoCategoria(sottocategoria);
+			
+		}
+
+
 /**
  * ricerca il nome di una risorsa avendo in ingresso l'id di essa in  tutto l'archivio
  * @param r l'id della risorsa
@@ -184,7 +165,7 @@ public class Archivio implements Serializable {
  * @pre id>=0
  * @post @nochange
  */
-	private String getNomeRisorsa(int r) {	
+	String getNomeRisorsa(int r) {	
 		assert invariante() && r>=0; 
 		Archivio archivioPre = this;
 		
@@ -204,7 +185,7 @@ public class Archivio implements Serializable {
  * @pre id>=0 && eliMod>=0 
  * @post categorieSize()==categorieSize()@pre
  */
-	private void azioneDaRicerca(int id, int eliMod) {							
+	void azioneDaRicerca(int id, int eliMod) {							
 		assert invariante() && id>=0 && eliMod>=0;
 		int categoriePre=categorie.size();
 		
@@ -223,7 +204,7 @@ public class Archivio implements Serializable {
 	 * @pre attributoScelto>=0 && attributoScelto<=attributiSize() && chiaveDiricerca!=null & numDiRicerca!=null
 	 * @post @nochange
 	 */
-	private ArrayList<Integer> filtraRisorse(int attributoScelto,String chiaveDiRicerca,int numDiRicerca) {
+	ArrayList<Integer> filtraRisorse(int attributoScelto,String chiaveDiRicerca,int numDiRicerca) {
 		assert invariante() &&attributoScelto>=0 && attributoScelto<=10 && chiaveDiRicerca!=null & numDiRicerca>=0 ;
 		Archivio archivioPre = this;
 
@@ -812,4 +793,21 @@ public class Archivio implements Serializable {
 		assert invariante() && archivioPre == this;
 
 	}
+
+	private void notifyScelta(String string, String[] opzioniEsiti) {
+		// TODO Auto-generated method stub
+		
+	}
+	private void notifyInteroNonNegativo(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+	private void notifyStringaNonVuota(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	
+	
 }

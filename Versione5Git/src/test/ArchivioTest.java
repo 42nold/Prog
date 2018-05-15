@@ -1,8 +1,10 @@
 package test;
 
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 
-import dafault.Archivio;
+import model.*;
 
 public class ArchivioTest {
 

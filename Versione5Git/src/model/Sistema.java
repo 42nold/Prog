@@ -1,4 +1,4 @@
-package dafault;
+package model;
 
 import java.io.File;
 import java.io.Serializable;
@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import it.unibs.ing.mylib.BelleStringhe;
+import it.unibs.ing.mylib.BibliotecaView;
 import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
 import it.unibs.ing.mylib.ServizioFile;
@@ -39,13 +40,15 @@ public class Sistema  implements Serializable{
 	private static final String BUON_FINE = "Operazione eseguita correttamente";
 	private static final String TITOLO_MENU_STORICO = "scegli l'opzione desiderata";
 	private static final String[] vociMenuStorico = {"visualizza storico completo","visualizza numero prestiti per anno solare","visualizza numero proroghe per anno solare","visualizza risorsa prestata piï¿½ volte per anno solare","visualizza i prestiti per fruitore per anno solare"};
+	private static final String TITOLO_ELI_O_MOD = "seleziona l'azione desiderata";
+	private static final String[] OPZIONI_ELI_O_MOD = {"visualizza", "modifica", "elimina"};
 	
 	
 	private static Archivio archivio = new Archivio();//questo inizializza l'archivio con i dati di default che verranno poi sovrascritti dal caricamento da file
 	
 	private static ArrayList<Operatore> operatori;
 	private static ArrayList<Fruitore> fruitori;
-	
+	private MyView view ;
 	
 		/**
 		 * verifica che le invarianti di classe siano verificate
@@ -452,7 +455,7 @@ public class Sistema  implements Serializable{
 	 * @pre true
 	 * @post fruitoriNoChange
 	 */
-	public static void usaOperatore(String username){
+	public  void usaOperatore(String username){
 		assert invariante() ;
 		ArrayList<Fruitore> fruitoriPre = fruitori ;
 		
@@ -508,7 +511,7 @@ public class Sistema  implements Serializable{
 									
 									if(categoriaScelta>0 && categoriaScelta<=archivio.size()) {
 									
-										archivio.usaCategoria(categoriaScelta-1);
+										usaCategoria(categoriaScelta-1);
 									
 										sceltaValida=true;
 										}
@@ -523,7 +526,7 @@ public class Sistema  implements Serializable{
 								int attributoScelto = menu_attributi.scegli();
 																	
 								if(attributoScelto!=0)
-									archivio.cercaPerAttributoOmode(attributoScelto);
+									cercaPerAttributoOmode(attributoScelto);
 								
 								break;
 								
@@ -563,6 +566,89 @@ public class Sistema  implements Serializable{
 			assert invariante() && fruitoriPre == fruitori ;
 			return;
 			}
+	
+	private void usaCategoria(int scelta) {
+	
+		
+		
+		if (archivio.haRisorseEsottocategorie(scelta))
+			{
+			view.notify(("errore! questa categoria ha sia risorse che sottocategorie!")); 
+			return ;
+			}
+
+		if(archivio.categoriaHaRisorse(scelta)) archivio.gestioneRisorse(scelta);
+		
+		else {
+			
+			if( !archivio.categoriaHaSottoCategoria(scelta) ) { 
+				view.notify("non ci sono sottocategorie nè risorse in questa categoria"); 
+				archivio.gestioneRisorse(scelta); 
+			}
+			else {
+				
+		
+				boolean sceltaValida = false ;
+				
+				while (!sceltaValida) {
+					int sottoCategoriaScelta=view.scelta("Sottocategorie", archivio.elencoSottoCategorie(scelta));
+;
+					
+					if(sottoCategoriaScelta>0 ) {
+						archivio.usaSottoCategoria(scelta,sottoCategoriaScelta-1);
+											
+					}
+
+					 sceltaValida=true;
+				}
+			}
+		}		
+	}
+
+
+	/**
+	 * metodo per la ricerca di risorse tramite attributo , richiesta all'utente su ricerca da eseguire e su azione da compiere sulla risorsa	
+	 * @param attributoScelto attributo da confrontare col parametro di ricerca
+	 * @pre attributoScelto>=0
+	 * @post true
+	 */
+		
+private  void cercaPerAttributoOmode(int attributoScelto) {
+
+	
+	String chiaveDiRicerca = null;
+	int numDiRicerca = 0;
+	if(attributoScelto<6)  chiaveDiRicerca = view.StringaNonVuota("inserisci la stringa da cercare nell'attributo selezionato");
+	else numDiRicerca = view.InteroNonNegativo("inserisci il valore da cercare per l'attributo selezionato");
+
+    ArrayList<Integer> match = archivio.filtraRisorse(attributoScelto,chiaveDiRicerca,numDiRicerca);
+	
+	if(match.size()<1) return;
+	
+	String[] opzioniEsiti= new String[match.size()];
+	int i=0;
+	for(int r : match) { 
+		if(archivio.getNomeRisorsa(r)!=null) {	opzioniEsiti[i]= archivio.getNomeRisorsa(r); i++; } 
+		}
+	
+	int risorsaScelta = view.scelta("ecco l'esito della ricerca :", opzioniEsiti);
+	
+	if(risorsaScelta!=0) {
+		int eliMod;
+		
+		do{	
+			 eliMod = view.scelta(TITOLO_ELI_O_MOD, OPZIONI_ELI_O_MOD);
+	
+			 if(eliMod==0) return;
+			 
+			archivio.azioneDaRicerca(match.get(risorsaScelta-1),eliMod);
+			 
+		}while (eliMod==1);
+	
+	}
+	}
+
+
 /**
  * verifica se l'username e la password in ingresso corrispondono ad un operatore registrato
  * @param username dell'operatore
@@ -690,11 +776,13 @@ public class Sistema  implements Serializable{
  * @pre true
  * @post fruritoriOperatoriNoChange()
  */
-	public static void importaArchivio() {
+	public  void importaArchivio() {
 		ArrayList<Operatore> operatoriPre = operatori ;
 		ArrayList<Fruitore> fruitoriPre = fruitori ;
 		
 		archivio.importaDati();
+		
+		view = new BibliotecaView();
 
 		assert invariante() && fruitoriPre == fruitori && operatoriPre == operatori;
 	}

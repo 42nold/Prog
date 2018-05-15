@@ -2,7 +2,7 @@ package test;
 
 import org.junit.Test;
 
-import dafault.Libro;
+import model.Libro;
 
 public class LibroTest {
 	

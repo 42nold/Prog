@@ -5,9 +5,9 @@ import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 
-import dafault.Evento;
-import dafault.Sistema;
-import dafault.Storico;
+import model.Evento;
+import model.Sistema;
+import model.Storico;
 
 public class StoricoTest {
 

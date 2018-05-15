@@ -1,16 +1,32 @@
-package dafault;
+package model;
 
 import java.util.ArrayList;
 
 import it.unibs.ing.mylib.InputDati;
 
-public class Videoteca extends Categoria<Film>{
+public class VideotecaContenitore extends CategoriaPrimoLivello<Film>{
 
-	public Videoteca(String param) {
-		super(param);
+	public VideotecaContenitore(String nome, int durataMassimaPrestito, int durataMassimaProroga, int termineProroga,
+			int maxRisorse, int id) {
+		super(nome, durataMassimaPrestito, durataMassimaProroga, termineProroga, maxRisorse, id);
+
 	}
 
+	
+	@Override
+	public void aggiungiSottoCategoria(String nome) {
+		assert invariante();
+ 		int lunghPre = sottocategorie.size() ;
+ 		
+		sottocategorie.add(new Videoteca(nome));
+		
+		assert invariante() && lunghPre+1==sottocategorie.size();	
+		
+	}
+
+	@Override
 	public void aggiungiRisorsa() {
+
 		assert invarianteC();
 		int libriPre = risorse.size();
 		int idPre = idRisorsa;
@@ -31,12 +47,15 @@ public class Videoteca extends Categoria<Film>{
 	Storico.risorsaAggiunta(id);
 		
 		assert invarianteC() && (risorse.size()==libriPre+1 ) && idRisorsa==idPre+1 ;
+		
 	}
 
+	@Override
 	protected ArrayList<Integer> filtra(int attributoScelto, String chiaveDiRicerca, int numDiRicerca) {
 
+
 		assert invarianteC() && chiaveDiRicerca!=null && attributoScelto>=1 && attributoScelto<=8&& (!chiaveDiRicerca.equals("") || numDiRicerca>0);
-		Videoteca thisPre = this;
+		VideotecaContenitore thisPre = this;
 		
 		ArrayList<Integer> risultato = new ArrayList<Integer>();
 		
@@ -77,6 +96,5 @@ public class Videoteca extends Categoria<Film>{
 		assert invarianteC() && thisPre==this;	
 		return risultato;
 	}
-	
 
 }
