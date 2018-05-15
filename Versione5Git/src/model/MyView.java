@@ -19,6 +19,8 @@ public interface MyView {
 	public int scelta(String string, String[] opzioniEsiti);
 
 	public void notify(String string);
+
+	public void incornicia(String messaggioErrore);
 	
 	
 	

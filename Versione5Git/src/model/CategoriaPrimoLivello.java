@@ -10,7 +10,6 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 	/**
 	 * @invariant invariante()
 	 */
-	private static final String TITOLO_SOTTOCATEGORIA = "Scegli la sottocategoria";
 	protected ArrayList<Categoria<T>> sottocategorie;
 	private int durataMassimaPrestito;
 	private int durataMassimaProroga;
@@ -214,17 +213,12 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
  * @pre true
  * @post @nochange
  */
-	public int selezionaSottoCategoria() {
+	public int scegliRisorsaSottoCategoria(int i) {
 		assert invariante();
-		CategoriaPrimoLivello<T> thisPre = this;
 		
-		MyMenu menuSottoCategoria = new MyMenu(TITOLO_SOTTOCATEGORIA, this.elencoSottoCategorie());
-		int categoriaScelta = menuSottoCategoria.scegli();
-		if(categoriaScelta==0) {return -1;}
-		int risultato = sottocategorie.get(categoriaScelta-1).scegliRisorsa();//-1 per allineare con l'array
 		
-		assert invariante() && thisPre==this;
-		return risultato;
+	
+		return sottocategorie.get(i).scegliRisorsa();
 	}
 /**
  * cerca la risorsa voluta all'interno della categoria
@@ -385,11 +379,9 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 			int risultato = super.scegliRisorsa();
 			assert invariante() && thisPre==this;
 			return risultato;
-		} else {
-			int risultato = selezionaSottoCategoria();
-			assert invariante() && thisPre==this;
-			return risultato;
 		}
+		assert false;
+		return -1;
 	}
 /**
  * cerca il nome della risorsa desiderata

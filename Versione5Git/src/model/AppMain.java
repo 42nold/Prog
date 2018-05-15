@@ -52,7 +52,7 @@ public class AppMain implements Serializable{
 				case 2:
 					username = Sistema.iscrizioneFruitore();
 					 if (username != "") {
-						Sistema.usaFruitore(username);
+						sistema.usaFruitore(username);
 					}
 					break;
 					
@@ -81,7 +81,7 @@ public class AppMain implements Serializable{
 			password = InputDati.leggiStringaNonVuota(INPUT_PASSWORD);
 			
 			if (Sistema.cercaFruitore(username, password)) {
-				Sistema.usaFruitore(username);
+				sistema.usaFruitore(username);
 				finito = true;
 			}else {
 				if(Sistema.cercaOperatore(username, password)) {

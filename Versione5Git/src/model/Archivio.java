@@ -20,7 +20,6 @@ public class Archivio implements Serializable {
 	/**
 	 * @invariant invariante()
 	 */
-	private static final String TITOLO_CATEGORIA = "Scegli la categoria";
 	
 	private static final String NOMEFILECATEGORIE = "Categorie.dat";
 	private static final int DURATA_PRESTITO_LIBRI = 30;
@@ -340,69 +339,9 @@ public class Archivio implements Serializable {
 		assert invariante() && archivioPre == this;
 	}
 	
-		/**
-		 * ricerca una risorsa chiedendo parametro e attributo da confrontare nell'archivio
-		 * @pre attributoScelto>=0 && attributoScelto<= numMaxAttributi()
-		 * @post @nochange 
-		 * @return l'id della risorsa scelta tra le candidate
-		 */
-	public int cercaPerAttributoFmode(int attributoScelto) {	
-		assert invariante() && attributoScelto>=0 && attributoScelto<= 10 ;
-		Archivio archivioPre = this;
 		
-		String chiaveDiRicerca = "";
-		int numDiRicerca = 0;
-		if(attributoScelto<6)  chiaveDiRicerca = InputDati.leggiStringaNonVuota("inserisci la stringa da cercare nell'attributo selezionato");
-		else numDiRicerca = InputDati.leggiInteroNonNegativo("inserisci il valore da cercare per l'attributo selezionato");
-		
-		
-		ArrayList<Integer> match = filtraRisorse(attributoScelto,chiaveDiRicerca,numDiRicerca);
-		
-		if(match.size()<1) return -1;
-		
-		String[] opzioniEsiti= new String[match.size()];
-		int i=0;
-		for(int r : match) { opzioniEsiti[i]= getNomeRisorsa(r); i++;}
-		
-		MyMenu menu_esitoRicerca = new MyMenu("ecco l'esito della ricerca :", opzioniEsiti);
-		
-		int  risorsaScelta = menu_esitoRicerca.scegli();
-	
-		assert invariante() && archivioPre== this;
 
-		if(risorsaScelta==0) 
-			return -1;
-			
-		else 
-			return match.get(risorsaScelta-1);
-	}
-	
-	/**
-	 * Permette di scegliere la categoria in cui si andra a selezionare una risorsa.
-	 * @return La risorsa scelta.
-	 * @pre true
-	 * @post @nochange && @return>=-1 
-	 */
-	public int selezionaCategoria() {
-		assert invariante();
-		Archivio archivioPre = this;
-		
-		MyMenu menuCategoria = new MyMenu(TITOLO_CATEGORIA, this.elencoCategorie());
-		int categoriaScelta = menuCategoria.scegli();
-		
-		if (categorie.get(categoriaScelta-1).hasSottoCategoria()) {
-			int risultato=categorie.get(categoriaScelta-1).selezionaSottoCategoria();//-1 per allineare con l'array
-			
-			assert invariante() && risultato>=-1 && archivioPre==this ;
-			return risultato;
-		} 
-		else {
-			int risultato =  categorie.get(categoriaScelta-1).scegliRisorsa();//-1 per allineare con l'array
-			
-			assert invariante() && risultato>=-1 && archivioPre==this ;
-			return risultato;
-		}
-	}
+
 
 	/**
 	 * Cerca la durata del prestito di una risorsa di una categoria.
@@ -760,51 +699,54 @@ public class Archivio implements Serializable {
  * @pre eventoValido(nomeEvento) && descrizione!= null
  * @post @nochange
  */
-	public void numEventoAnnoSolare(String evento ,String descrizione) {
-		assert invariante() && Storico.eventoValido(evento) && descrizione!= null ;
-		Archivio archivioPre =this; 
+	public String numEventoAnnoSolare(String evento ,String descrizione) {
 
-		Stampa.aVideo(storico.numEventoAnnoSolare(evento,descrizione));		
+		return storico.numEventoAnnoSolare(evento,descrizione);		
 		
-		assert invariante() && archivioPre == this;
 	}
 	/**
 	 * stampa a video il risultato della statistica riguardo alla risorsa più prestata
 	 * @pre true
 	 * @post @nochange
 	 */
-	public void risorsaPiuPrestata() {
-		assert invariante() ; Archivio archivioPre = this;
+	public String risorsaPiuPrestata() {
 
-		Stampa.aVideo(storico.risorsaPiuPrestata());
+		return storico.risorsaPiuPrestata();
 		
-		assert invariante() && archivioPre == this;
 	}
 	/**
 	 * stampa a video il risultato della statistica riguardo ai prestiti per fruitore per anno solare
 	 * @pre true
 	 * @post @nochange
 	 */
-	public void prestitiFruitoriAnnoSolare() {
-		assert invariante() ; Archivio archivioPre = this;
+	public String prestitiFruitoriAnnoSolare() {
 
-		Stampa.aVideo(storico.prestitiFruitoriAnnoSolare());
+		return storico.prestitiFruitoriAnnoSolare();
 		
-		assert invariante() && archivioPre == this;
 
+	}	
+	
+	/**
+	 * chiama il metodo scegli risorsa della categoria voluta nell'archivio
+	 * @param posizione della categoria
+	 * @param posizione della sottocategoria
+	 * @return id della risorsa selezionata
+	 */
+	public int scegliRisorsa(int i, int j) {
+		
+		return categorie.get(i).scegliRisorsaSottoCategoria(j);
 	}
+	
+	
+	/**
+	 * chiama il metodo scegli risorsa della categoria voluta nell'archivio
+	 * @param posizione della categoria
+	 * @return id della risorsa selezionata
+	 */
+	public int scegliRisorsa(int i) {
 
-	private void notifyScelta(String string, String[] opzioniEsiti) {
-		// TODO Auto-generated method stub
-		
-	}
-	private void notifyInteroNonNegativo(String string) {
-		// TODO Auto-generated method stub
-		
-	}
-	private void notifyStringaNonVuota(String string) {
-		// TODO Auto-generated method stub
-		
+		return 	categorie.get(i).scegliRisorsa();
+
 	}
 
 

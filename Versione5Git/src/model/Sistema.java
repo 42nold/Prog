@@ -29,7 +29,9 @@ public class Sistema  implements Serializable{
 	
 	private static final String TITOLO_MENU_PRESTITO = "Scegli come desideri cercare la risorsa da aggiungere.";
 	private static final String[] opzioniDiricerca = {"Ricerca per attributo", "Ricerca navigando l'archivio"};
-	
+	private static final String TITOLO_CATEGORIA = "Scegli la categoria";
+	private static final String TITOLO_SOTTOCATEGORIA = "Scegli la sottocategoria";
+
 	private static final String MESSAGGIO_ERRORE = "Scelta non valida";
 	private static final String TITOLO_MENU_OPERATORE = "Menu Operatore.";
 	private static final String[] VOCI_MENU_OPERATORE = {"Visualizza dati fruitori", "Visualizza dati e prestiti dei fruitori", "Apri archivio","visualizza storico"};
@@ -57,6 +59,7 @@ public class Sistema  implements Serializable{
 		 * @return true se sono verificate tutte le ivnarianti
 		 */
 	private static boolean invariante() {
+		
 		boolean invariante = false ;
 		ArrayList<Operatore> operatoriPre = operatori ;
 		ArrayList<Fruitore> fruitoriPre = fruitori ;
@@ -307,7 +310,7 @@ public class Sistema  implements Serializable{
 	 * @pre username!=null
 	 * @post operatoriNoChange()
 	 */
-	public static void usaFruitore(String username) {
+	public  void usaFruitore(String username) {
 		assert invariante() && username!= null;
 		ArrayList<Operatore> operatoriPre = operatori ;
 		
@@ -543,16 +546,16 @@ public class Sistema  implements Serializable{
 						Stampa.aVideo(archivio.getDescrizioneStorico());
 						break;
 					case 2:
-						archivio.numEventoAnnoSolare(Archivio.NUOVO_PRESTITO,"prestiti");
+						view.notify(archivio.numEventoAnnoSolare(Archivio.NUOVO_PRESTITO,"prestiti"));
 						break;
 					case 3:
-						archivio.numEventoAnnoSolare(Archivio.PROROGA_PRESTITO,"proroghe");
+						view.notify(archivio.numEventoAnnoSolare(Archivio.PROROGA_PRESTITO,"proroghe"));
 						break;
 					case 4:
-						archivio.risorsaPiuPrestata();
+						view.notify(archivio.risorsaPiuPrestata());
 						break;
 					case 5:
-						archivio.prestitiFruitoriAnnoSolare();
+						view.notify(archivio.prestitiFruitoriAnnoSolare());
 						break;
 					default : break;					
 
@@ -808,7 +811,7 @@ private  void cercaPerAttributoOmode(int attributoScelto) {
 	 * @pre true 
 	 * @post @return>=-1 && @nochange
 	 */
-	public static int selezionaRisorsa() {
+	public  int selezionaRisorsa() {
 		assert invariante() ;
 		ArrayList<Operatore> operatoriPre = operatori ;
 		ArrayList<Fruitore> fruitoriPre = fruitori ;
@@ -823,17 +826,57 @@ private  void cercaPerAttributoOmode(int attributoScelto) {
 			
 			switch (scelta) {
 				case 1:
-					MyMenu menu_attributi= new MyMenu(TITOLO_SELEZIONA_ATTRIBUTO, vociMenuSelezionaAttributo);
-					int attributoScelto = menu_attributi.scegli();
-					if(attributoScelto!=0 ) risorsaScelta = archivio.cercaPerAttributoFmode(attributoScelto);//attributoScelto dovra essere compreso tra 0 e #attributi
+					int attributoScelto = view.scelta(TITOLO_SELEZIONA_ATTRIBUTO, vociMenuSelezionaAttributo);
+				
+					if(attributoScelto!=0 ) {
+						String chiaveDiRicerca = "";
+						int numDiRicerca = 0;
+						if(attributoScelto<6)  chiaveDiRicerca = view.StringaNonVuota("inserisci la stringa da cercare nell'attributo selezionato");
+						else numDiRicerca = view.InteroNonNegativo("inserisci il valore da cercare per l'attributo selezionato");
+						
+						
+						ArrayList<Integer> match = archivio.filtraRisorse(attributoScelto,chiaveDiRicerca,numDiRicerca);
+						if(match.size()<1) 	{risorsaScelta =  -1; break;}
+						
+
+						String[] opzioniEsiti= new String[match.size()];
+						int i=0;
+						for(int r : match) { opzioniEsiti[i]= archivio.getNomeRisorsa(r); i++;}
+												
+						  risorsaScelta = view.scelta("ecco l'esito della ricerca :", opzioniEsiti);
+
+						if(risorsaScelta==0) 
+							return -1;
+							
+						else 
+							return match.get(risorsaScelta-1);
+					
+					
+					}
 				break;
 			
 				case 2:
-					risorsaScelta = archivio.selezionaCategoria();
+					
+					int categoriaScelta =view.scelta(TITOLO_CATEGORIA, archivio.elencoCategorie());
+
+					
+					if (archivio.categoriaHaSottoCategoria(categoriaScelta)) {
+						
+						int sottoCategoriaScelta =view.scelta(TITOLO_SOTTOCATEGORIA, archivio.elencoSottoCategorie(categoriaScelta-1));
+						if(sottoCategoriaScelta==0) {risorsaScelta = -1; break;}
+						risorsaScelta =archivio.scegliRisorsa(categoriaScelta-1,sottoCategoriaScelta-1);
+												
+						
+					} 
+					else {
+						risorsaScelta =archivio.scegliRisorsa(categoriaScelta-1);//-1 per allineare con l'array
+						
+					}
+				
 					break;
 
 			default:
-				BelleStringhe.incornicia(MESSAGGIO_ERRORE);
+				view.incornicia(MESSAGGIO_ERRORE);
 				break;
 			}
 			
