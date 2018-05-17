@@ -11,9 +11,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 	/**
 	 * @invariant invariante()
 	 */
-	private static final String TITOLO_RISORSE = "Scegli la risorsa da selezionare";
-	private static final String TITOLO_MENU_GESTIONERISORSA= "Opzioni disponibili";
-	private static final String[] OPZIONI = {"visualizza risorse","aggiungi risorsa","elimina risorsa","modifica risorsa"} ;
+	
 	
 	protected String nome;
 
@@ -115,49 +113,28 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 		return nome;
 	}
 
-/**
- * usa showRisorsa(id) modifica(id) o rimuoviRisorsa(id) in base al parametro in ingresso 
- * @param id parametro da usare
- * @param eli_o_mod determina quale metodo usare con id come parametro
- * 
- */
-	public void azioneDaRicerca(int id, int eli_o_mod) {	
-		assert invarianteC();
-		
-		switch (eli_o_mod) {
-			case 1:
-				showRisorsa(id);
-				assert invarianteC();
-				break;
-			case 2:
-				modifica(id);
-				assert invarianteC();
-				break;
-			case 3:
-				rimuoviRisorsa(id);
-				assert invarianteC();
-				break;
-			default:
-				break;
-		}	
-	}
+
+
+
 /**	 
  * stampa su console la risorsa corrispondente all'id immesso come parametro
  * @pre true
  * @post @nochange
 * @param id della risorsa da visualizzare
 */
-	protected void showRisorsa(int id) {
+	
+	protected String showRisorsa(int id) {
 		assert invarianteC();
 		Categoria<T> thisPre = this;
 		
 				if(risorse.size()>0)
 					for(T l : risorse) 
-						if(l.getId()==id) System.out.println(l.toString());
+						if(l.getId()==id) return l.toString();
 			
-				
+					
 		
 		assert invarianteC() && thisPre==this;
+		return "";
 	}
 /**
  * chiama modifica() sulla risorsa che corrisponde all'id immesso come parametro	
@@ -205,19 +182,11 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 	 * @pre true
 	 * @post @nochange
 	 */
- 	public int scegliRisorsa() {
- 		assert invarianteC();
- 		Categoria<T> thisPre = this;
- 		
-		MyMenu menuRisorse = new MyMenu(TITOLO_RISORSE, this.elencoRisorse());
-		int risorsaSelezionata = menuRisorse.scegli();
-		if (risorsaSelezionata==0)
-			return -1;
+ 	public int scegliRisorsa(int risorsaSelezionata) {	
 		
 		
-				int risultatoLibri=  risorse.get(risorsaSelezionata-1).getId() ;
-				assert invarianteC() && thisPre==this;
-				return risultatoLibri;
+ 		return 	  risorse.get(risorsaSelezionata).getId() ;
+			
 			
 		
 	}
@@ -386,80 +355,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 		
 	}
 	
-/**
- * chiede all'utente e attua le opzioni disponibili per le risorse
- * @pre true 
- * @post true
- */
-		public void gestioneRisorse() {																
-			assert invarianteC();
-			MyMenu menu_risorse = new MyMenu(TITOLO_MENU_GESTIONERISORSA, OPZIONI);
-		
-			boolean esciMenu = false;
-		
-			while(!esciMenu) {
-		
-				int scelta = menu_risorse.scegli();
-			
-				if (scelta == 0 ) esciMenu=true;		
-				
-				String[] elenco = elencoRisorse();
-				if(elenco==null && scelta!=2) {
-					System.out.println("Nessuna risorsa presente"); 
-					
-					assert invarianteC();
-					return; 			
-				}
-				
-				switch(scelta) {
-				
-					case 1:
-						
-						System.out.println("Risorse contenute in " + nome + " :" );				
-						
-						for (int i=0; i<elenco.length; i++) {
-							
-							System.out.println( (i+1) + ") " +elenco[i]);
-						}
-						
-						System.out.println();		
-						break;
-						
-					case 2:
-						
-						aggiungiRisorsa();
-						break;
-					
-					case 3:
-						MyMenu menu_eliminaRisorse = new MyMenu("Scegli la risorsa da eliminare", elenco);
-						
-					    int risorsaDaEliminare = menu_eliminaRisorse.scegli();
-						
-						if (risorsaDaEliminare==0) break;
-						
-						//risorsaDaEliminare -1 rappresenta l'attuale posizione nell'array della risorsa
-						rimuoviRisorsa(getId(risorsaDaEliminare-1));		
-						break;
-						
-					case 4:
-						
-						MyMenu menu_modificaRisorse = new MyMenu("Scegli la risorsa da modificare", elenco);
-					
-						int risorsaDaModificare = menu_modificaRisorse.scegli();
-							
-						if (risorsaDaModificare==0) break;
-						
-						//risorsaDaModificare -1 rappresenta l'attuale posizione nell'array della risorsa
-						modifica(getId(risorsaDaModificare-1));
-						
-						break;
-						
-					default:
-						break;				
-				}
-			}
-			assert invarianteC();
-		}
+
 /**
  * setta l'id max delle risorse al valore immesso		
  * @param id nuovo valore dell'id max

@@ -21,6 +21,9 @@ public class Sistema  implements Serializable{
 	private static final String NOMEFILEFRUITORI = "Fruitori.dat";
 	private static final String NOMEFILEOPERATORI = "Operatori.dat";
 	
+	private static final String TITOLO_MENU_GESTIONERISORSA= "Opzioni disponibili";
+	private static final String[] OPZIONI = {"visualizza risorse","aggiungi risorsa","elimina risorsa","modifica risorsa"} ;
+	
 	private static final String TITOLO_MENU_FRUITORE = "Menu Fruitore";
 	private static final String[] vociMenuFruitore = {"Visualizza Prestiti", "Richiedi prestito", "Rinnova prestito", "Rinnovo iscrizione"};
 	
@@ -31,6 +34,7 @@ public class Sistema  implements Serializable{
 	private static final String[] opzioniDiricerca = {"Ricerca per attributo", "Ricerca navigando l'archivio"};
 	private static final String TITOLO_CATEGORIA = "Scegli la categoria";
 	private static final String TITOLO_SOTTOCATEGORIA = "Scegli la sottocategoria";
+	private static final String TITOLO_RISORSE = "Scegli la risorsa da selezionare";
 
 	private static final String MESSAGGIO_ERRORE = "Scelta non valida";
 	private static final String TITOLO_MENU_OPERATORE = "Menu Operatore.";
@@ -580,13 +584,13 @@ public class Sistema  implements Serializable{
 			return ;
 			}
 
-		if(archivio.categoriaHaRisorse(scelta)) archivio.gestioneRisorse(scelta);
+		if(archivio.categoriaHaRisorse(scelta)) gestioneRisorseCategoria(scelta);
 		
 		else {
 			
 			if( !archivio.categoriaHaSottoCategoria(scelta) ) { 
 				view.notify("non ci sono sottocategorie nè risorse in questa categoria"); 
-				archivio.gestioneRisorse(scelta); 
+				gestioneRisorseCategoria(scelta); 
 			}
 			else {
 				
@@ -598,7 +602,7 @@ public class Sistema  implements Serializable{
 ;
 					
 					if(sottoCategoriaScelta>0 ) {
-						archivio.usaSottoCategoria(scelta,sottoCategoriaScelta-1);
+						gestioneRisorseSottocategoria(scelta,sottoCategoriaScelta-1);
 											
 					}
 
@@ -606,6 +610,153 @@ public class Sistema  implements Serializable{
 				}
 			}
 		}		
+	}
+
+	private void gestioneRisorseSottocategoria(int categoria, int sottocategoria) {
+
+		
+
+
+		
+		boolean esciMenu = false;
+	
+		while(!esciMenu) {
+	
+			int scelta =view.scelta(TITOLO_MENU_GESTIONERISORSA, OPZIONI);
+
+		
+			if (scelta == 0 ) esciMenu=true;		
+			
+			String[] elenco = archivio.elencoRisorse(categoria,sottocategoria);
+			if(elenco==null && scelta!=2) {
+				view.notify("Nessuna risorsa presente"); 
+				
+				return; 			
+			}
+			
+			switch(scelta) {
+			
+				case 1:
+					
+					view.notify("Risorse contenute in " + archivio.elencoSottoCategorie(categoria)[sottocategoria] + " :" );				
+					
+					for (int i=0; i<elenco.length; i++) {
+						
+						view.notify( (i+1) + ") " +elenco[i]);
+					}
+					
+					view.notify("\n");		
+					break;
+					
+				case 2:
+					
+					archivio.aggiungiRisorsa(categoria,sottocategoria);
+					break;
+				
+				case 3:
+					
+				    int risorsaDaEliminare = view.scelta("Scegli la risorsa da eliminare", elenco);
+
+					
+					if (risorsaDaEliminare==0) break;
+					
+					//risorsaDaEliminare -1 rappresenta l'attuale posizione nell'array della risorsa
+					archivio.rimuoviRisorsa(archivio.getId(risorsaDaEliminare-1,categoria,sottocategoria),categoria,sottocategoria);		
+					break;
+					
+				case 4:
+					
+				
+					int risorsaDaModificare = view.scelta("Scegli la risorsa da modificare", elenco);
+
+						
+					if (risorsaDaModificare==0) break;
+					
+					//risorsaDaModificare -1 rappresenta l'attuale posizione nell'array della risorsa
+					archivio.modificaRisorsa(archivio.getId(risorsaDaModificare-1,categoria,sottocategoria),categoria,sottocategoria);
+					
+					break;
+					
+				default:
+					break;				
+			}
+		}
+	}
+
+
+	/**
+	 * chiede all'utente e attua le opzioni disponibili per le risorse
+	 * @pre true 
+	 * @post true
+	 */
+
+	private void gestioneRisorseCategoria(int categoria) {
+
+
+		
+		boolean esciMenu = false;
+	
+		while(!esciMenu) {
+	
+			int scelta =view.scelta(TITOLO_MENU_GESTIONERISORSA, OPZIONI);
+
+		
+			if (scelta == 0 ) esciMenu=true;		
+			
+			String[] elenco = archivio.elencoRisorse(categoria);
+			if(elenco==null && scelta!=2) {
+				view.notify("Nessuna risorsa presente"); 
+				
+				return; 			
+			}
+			
+			switch(scelta) {
+			
+				case 1:
+					
+					view.notify("Risorse contenute in " + archivio.elencoCategorie()[categoria] + " :" );				
+					
+					for (int i=0; i<elenco.length; i++) {
+						
+						view.notify( (i+1) + ") " +elenco[i]);
+					}
+					
+					view.notify("\n");		
+					break;
+					
+				case 2:
+					
+					archivio.aggiungiRisorsa(categoria);
+					break;
+				
+				case 3:
+					
+				    int risorsaDaEliminare = view.scelta("Scegli la risorsa da eliminare", elenco);
+
+					
+					if (risorsaDaEliminare==0) break;
+					
+					//risorsaDaEliminare -1 rappresenta l'attuale posizione nell'array della risorsa
+					archivio.rimuoviRisorsa(archivio.getId(categoria,risorsaDaEliminare-1),categoria);		
+					break;
+					
+				case 4:
+					
+				
+					int risorsaDaModificare = view.scelta("Scegli la risorsa da modificare", elenco);
+
+						
+					if (risorsaDaModificare==0) break;
+					
+					//risorsaDaModificare -1 rappresenta l'attuale posizione nell'array della risorsa
+					archivio.modificaRisorsa(archivio.getId(categoria,risorsaDaModificare-1),categoria);
+					
+					break;
+					
+				default:
+					break;				
+			}
+		}
 	}
 
 
@@ -644,11 +795,60 @@ private  void cercaPerAttributoOmode(int attributoScelto) {
 	
 			 if(eliMod==0) return;
 			 
-			archivio.azioneDaRicerca(match.get(risorsaScelta-1),eliMod);
+		int id = match.get(risorsaScelta-1) ;
+		
+		azioneDaRicerca(id,eliMod);
+		
 			 
 		}while (eliMod==1);
 	
 	}
+	}
+
+
+private void azioneDaRicerca(int id, int eliMod) {
+
+
+	for(int c = 0; c<archivio.size();c++)  {
+
+		if(archivio.categoriaHaRisorse(c)) 
+		{
+			switch (eliMod) {
+			case 1:
+				view.notify(archivio.showRisorsa(id,c));
+				break;
+			case 2:
+				archivio.modifica(id,c);
+				break;
+			case 3:
+				archivio.rimuoviRisorsa(id,c);
+				break;
+			default:
+				break;
+		}	
+		}
+		else 
+		{
+			for(int s= 0; s< archivio.numeroSottocategorie(c); s++) {
+				
+			switch (eliMod) {
+			case 1:
+				view.notify(archivio.showRisorsa(id,c,s));
+				break;
+			case 2:
+				archivio.modifica(id,c,s);
+				break;
+			case 3:
+				archivio.rimuoviRisorsa(id,c,s);
+				break;
+			default:
+				break;
+		}	 
+
+			}
+	}
+	assert invariante() ;
+}
 	}
 
 
@@ -857,20 +1057,34 @@ private  void cercaPerAttributoOmode(int attributoScelto) {
 			
 				case 2:
 					
-					int categoriaScelta =view.scelta(TITOLO_CATEGORIA, archivio.elencoCategorie());
+					int categoriaScelta =view.scelta(TITOLO_CATEGORIA, archivio.elencoCategorie())-1;
 
+					if(categoriaScelta==-1) {risorsaScelta=-1;  break;}
 					
 					if (archivio.categoriaHaSottoCategoria(categoriaScelta)) {
 						
-						int sottoCategoriaScelta =view.scelta(TITOLO_SOTTOCATEGORIA, archivio.elencoSottoCategorie(categoriaScelta-1));
-						if(sottoCategoriaScelta==0) {risorsaScelta = -1; break;}
-						risorsaScelta =archivio.scegliRisorsa(categoriaScelta-1,sottoCategoriaScelta-1);
+						int sottoCategoriaScelta =view.scelta(TITOLO_SOTTOCATEGORIA, archivio.elencoSottoCategorie(categoriaScelta))-1;
+						if(sottoCategoriaScelta==-1) {risorsaScelta = -1; break;}
+						
+					int	risorsaSelezionata = view.scelta(TITOLO_RISORSE,archivio.elencoRisorse(categoriaScelta,sottoCategoriaScelta))-1;
+
+					if(risorsaSelezionata==-1) { risorsaScelta=-1 ; break;}
+						
+					risorsaScelta =archivio.scegliRisorsa(categoriaScelta,sottoCategoriaScelta,risorsaSelezionata);
 												
 						
 					} 
 					else {
-						risorsaScelta =archivio.scegliRisorsa(categoriaScelta-1);//-1 per allineare con l'array
+						if(archivio.categoriaHaRisorse(categoriaScelta)) {
 						
+							int risultato = view.scelta(TITOLO_RISORSE,archivio.elencoRisorse(categoriaScelta))-1;
+							if(risultato==-1) { risorsaScelta=-1 ; break;}
+
+							risorsaScelta =  archivio.scegliRisorsa(categoriaScelta,risultato);
+						}
+						assert false;
+						risorsaScelta = -1;
+						break;
 					}
 				
 					break;

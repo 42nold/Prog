@@ -125,14 +125,14 @@ public class Archivio implements Serializable {
 			return categoriaPrimoLivello.hasRisorse();
 	 }
 	 
-	 public void gestioneRisorse(int scelta) {
+	/* private void gestioneRisorse(int scelta) {
 
 
 			CategoriaPrimoLivello categoriaPrimoLivello = categorie.get(scelta);
 
 			categoriaPrimoLivello.gestioneRisorse();
 
-		}
+		}*/
 	 
 	 public boolean categoriaHaSottoCategoria(int scelta) {
 
@@ -148,13 +148,13 @@ public class Archivio implements Serializable {
 			 return categoriaPrimoLivello.elencoSottoCategorie();
 		}
 		
-		public void usaSottoCategoria(int categoria,int sottocategoria) {
+	/*	public void usaSottoCategoria(int categoria,int sottocategoria) {
 
 			CategoriaPrimoLivello categoriaPrimoLivello = categorie.get(categoria);
 
 			categoriaPrimoLivello.usaSottoCategoria(sottocategoria);
 			
-		}
+		}*/
 
 
 /**
@@ -184,14 +184,17 @@ public class Archivio implements Serializable {
  * @pre id>=0 && eliMod>=0 
  * @post categorieSize()==categorieSize()@pre
  */
-	void azioneDaRicerca(int id, int eliMod) {							
+	/**
+	 * usa showRisorsa(id) modifica(id) o rimuoviRisorsa(id) in base al parametro in ingresso 
+	 * @param id parametro da usare
+	 * @param eli_o_mod determina quale metodo usare con id come parametro
+	 * 
+	 */
+	private void azioneDaRicerca(int id, int eliMod) {							
 		assert invariante() && id>=0 && eliMod>=0;
 		int categoriePre=categorie.size();
 		
-		for(CategoriaPrimoLivello c : categorie) {
-			c.azioneDaRicerca(id,eliMod);
-		}
-		assert invariante() && categoriePre==categorie.size();
+		
 	}
 
 	/**
@@ -732,9 +735,9 @@ public class Archivio implements Serializable {
 	 * @param posizione della sottocategoria
 	 * @return id della risorsa selezionata
 	 */
-	public int scegliRisorsa(int i, int j) {
+	int scegliRisorsa(int c, int risorsaSelezionata) {
 		
-		return categorie.get(i).scegliRisorsaSottoCategoria(j);
+		return categorie.get(c).scegliRisorsa(risorsaSelezionata);
 	}
 	
 	
@@ -743,12 +746,86 @@ public class Archivio implements Serializable {
 	 * @param posizione della categoria
 	 * @return id della risorsa selezionata
 	 */
-	public int scegliRisorsa(int i) {
+	/*public int scegliRisorsa(int i) {
 
 		return 	categorie.get(i).scegliRisorsa();
 
-	}
+	}*/
+	public String showRisorsa(int id, int c) {
 
+		return categorie.get(c).showRisorsa(id);
+	}
+	public void modifica(int id, int c) {
+
+
+		categorie.get(c).modifica(id);
+	}
+	public void rimuoviRisorsa(int id, int c) {
+
+
+		categorie.get(c).rimuoviRisorsa(id);
+	}
+	public int numeroSottocategorie(int c) {
+
+		return categorie.get(c).numeroSottoCategorie();
+	}
+	public String showRisorsa(int id, int c, int s) {
+		return categorie.get(c).showRisorsa(id,s);
+	}
+	public void modifica(int id, int c, int s) {
+
+		categorie.get(c).modifica(id,s);		
+	}
+	public void rimuoviRisorsa(int id, int c, int s) {
+
+		categorie.get(c).rimuoviRisorsa(id,s);		
+	}
+	public String[] elencoRisorse(int c, int s) {
+
+		return categorie.get(c).elencoRisorse(s);
+	}
+	public int scegliRisorsa(int c, int s, int risorsaSelezionata) {
+		return categorie.get(c).scegliRisorsa(s,risorsaSelezionata);
+	}
+	public String[] elencoRisorse(int c) {
+
+		return categorie.get(c).elencoRisorse();
+	}
+	/*public void gestioneRisorseCategoria(int scelta) {
+
+
+		categorie.get(scelta).gestioneRisorse();
+		
+
+	
+	}*/
+	public void aggiungiRisorsa(int categoria) {
+
+
+		categorie.get(categoria).aggiungiRisorsa();
+	}
+	public int getId( int pos, int categoria) {
+
+		return categorie.get(categoria).getId(pos);
+	}
+	public void modificaRisorsa(int id, int categoria) {
+
+
+		categorie.get(categoria).modifica(id);
+	}
+	public void aggiungiRisorsa(int categoria, int sottocategoria) {
+
+		categorie.get(categoria).aggiungiRisorsaSottoCategoria(sottocategoria);
+	}
+	public int getId(int pos, int categoria, int sottocategoria) {
+
+		return categorie.get(categoria).getId(pos,sottocategoria);
+		
+	}
+	public void modificaRisorsa(int id, int categoria, int sottocategoria) {
+
+		categorie.get(categoria).modifica(id, sottocategoria);
+	}
 
 	
 	

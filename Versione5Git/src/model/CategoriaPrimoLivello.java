@@ -117,14 +117,14 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 	 * @pre scelta>=0 && scelta<sottocategorieSize()
 	 * @post true
 	 */
-	public void usaSottoCategoria(int scelta) {													
+	/*public void usaSottoCategoria(int scelta) {													
 		assert invariante() &&  scelta>=0 && scelta<sottocategorie.size() ;
 		
 		Categoria<T> sottocategoria = sottocategorie.get(scelta);		
 		sottocategoria.gestioneRisorse();
 		
 		assert invariante();		
-	}
+	}*/
 	
 	/**
 	 * verifica se ci sono sottoactegorie i questa categoria
@@ -168,18 +168,7 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
  * @pre true
  * @post true
  */
-	public void azioneDaRicerca(int id, int eliMod) {
-		assert invariante();
-		
-		if(hasRisorse()) 
-			super.azioneDaRicerca(id, eliMod);
 
-		else 
-			for(Categoria<T> s : sottocategorie)  
-				s.azioneDaRicerca(id,eliMod);  
-		
-		assert invariante();
-	}
 	
 	/**
 	 * per ogni sottocategoria cerco le risorse che soddisfano i parametri di ricerca 
@@ -213,13 +202,13 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
  * @pre true
  * @post @nochange
  */
-	public int scegliRisorsaSottoCategoria(int i) {
+	/*int scegliRisorsaSottoCategoria(int i) {
 		assert invariante();
 		
 		
 	
 		return sottocategorie.get(i).scegliRisorsa();
-	}
+	}*/
 /**
  * cerca la risorsa voluta all'interno della categoria
  * @param risorsaScelta 
@@ -371,18 +360,12 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
  * @pre true
  * @post @nochange
  */
-	public int scegliRisorsa() {
+	/*public int scegliRisorsa() {
 		assert invariante();
 		CategoriaPrimoLivello<T> thisPre = this;
 		
-		if(hasRisorse()) {
-			int risultato = super.scegliRisorsa();
-			assert invariante() && thisPre==this;
-			return risultato;
-		}
-		assert false;
-		return -1;
-	}
+		
+	}/*
 /**
  * cerca il nome della risorsa desiderata
  * @param risorsaScelta id della risorsa desiderata
@@ -502,5 +485,50 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 		assert invariante() && categoriaPre==this && risultato>=-1 ;
 		return risultato;		
 	}
+	
+	public ArrayList<Categoria<T>> getSottocategorie() {
+
+		return sottocategorie;
+	}
+
+	
+	public String showRisorsa(int id , int sottocategoria) {
+	
+	return sottocategorie.get(sottocategoria).showRisorsa(id);
+}
+
+
+
+	public void modifica(int id, int sottocategoria) {
+
+	sottocategorie.get(sottocategoria).modifica(id);
+}
+
+
+
+	public void rimuoviRisorsa(int id, int sottocategoria) {
+
+	sottocategorie.get(sottocategoria).modifica(id);
+	
+}
+	public String[] elencoRisorse(int s) {
+
+		return sottocategorie.get(s).elencoRisorse();
+	}
+	public int scegliRisorsa(int s, int risorsaSelezionata) {
+
+		return sottocategorie.get(s).scegliRisorsa(risorsaSelezionata);
+	}
+	public void aggiungiRisorsaSottoCategoria(int sottocategoria) {
+
+
+		sottocategorie.get(sottocategoria).aggiungiRisorsa();
+	}
+	public int getId(int pos, int sottocategoria) {
+
+		return sottocategorie.get(sottocategoria).getId(pos);
+	}
+	
+
 
 }
