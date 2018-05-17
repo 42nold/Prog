@@ -792,37 +792,52 @@ public class Archivio implements Serializable {
 
 	
 	}*/
-	public void aggiungiRisorsa(int categoria) {
+	protected void aggiungiRisorsa(String[] attributiStringaFinali, int[] attributiNumericiFinali, int categoria) {
 
 
-		categorie.get(categoria).aggiungiRisorsa();
+		assert attributiStringaFinali!=null && attributiNumericiFinali != null && categoria >= 0;
+		
+		categorie.get(categoria).aggiungiRisorsa(attributiStringaFinali,attributiNumericiFinali);
 	}
+	
+	
 	public int getId( int pos, int categoria) {
 
 		return categorie.get(categoria).getId(pos);
 	}
+	
+	
 	public void modificaRisorsa(int id, int categoria,String[] nuoveStringhe, int[] nuoviInteri) {
 
 
 		categorie.get(categoria).modifica(id,nuoveStringhe,nuoviInteri);
 	}
-	public void aggiungiRisorsa(int categoria, int sottocategoria) {
 
-		categorie.get(categoria).aggiungiRisorsaSottoCategoria(sottocategoria);
-	}
+	
+	
 	public int getId(int pos, int categoria, int sottocategoria) {
 
 		return categorie.get(categoria).getId(pos,sottocategoria);
 		
 	}
 
-	public String[] getAttributiStringaRisorse(int id, int categoria) {
+	
+	
+	public String[] getAttributiStringaRisorse( int categoria) {
 
-		return categorie.get(categoria).getAttributiStringa(id);
+		return categorie.get(categoria).getAttributiStringa();
 	}
-	public String[] getAttributiNumericiRisorse(int id, int categoria) {
+	
+	
+	
+	public String[] getAttributiNumericiRisorse( int categoria) {
 
-		return categorie.get(categoria).getAttributiNumerici(id);
+		return categorie.get(categoria).getAttributiNumerici();
+	}
+	
+	public void aggiungiRisorsa(String[] attributiStringa, int[] attributiNumerici, int categoria, int sottocategoria) {
+
+		categorie.get(categoria).aggiungiRisorsa(attributiStringa, attributiNumerici,sottocategoria);
 	}
 
 	

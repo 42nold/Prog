@@ -6,6 +6,9 @@ import it.unibs.ing.mylib.InputDati;
 
 public class LibreriaContenitore extends CategoriaPrimoLivello<Libro> {
 
+	private static final int NUM_ATTRIBUTI_STRINGA = 5;
+	private static final int NUM_ATTRIBUTI_NUMERICI = 2;
+	
 	public LibreriaContenitore(String nome, int durataMassimaPrestito, int durataMassimaProroga, int termineProroga,
 			int maxRisorse, int id) {
 		super(nome, durataMassimaPrestito, durataMassimaProroga, termineProroga, maxRisorse, id);
@@ -22,21 +25,21 @@ public class LibreriaContenitore extends CategoriaPrimoLivello<Libro> {
 	}
 
 	@Override
-	public void aggiungiRisorsa() {
+	public void aggiungiRisorsa(String[] attributiStringa , int[] attributiNumerici) {
 
-		assert invarianteC();
+		assert invarianteC() && attributiStringa.length==NUM_ATTRIBUTI_STRINGA && attributiNumerici.length == NUM_ATTRIBUTI_NUMERICI+1;//+1 comprende anche il num di licenze
 		int libriPre = risorse.size();
 		int idPre = idRisorsa;
 		
-		String nome= InputDati.leggiStringaNonVuota("inserisci il nome della risorsa");
-		String gen= InputDati.leggiStringaNonVuota("inserisci il genere della risorsa");
-		String lin= InputDati.leggiStringaNonVuota("inserisci la lingua della risorsa");
-		int anno = InputDati.leggiInteroPositivo("inserisci l'anno di uscita");
-		int numLicenze = InputDati.leggiInteroPositivo("inserisci il numero di licenze");
+		String nome=attributiStringa[0];
+		String gen= attributiStringa[1];
+		String lin= attributiStringa[2];
+		int anno = attributiNumerici[0];
+		int numLicenze =  attributiNumerici[2];
 		
-		String aut= InputDati.leggiStringaNonVuota("inserisci l'autore del libro");
-		String casa= InputDati.leggiStringaNonVuota("inserisci la casa editrice del libro");
-		int pagine = InputDati.leggiInteroPositivo("inserisci il numero di pagine");
+		String aut= attributiStringa[3];
+		String casa= attributiStringa[4];
+		int pagine =  attributiNumerici[1];
 		int id = idRisorsa;
 		idRisorsa++;
 	
@@ -94,6 +97,18 @@ public class LibreriaContenitore extends CategoriaPrimoLivello<Libro> {
 				}	
 			assert invarianteC() && thisPre==this;
 			return risultato;
+	}
+
+	@Override
+	public String[] getAttributiStringa() {
+
+		return Libro.getAttributiStringa();
+	}
+
+	@Override
+	public String[] getAttributiNumerici() {
+
+		return Libro.getAttributiNumerici();
 	}
 
 }

@@ -292,14 +292,14 @@ public void setId(int id) {
 public void setNome(String nome) {
 	this.nome = nome;
 }
-public String[] getAttributiStringa() {
+public static String[] getAttributiStringa() {
 	
 	
 	String[] attributi = {"nome","genere","lingua"};
 	
 	return attributi;
 }
-public String[] getAttributiNumerici() {
+public static String[] getAttributiNumerici() {
 	
 	String[] attributi = {"anno"};
 

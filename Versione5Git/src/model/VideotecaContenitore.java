@@ -6,6 +6,10 @@ import it.unibs.ing.mylib.InputDati;
 
 public class VideotecaContenitore extends CategoriaPrimoLivello<Film>{
 
+	private static final int NUM_ATTRIBUTI_STRINGA = 5;
+	private static final int NUM_ATTRIBUTI_NUMERICI = 2;
+
+
 	public VideotecaContenitore(String nome, int durataMassimaPrestito, int durataMassimaProroga, int termineProroga,
 			int maxRisorse, int id) {
 		super(nome, durataMassimaPrestito, durataMassimaProroga, termineProroga, maxRisorse, id);
@@ -25,21 +29,22 @@ public class VideotecaContenitore extends CategoriaPrimoLivello<Film>{
 	}
 
 	@Override
-	public void aggiungiRisorsa() {
+	public void aggiungiRisorsa(String[] attributiStringa, int[] attributiNumerici) {
 
-		assert invarianteC();
+		assert invarianteC() && attributiStringa.length==NUM_ATTRIBUTI_STRINGA && attributiNumerici.length == NUM_ATTRIBUTI_NUMERICI+1;//+1 comprende anche il num di licenze
 		int libriPre = risorse.size();
 		int idPre = idRisorsa;
 		
-		String nome= InputDati.leggiStringaNonVuota("inserisci il nome della risorsa");
-		String gen= InputDati.leggiStringaNonVuota("inserisci il genere della risorsa");
-		String lin= InputDati.leggiStringaNonVuota("inserisci la lingua della risorsa");
-		int anno = InputDati.leggiInteroPositivo("inserisci l'anno di uscita");
-		int numLicenze = InputDati.leggiInteroPositivo("inserisci il numero di licenze");
+		String nome= attributiStringa[0];
+		String gen= attributiStringa[1];
+		String lin= attributiStringa[2];
+		int anno =attributiNumerici[0];
 		
-		String regista= InputDati.leggiStringaNonVuota("inserisci il regista del film");
-		String casa= InputDati.leggiStringaNonVuota("inserisci la casa di produzione del film");
-		int durata = InputDati.leggiInteroPositivo("inserisci la durata del film in minuti");
+		String regista= attributiStringa[3];
+		String casa= attributiStringa[4];
+		int durata = attributiNumerici[1];
+		int numLicenze = attributiNumerici[2];
+
 		int id = idRisorsa;
 		idRisorsa++ ;
 		
@@ -95,6 +100,20 @@ public class VideotecaContenitore extends CategoriaPrimoLivello<Film>{
 			}
 		assert invarianteC() && thisPre==this;	
 		return risultato;
+	}
+
+
+	@Override
+	public String[] getAttributiStringa() {
+		// TODO Auto-generated method stub
+		return Film.getAttributiStringa();
+	}
+
+
+	@Override
+	public String[] getAttributiNumerici() {
+		// TODO Auto-generated method stub
+		return Film.getAttributiNumerici();
 	}
 
 }

@@ -13,7 +13,7 @@ public class StoricoTest {
 
 	Storico storico = new Storico();
 
-	String[] eventi = storico.getEventi();
+	//String[] eventi = storico.getEventi();
 	
 	Calendar oggi,annoScorso,annoProssimo;
 	
@@ -29,7 +29,7 @@ public class StoricoTest {
 	}
 	
 	
-	@Test
+	/*@Test
 	public void testNumEventoAnnoSolare() {
 		
 		assert 	storico.numEventoAnnoSolare(eventi[0]," ").equals("");
@@ -63,7 +63,7 @@ public class StoricoTest {
 		}
 	
 		
-	}
+	}*/
 
 
 	@Test

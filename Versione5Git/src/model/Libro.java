@@ -160,12 +160,12 @@ public class Libro extends Risorsa {
 		
 		return invariante;
 	}
-	public String[] getAttributiStringa() {
-		String[] attributiBase = super.getAttributiStringa();
+	public static String[] getAttributiStringa() {
+		String[] attributiBase = Risorsa.getAttributiStringa();
 	
 		int numAttributiBase = attributiBase.length;
 		
-		String[] attributi = new String[numAttributiBase+2];
+	String[] attributi = new String[numAttributiBase+2];
 		
 		for(int i = 0 ; i < numAttributiBase ; i++) {
 			attributi[i]= attributiBase[i];
@@ -176,9 +176,9 @@ public class Libro extends Risorsa {
 
 		return attributi;
 	}
-	public String[] getAttributiNumerici() {
+	public static String[] getAttributiNumerici() {
 		
-		String[] attributiBase = super.getAttributiNumerici();
+		String[] attributiBase = Risorsa.getAttributiNumerici();
 		
 		int numAttributiBase = attributiBase.length;
 		

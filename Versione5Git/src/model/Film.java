@@ -133,7 +133,7 @@ public class Film extends Risorsa {
 			stringheBase[i]=nuoveStringhe[i];
 		}
 	
-		if(nuoviNumeri[nuoveStringhe.length-1] >= 0)
+		if(nuoviNumeri[nuoviNumeri.length-1] >= 0)
 		durata=nuoviNumeri[nuoviNumeri.length-1];
 		
 		int[] numeriBase = new int[nuoviNumeri.length-NUM_ATTRIBUTI_NUMERICI];
@@ -161,8 +161,8 @@ public class Film extends Risorsa {
 		;
 		return invariante;
 	}
-	public String[] getAttributiStringa() {
-		String[] attributiBase = super.getAttributiStringa();
+	public static String[] getAttributiStringa() {
+		String[] attributiBase = Risorsa.getAttributiStringa();
 	
 		int numAttributiBase = attributiBase.length;
 		
@@ -179,9 +179,9 @@ public class Film extends Risorsa {
 		return attributi;
 	}
 	
-public String[] getAttributiNumerici() {
+public static String[] getAttributiNumerici() {
 		
-		String[] attributiBase = super.getAttributiNumerici();
+		String[] attributiBase = Risorsa.getAttributiNumerici();
 		
 		int numAttributiBase = attributiBase.length;
 		

@@ -72,7 +72,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
  * @post (sizeLibri()==sizeLibri()@pre+1 || sizeFilm()==sizeFilm()@pre+1) && idRisorse()==idRisorse()@pre+1 
  * 	
  */
-	public abstract void aggiungiRisorsa() ;
+	public abstract void aggiungiRisorsa(String[] attributiStringa , int[] attributiNumerici) ;
 
 
 	
@@ -415,18 +415,8 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 		return invariante;
 	}
 
-public String[] getAttributiStringa(int id) {
+public abstract String[] getAttributiStringa() ;
 
-	if(cercaRisorsa(id)) return risorse.get(0).getAttributiStringa();
-	
-	return null;
-}
-
-public String[] getAttributiNumerici(int id) {
-
-	if(cercaRisorsa(id)) return risorse.get(0).getAttributiNumerici();
-
-	return null;
-}
+public abstract  String[] getAttributiNumerici() ;
 }
 

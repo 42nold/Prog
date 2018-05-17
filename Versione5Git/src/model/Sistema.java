@@ -650,7 +650,7 @@ public class Sistema  implements Serializable{
 					
 				case 2:
 					
-					archivio.aggiungiRisorsa(categoria,sottocategoria);
+					aggiungiRisorsaCategoria(categoria,sottocategoria);
 					break;
 				
 				case 3:
@@ -726,7 +726,7 @@ public class Sistema  implements Serializable{
 					
 				case 2:
 					
-					archivio.aggiungiRisorsa(categoria);
+					aggiungiRisorsaCategoria(categoria,-1);
 					break;
 				
 				case 3:
@@ -749,7 +749,7 @@ public class Sistema  implements Serializable{
 					if (risorsaDaModificare==0) break;
 					
 					//risorsaDaModificare -1 rappresenta l'attuale posizione nell'array della risorsa
-					modifica(archivio.getId(categoria,risorsaDaModificare-1),categoria);
+					modifica(archivio.getId(risorsaDaModificare-1,categoria),categoria);
 					
 					break;
 					
@@ -757,6 +757,98 @@ public class Sistema  implements Serializable{
 					break;				
 			}
 		}
+	}
+
+
+	private void aggiungiRisorsaCategoria(int categoria,int sottocategoria) {
+
+		String[] attributiStringa = acquisisciAttributiStringaCategoria(categoria);
+		int[] attributinumerici = acquisisciAttributiNumericiCategoria(categoria);
+		
+		if(sottocategoria==-1)
+		archivio.aggiungiRisorsa(attributiStringa, attributinumerici, categoria);
+		
+		else
+			archivio.aggiungiRisorsa(attributiStringa,attributinumerici,categoria,sottocategoria);
+			
+			
+			 
+		
+		
+		
+	}
+	private int[] acquisisciAttributiNumericiCategoria(int categoria) {
+
+		if(!archivio.categoriaHaSottoCategoria(categoria)) {
+
+			String[] attributiNumerici = archivio.getAttributiNumericiRisorse( categoria);
+
+			int[] attributiNumericiFinali = new int[attributiNumerici.length+1];
+
+			for(int i = 0 ; i<attributiNumerici.length; i++) {
+				attributiNumericiFinali[i] = view.InteroNonNegativo("inserire "+attributiNumerici[i]+" :");
+				
+			}
+			attributiNumericiFinali[attributiNumerici.length] = view.InteroNonNegativo("inserisci il numero di licenze");
+			
+			return attributiNumericiFinali;
+			
+		}
+		else  {
+		
+
+
+				String[] attributiNumerici = archivio.getAttributiNumericiRisorse( categoria);
+
+				int[] attributiNumericiFinali = new int[attributiNumerici.length+1];
+
+				for(int i = 0 ; i<attributiNumerici.length; i++) {
+					attributiNumericiFinali[i] = view.InteroNonNegativo("inserire "+attributiNumerici[i]+" :");
+					
+				}
+				attributiNumericiFinali[attributiNumerici.length] = view.InteroNonNegativo("inserisci il numero di licenze");
+				
+				return attributiNumericiFinali;
+
+		
+		
+	}
+		
+	}
+	
+	private String[] acquisisciAttributiStringaCategoria(int categoria) {
+
+		if(!archivio.categoriaHaSottoCategoria(categoria)) {
+
+			String[] attributiStringa = archivio.getAttributiStringaRisorse( categoria);
+
+			String[] attributiStringaFinali= new String[attributiStringa.length];
+
+			for(int i = 0 ; i<attributiStringa.length; i++) {
+				attributiStringaFinali[i] = view.StringaNonVuota("inserire "+attributiStringa[i]+" :");
+				
+			}
+			return attributiStringaFinali;
+			
+		}
+		else  {
+			
+							
+
+				String[] attributiStringa = archivio.getAttributiStringaRisorse( categoria);
+
+				String[] attributiStringaFinali= new String[attributiStringa.length];
+
+				for(int i = 0 ; i<attributiStringa.length; i++) {
+					attributiStringaFinali[i] = view.StringaNonVuota("inserire "+attributiStringa[i]+" :");
+					
+			
+
+		}
+				return attributiStringaFinali;
+
+	}
+		
 	}
 
 
@@ -808,8 +900,8 @@ private  void cercaPerAttributoOmode(int attributoScelto) {
 private void modifica(int id , int categoria) {
 	
 
-	String[]  attributiStringa = archivio.getAttributiStringaRisorse(id,categoria);
-	String[]  attributiNumerici = archivio.getAttributiNumericiRisorse(id,categoria);
+	String[]  attributiStringa = archivio.getAttributiStringaRisorse(categoria);
+	String[]  attributiNumerici = archivio.getAttributiNumericiRisorse(categoria);
 	
 	String[] nuoviAttributiStringa = new String[attributiStringa.length];
 	int[] nuoviAttributiNumerici = new int[+attributiNumerici.length];

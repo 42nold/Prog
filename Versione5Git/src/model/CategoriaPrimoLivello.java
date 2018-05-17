@@ -354,18 +354,7 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 		return descrizione;
 	}
 	
-/**
- * chiedi all'utente di scegliere una risorsa all'interno della categoria
- * @return l'id della risorsa scelta
- * @pre true
- * @post @nochange
- */
-	/*public int scegliRisorsa() {
-		assert invariante();
-		CategoriaPrimoLivello<T> thisPre = this;
-		
-		
-	}/*
+
 /**
  * cerca il nome della risorsa desiderata
  * @param risorsaScelta id della risorsa desiderata
@@ -521,11 +510,9 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 
 		return sottocategorie.get(s).scegliRisorsa(risorsaSelezionata);
 	}
-	public void aggiungiRisorsaSottoCategoria(int sottocategoria) {
-
-
-		sottocategorie.get(sottocategoria).aggiungiRisorsa();
-	}
+	
+	
+	
 	public int getId(int pos, int sottocategoria) {
 
 		return sottocategorie.get(sottocategoria).getId(pos);
@@ -536,19 +523,24 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 	 * @param id risorsa scelta
 	 * @return lista dei nomi degli attributi
 	 */
-	public String[] getAttributiStringa(int id) {
+	public String[] getAttributiStringa() {
 
-		if(hasRisorse()) return super.getAttributiStringa(id);
+		if(!hasSottoCategoria()) return getAttributiStringa();
 
-		return trovaSottoCategoria(id).getAttributiStringa(id);
+		return sottocategorie.get(0).getAttributiStringa();
 	}
 	
 	
 	
-	public String[] getAttributiNumerici(int id) {
+	public String[] getAttributiNumerici() {
 
-		if(hasRisorse()) return super.getAttributiNumerici(id);		
-		return trovaSottoCategoria(id).getAttributiNumerici(id);
+		if(!hasSottoCategoria()) return getAttributiNumerici();		
+		return sottocategorie.get(0).getAttributiNumerici();
+	}
+	
+	public void aggiungiRisorsa(String[] attributiStringa, int[] attributiNumerici, int sottocategoria) {
+
+		sottocategorie.get(sottocategoria).aggiungiRisorsa(attributiStringa, attributiNumerici);
 	}
 	
 
