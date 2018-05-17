@@ -44,4 +44,10 @@ public class BibliotecaView implements MyView{
 		Stampa.aVideo(BelleStringhe.incornicia(messaggio));
 	}
 
+	@Override
+	public char Char(String messaggio) {
+
+		return InputDati.leggiChar(messaggio);
+	}
+
 }

@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
 
 @SuppressWarnings("serial")
@@ -139,17 +140,23 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 /**
  * chiama modifica() sulla risorsa che corrisponde all'id immesso come parametro	
  * @param idRisorsaDaModificare
+ * @param nuoviNumeri 
+ * @param nuoveStringhe 
  * @pre true
  * @post sizeLibri()==sizeLibri()@pre && sizeFilm()==sizeFilm()@pre
  */
-	protected void modifica(int idRisorsaDaModificare) {	
+	public void modifica(int idRisorsaDaModificare, String[] nuoveStringhe, int[] nuoviNumeri) {	
 		assert invarianteC();
 		int libriPre = risorse.size();
 		
-				if(risorse.size()>0)
-					for(T l : risorse)
-						if (l.getId() == idRisorsaDaModificare) 
-							l.modifica();
+		if(risorse.size()>0)
+			for(T l : risorse)
+				if (l.getId() == idRisorsaDaModificare) 
+					{
+					
+					l.modifica(nuoveStringhe,nuoviNumeri);
+					
+					}
 			
 			
 				
@@ -157,18 +164,18 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 	}
 /**
  * rimuove la risorsa che possiede l'id specificato dal parametro in ingresso	
- * @param indice dell'id
+ * @param id dell'id
  * @true true 
  * @post librisize()+filmsize()==librisize()@pre+filmsize()@pre-1 || @nochange
  */
-	protected void rimuoviRisorsa(int indice) {		
+	protected void rimuoviRisorsa(int id) {		
 		assert invarianteC();
 		Categoria<T> thisPre = this;
 		int libriPre = risorse.size();
 		
 		
 				for(int i=0; i <risorse.size();i++)
-					if (risorse.get(i).getId() == indice) {
+					if (risorse.get(i).getId() == id) {
 						Storico.risorsaEliminata(risorse.get(i).getId());
 						risorse.remove(i);
 					}
@@ -407,5 +414,19 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 		
 		return invariante;
 	}
+
+public String[] getAttributiStringa(int id) {
+
+	if(cercaRisorsa(id)) return risorse.get(0).getAttributiStringa();
+	
+	return null;
+}
+
+public String[] getAttributiNumerici(int id) {
+
+	if(cercaRisorsa(id)) return risorse.get(0).getAttributiNumerici();
+
+	return null;
+}
 }
 

@@ -673,7 +673,7 @@ public class Sistema  implements Serializable{
 					if (risorsaDaModificare==0) break;
 					
 					//risorsaDaModificare -1 rappresenta l'attuale posizione nell'array della risorsa
-					archivio.modificaRisorsa(archivio.getId(risorsaDaModificare-1,categoria,sottocategoria),categoria,sottocategoria);
+					modifica(archivio.getId(risorsaDaModificare-1,categoria,sottocategoria),categoria);
 					
 					break;
 					
@@ -749,7 +749,7 @@ public class Sistema  implements Serializable{
 					if (risorsaDaModificare==0) break;
 					
 					//risorsaDaModificare -1 rappresenta l'attuale posizione nell'array della risorsa
-					archivio.modificaRisorsa(archivio.getId(categoria,risorsaDaModificare-1),categoria);
+					modifica(archivio.getId(categoria,risorsaDaModificare-1),categoria);
 					
 					break;
 					
@@ -805,6 +805,55 @@ private  void cercaPerAttributoOmode(int attributoScelto) {
 	}
 	}
 
+private void modifica(int id , int categoria) {
+	
+
+	String[]  attributiStringa = archivio.getAttributiStringaRisorse(id,categoria);
+	String[]  attributiNumerici = archivio.getAttributiNumericiRisorse(id,categoria);
+	
+	String[] nuoviAttributiStringa = new String[attributiStringa.length];
+	int[] nuoviAttributiNumerici = new int[+attributiNumerici.length];
+	
+	int i=0;
+	
+	for(String s : attributiStringa) {
+		
+		char modificaNome = view.Char("vuoi modificare "+s+" ? (s/n)");
+		
+		if(modificaNome=='s'||modificaNome=='S') {
+		
+			String nomeNuovo= view.StringaNonVuota("inserisci il nuovo valore");
+		
+			nuoviAttributiStringa[i]=nomeNuovo;
+		}	
+		
+		else nuoviAttributiStringa[i]= null;
+
+		i++;
+	}
+	
+	i=0;
+	
+for(String s : attributiNumerici) {
+		
+		char modificaNome = view.Char("vuoi modificare "+s+" ? (s/n)");
+		
+		if(modificaNome=='s'||modificaNome=='S') {
+		
+			int valoreNuovo= view.InteroNonNegativo("inserisci il nuovo valore");
+		
+			nuoviAttributiNumerici[i]=valoreNuovo;
+		}	
+		else 			nuoviAttributiNumerici[i]= -1;
+
+		i++;
+	}
+
+	archivio.modificaRisorsa(id,categoria,nuoviAttributiStringa,nuoviAttributiNumerici);
+	
+}
+
+
 
 private void azioneDaRicerca(int id, int eliMod) {
 
@@ -818,7 +867,7 @@ private void azioneDaRicerca(int id, int eliMod) {
 				view.notify(archivio.showRisorsa(id,c));
 				break;
 			case 2:
-				archivio.modifica(id,c);
+				modifica(id,c);
 				break;
 			case 3:
 				archivio.rimuoviRisorsa(id,c);
@@ -836,7 +885,7 @@ private void azioneDaRicerca(int id, int eliMod) {
 				view.notify(archivio.showRisorsa(id,c,s));
 				break;
 			case 2:
-				archivio.modifica(id,c,s);
+				modifica(id,c);
 				break;
 			case 3:
 				archivio.rimuoviRisorsa(id,c,s);

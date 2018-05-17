@@ -499,16 +499,18 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 
 
 
-	public void modifica(int id, int sottocategoria) {
+	public void modifica(int id,String[] nuoveStringhe, int[] nuoviNumeri) {
 
-	sottocategorie.get(sottocategoria).modifica(id);
+		if(hasRisorse() && cercaRisorsa(id)) super.modifica(id,nuoveStringhe,nuoviNumeri);
+	
+		if(hasSottoCategoria()) trovaSottoCategoria(id).modifica(id,nuoveStringhe,nuoviNumeri);
 }
 
 
 
 	public void rimuoviRisorsa(int id, int sottocategoria) {
 
-	sottocategorie.get(sottocategoria).modifica(id);
+	sottocategorie.get(sottocategoria).rimuoviRisorsa(id);
 	
 }
 	public String[] elencoRisorse(int s) {
@@ -527,6 +529,26 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 	public int getId(int pos, int sottocategoria) {
 
 		return sottocategorie.get(sottocategoria).getId(pos);
+	}
+	
+	/**
+	 * ritorna una lista degli attributi delle risorse contenute nella categoria
+	 * @param id risorsa scelta
+	 * @return lista dei nomi degli attributi
+	 */
+	public String[] getAttributiStringa(int id) {
+
+		if(hasRisorse()) return super.getAttributiStringa(id);
+
+		return trovaSottoCategoria(id).getAttributiStringa(id);
+	}
+	
+	
+	
+	public String[] getAttributiNumerici(int id) {
+
+		if(hasRisorse()) return super.getAttributiNumerici(id);		
+		return trovaSottoCategoria(id).getAttributiNumerici(id);
 	}
 	
 

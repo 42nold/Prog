@@ -755,11 +755,7 @@ public class Archivio implements Serializable {
 
 		return categorie.get(c).showRisorsa(id);
 	}
-	public void modifica(int id, int c) {
 
-
-		categorie.get(c).modifica(id);
-	}
 	public void rimuoviRisorsa(int id, int c) {
 
 
@@ -772,10 +768,7 @@ public class Archivio implements Serializable {
 	public String showRisorsa(int id, int c, int s) {
 		return categorie.get(c).showRisorsa(id,s);
 	}
-	public void modifica(int id, int c, int s) {
-
-		categorie.get(c).modifica(id,s);		
-	}
+	
 	public void rimuoviRisorsa(int id, int c, int s) {
 
 		categorie.get(c).rimuoviRisorsa(id,s);		
@@ -808,10 +801,10 @@ public class Archivio implements Serializable {
 
 		return categorie.get(categoria).getId(pos);
 	}
-	public void modificaRisorsa(int id, int categoria) {
+	public void modificaRisorsa(int id, int categoria,String[] nuoveStringhe, int[] nuoviInteri) {
 
 
-		categorie.get(categoria).modifica(id);
+		categorie.get(categoria).modifica(id,nuoveStringhe,nuoviInteri);
 	}
 	public void aggiungiRisorsa(int categoria, int sottocategoria) {
 
@@ -822,9 +815,14 @@ public class Archivio implements Serializable {
 		return categorie.get(categoria).getId(pos,sottocategoria);
 		
 	}
-	public void modificaRisorsa(int id, int categoria, int sottocategoria) {
 
-		categorie.get(categoria).modifica(id, sottocategoria);
+	public String[] getAttributiStringaRisorse(int id, int categoria) {
+
+		return categorie.get(categoria).getAttributiStringa(id);
+	}
+	public String[] getAttributiNumericiRisorse(int id, int categoria) {
+
+		return categorie.get(categoria).getAttributiNumerici(id);
 	}
 
 	

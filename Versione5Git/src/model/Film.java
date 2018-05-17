@@ -9,6 +9,8 @@ public class Film extends Risorsa {
 	/**
 	 * @invariant invariante()
 	 */
+	private final static int NUM_ATTRIBUTI_NUMERICI = 1;
+	private final static int NUM_ATTRIBUTI_STRINGA = 3;
 	private String regista;
 	private String casaProduzione;
 	private String dataUscita; 
@@ -115,40 +117,32 @@ public class Film extends Risorsa {
 	 * @pre true
 	 * @post true	
 	 */	
-	public void modifica() {
-		assert invariante();
+	public void modifica(String[] nuoveStringhe, int[] nuoviNumeri) {
+		assert invariante() && nuoveStringhe.length>=NUM_ATTRIBUTI_STRINGA && nuoviNumeri.length>=NUM_ATTRIBUTI_NUMERICI;
+		if(nuoveStringhe[nuoveStringhe.length-1] != null)
+		dataUscita= nuoveStringhe[nuoveStringhe.length-1];
 		
-		super.modifica();
+		if(nuoveStringhe[nuoveStringhe.length-2] != null)
+		casaProduzione= nuoveStringhe[nuoveStringhe.length-2];	
 		
-		String domanda = "vuoi modificare ";
+		if(nuoveStringhe[nuoveStringhe.length-3] != null)
+		regista= nuoveStringhe[nuoveStringhe.length-3];
 		
-		char modificaRegista = InputDati.leggiChar(domanda+"il regista ? (s/n)");
+		String[] stringheBase = new String[nuoveStringhe.length-NUM_ATTRIBUTI_STRINGA];
+		for(int i=0;i<stringheBase.length ; i++) {
+			stringheBase[i]=nuoveStringhe[i];
+		}
+	
+		if(nuoviNumeri[nuoveStringhe.length-1] >= 0)
+		durata=nuoviNumeri[nuoviNumeri.length-1];
 		
-		if(modificaRegista=='s'||modificaRegista=='S') {
-
-			String regNuovo= InputDati.leggiStringaNonVuota("inserisci il nuovo regista del film");
-		  
-			regista=regNuovo;
-
+		int[] numeriBase = new int[nuoviNumeri.length-NUM_ATTRIBUTI_NUMERICI];
+		for(int i=0;i<numeriBase.length ; i++) {
+			numeriBase[i]=nuoviNumeri[i];
 		}
 		
-		char modificaCasa = InputDati.leggiChar(domanda+"la casa di produzione ? (s/n)");
 		
-		if(modificaCasa=='s'||modificaCasa=='S') {
-
-			String casaNuovo= InputDati.leggiStringaNonVuota("inserisci la nuova casa di produzione del film");
-		
-			casaProduzione=casaNuovo;
-
-		}
-		
-		char modificaDurata = InputDati.leggiChar(domanda+"la durata del film ? (s/n)");
-		
-		if(modificaDurata=='s'||modificaDurata=='S') {
-
-			int durataNuovo = InputDati.leggiInteroPositivo("inserisci la nuova durata in minuti del film");		
-			durata=durataNuovo;
-		}
+		super.modifica(stringheBase,numeriBase);
 		assert invariante();
 	}
 	/**
@@ -164,7 +158,41 @@ public class Film extends Risorsa {
 		if(super.invarianteR() && regista!=null && casaProduzione!=null && durata>0 && dataUscita!=null) invariante=true ;
 
 		assert filmPre==this;
-		
+		;
 		return invariante;
+	}
+	public String[] getAttributiStringa() {
+		String[] attributiBase = super.getAttributiStringa();
+	
+		int numAttributiBase = attributiBase.length;
+		
+		String[] attributi = new String[numAttributiBase+NUM_ATTRIBUTI_STRINGA];
+		
+		for(int i = 0 ; i < numAttributiBase ; i++) {
+			attributi[i]= attributiBase[i];
+		}
+		
+		attributi[numAttributiBase]="regista";
+		attributi[numAttributiBase+1]="casa di Produzione";
+		attributi[numAttributiBase+2]="data di Uscita";
+
+		return attributi;
+	}
+	
+public String[] getAttributiNumerici() {
+		
+		String[] attributiBase = super.getAttributiNumerici();
+		
+		int numAttributiBase = attributiBase.length;
+		
+		String[] attributi = new String[numAttributiBase+NUM_ATTRIBUTI_NUMERICI];
+		
+		for(int i = 0 ; i < numAttributiBase ; i++) {
+			attributi[i]= attributiBase[i];
+		}
+		
+		attributi[numAttributiBase]="durata film";
+
+		return attributi;
 	}
 }

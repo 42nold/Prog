@@ -10,6 +10,8 @@ public abstract class Risorsa implements Serializable{
 	 * classe astratta che definisce le operazioni esseziali eseguibili su ogni tipo di risorsa contenuta in archivio
 	 * @invariant invariante()
 	 */
+	private final static int NUM_ATTRIBUTI_NUMERICI = 1;
+	private final static int NUM_ATTRIBUTI_STRINGA = 3 ;
 	protected int id;
 	protected String nome;	
 	protected String genere;
@@ -109,10 +111,20 @@ public abstract class Risorsa implements Serializable{
  * @pre true
  * @post true
  */
-	public void modifica(String nuovoNome) {
-		assert invarianteR();
+	public void modifica(String[] nuoveStringhe, int[] nuoviNumeri) {
+		assert invarianteR() && nuoveStringhe.length==NUM_ATTRIBUTI_STRINGA && nuoviNumeri.length==NUM_ATTRIBUTI_NUMERICI;
 
-		nome=nuovoNome;		
+		if(nuoveStringhe[0]!= null)
+			nome=nuoveStringhe[0];	
+
+		if(nuoveStringhe[1]!= null)
+			genere=nuoveStringhe[1];
+
+		if(nuoveStringhe[2]!= null)
+			lingua=nuoveStringhe[2];
+
+		if(nuoviNumeri[0] >= 0)
+			anno=nuoviNumeri[0];
 
 		assert invarianteR();
 	}
@@ -223,59 +235,7 @@ public abstract class Risorsa implements Serializable{
 	public int getNumLicenze() {
 		return numeroLicenze;
 	}
-	/**
-	 * chiede all'utente quali campi della risorsa vuole modificare ed i rispettivi nuovi  valori , poi esegue le modifiche
-	 * @pre true
-	 * @post true
-	 */
-	public void modifica() {
-		assert invarianteR();
-	
-		String domanda = "vuoi modificare ";
-		
-		char modificaNome = InputDati.leggiChar(domanda+"il nome ? (s/n)");
-		
-		if(modificaNome=='s'||modificaNome=='S') {
-		
-			String nomeNuovo= InputDati.leggiStringaNonVuota("inserisci il nuovo nome della risorsa");
-		
-			nome=nomeNuovo;
-		}			
-		
-		char modificaGenere = InputDati.leggiChar(domanda+"il genere ? (s/n)");
-		
-		if(modificaGenere=='s'||modificaGenere=='S') {
 
-			String genNuovo= InputDati.leggiStringaNonVuota("inserisci il nuovo genere della risorsa");
-			genere=genNuovo;
-		}
-		
-		char modificaLingua = InputDati.leggiChar(domanda+"la lingua ? (s/n)");
-		
-		if(modificaLingua=='s'||modificaLingua=='S') {
-
-			String linNuovo= InputDati.leggiStringaNonVuota("inserisci la nuova lingua della risorsa");
-			lingua=linNuovo;
-		}
-		
-		char modificaAnno = InputDati.leggiChar(domanda+"l'anno di uscita ? (s/n)");
-		
-		if(modificaAnno=='s'||modificaAnno=='S') {
-
-			int annoNuovo = InputDati.leggiInteroPositivo("inserisci il nuovo anno di uscita");
-			anno=annoNuovo;
-		}
-		
-		char modificaLicenze = InputDati.leggiChar(domanda+"il numero di licenze ? (s/n)");
-		
-		if(modificaLicenze=='s'||modificaLicenze=='S') {
-
-			int licenzeNuovo = InputDati.leggiInteroPositivo("inserisci il nuovo numero di licenze");		
-			numeroLicenze=licenzeNuovo;
-		}
-		
-		assert invarianteR();
-	}
 /**
  * verifica che le proprietà invarianti della classe siano rispettate
  * @pre true
@@ -292,4 +252,57 @@ public abstract class Risorsa implements Serializable{
 		
 		return invariante;
 	}
+
+public String getGenere() {
+	return genere;
+}
+
+public void setGenere(String genere) {
+	this.genere = genere;
+}
+
+public String getLingua() {
+	return lingua;
+}
+
+public void setLingua(String lingua) {
+	this.lingua = lingua;
+}
+
+public int getNumeroLicenze() {
+	return numeroLicenze;
+}
+
+public void setNumeroLicenze(int numeroLicenze) {
+	this.numeroLicenze = numeroLicenze;
+}
+
+public int getAnno() {
+	return anno;
+}
+
+public void setAnno(int anno) {
+	this.anno = anno;
+}
+
+public void setId(int id) {
+	this.id = id;
+}
+
+public void setNome(String nome) {
+	this.nome = nome;
+}
+public String[] getAttributiStringa() {
+	
+	
+	String[] attributi = {"nome","genere","lingua"};
+	
+	return attributi;
+}
+public String[] getAttributiNumerici() {
+	
+	String[] attributi = {"anno"};
+
+	return attributi;
+}
 }

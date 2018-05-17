@@ -21,6 +21,8 @@ public interface MyView {
 	public void notify(String string);
 
 	public void incornicia(String messaggioErrore);
+
+	public char Char(String string);
 	
 	
 	

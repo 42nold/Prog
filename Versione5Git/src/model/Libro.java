@@ -5,6 +5,8 @@ import it.unibs.ing.mylib.InputDati;
 @SuppressWarnings("serial")
 public class Libro extends Risorsa {
 	
+	private static final int NUM_ATTRIBUTI_NUMERICI = 1;
+	private static final int NUM_ATTRIBUTI_STRINGA = 2;
 	/**
 	 * @invariant invariante()
 	 */
@@ -114,42 +116,32 @@ public class Libro extends Risorsa {
  * @pre true
  * @post true	
  */
-	public void modifica() {
-		assert invariante() ;
-
-		super.modifica();
+	public void modifica(String[] nuoveStringhe, int[] nuoviNumeri) {
+		assert invariante() && nuoveStringhe.length>=NUM_ATTRIBUTI_STRINGA && nuoviNumeri.length>=NUM_ATTRIBUTI_NUMERICI;
 		
-		String domanda = "vuoi modificare ";
+		if(nuoveStringhe[nuoveStringhe.length-1] != null)
+		casaEditrice= nuoveStringhe[nuoveStringhe.length-1];
 		
-		char modificaAutore = InputDati.leggiChar(domanda+"l'autore ? (s/n)");
+		if(nuoveStringhe[nuoveStringhe.length-2] != null)
+		autore= nuoveStringhe[nuoveStringhe.length-2];	
 		
-		if(modificaAutore=='s'||modificaAutore=='S') {
-
-			
-			String autNuovo= InputDati.leggiStringaNonVuota("inserisci il nuovo autore del libro");
-		  
-			autore=autNuovo;
-
+	
+		
+		String[] stringheBase = new String[nuoveStringhe.length-NUM_ATTRIBUTI_STRINGA];
+		for(int i=0;i<stringheBase.length ; i++) {
+			stringheBase[i]=nuoveStringhe[i];
+		}
+	
+		if(nuoviNumeri[nuoviNumeri.length-1] >= 0)
+		numeroPagine=nuoviNumeri[nuoviNumeri.length-1];
+		
+		int[] numeriBase = new int[nuoviNumeri.length-NUM_ATTRIBUTI_NUMERICI];
+		for(int i=0;i<numeriBase.length ; i++) {
+			numeriBase[i]=nuoviNumeri[i];
 		}
 		
-		char modificaCasa = InputDati.leggiChar(domanda+"la casa editrice ? (s/n)");
 		
-		if(modificaCasa=='s'||modificaCasa=='S') {
-
-			String casaNuovo= InputDati.leggiStringaNonVuota("inserisci la nuova casa editrice del libro");
-		
-			casaEditrice=casaNuovo;
-
-		}
-		
-		char modificaPagine = InputDati.leggiChar(domanda+"il numero di pagine ? (s/n)");
-		
-		if(modificaPagine=='s'||modificaPagine=='S') {
-
-			int pagineNuovo = InputDati.leggiInteroPositivo("inserisci il nuovo numero di pagine");		
-			numeroPagine=pagineNuovo;
-		}
-		
+		super.modifica(stringheBase,numeriBase);
 		assert invariante();
 	}
 	/**
@@ -167,5 +159,37 @@ public class Libro extends Risorsa {
 		assert libroPre==this;
 		
 		return invariante;
+	}
+	public String[] getAttributiStringa() {
+		String[] attributiBase = super.getAttributiStringa();
+	
+		int numAttributiBase = attributiBase.length;
+		
+		String[] attributi = new String[numAttributiBase+2];
+		
+		for(int i = 0 ; i < numAttributiBase ; i++) {
+			attributi[i]= attributiBase[i];
+		}
+		
+		attributi[numAttributiBase]="autore";
+		attributi[numAttributiBase+1]="casa editrice";
+
+		return attributi;
+	}
+	public String[] getAttributiNumerici() {
+		
+		String[] attributiBase = super.getAttributiNumerici();
+		
+		int numAttributiBase = attributiBase.length;
+		
+		String[] attributi = new String[numAttributiBase+1];
+		
+		for(int i = 0 ; i < numAttributiBase ; i++) {
+			attributi[i]= attributiBase[i];
+		}
+		
+		attributi[numAttributiBase]="numero di pagine";
+
+		return attributi;
 	}
 }
