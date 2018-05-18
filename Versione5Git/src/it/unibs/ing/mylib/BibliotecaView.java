@@ -38,16 +38,23 @@ public class BibliotecaView implements MyView{
 		Stampa.aVideo(string);
 	}
 
-	@Override
-	public void incornicia(String messaggio) {
-
-		Stampa.aVideo(BelleStringhe.incornicia(messaggio));
-	}
-
+	
 	@Override
 	public char Char(String messaggio) {
 
 		return InputDati.leggiChar(messaggio);
+	}
+
+	@Override
+	public String incornicia(String messaggio) {
+
+		return BelleStringhe.incornicia(messaggio);
+	}
+
+	@Override
+	public boolean yesOrNo(String riprova) {
+		
+		return InputDati.yesOrNo(riprova);
 	}
 
 }

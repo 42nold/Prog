@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.Evento;
-import model.Sistema;
+import model.Controller;
 import model.Storico;
 
 public class StoricoTest {
@@ -69,7 +69,6 @@ public class StoricoTest {
 	@Test
 	public void testRisorsaPiuPrestata() {
 
-	Sistema sistema = new Sistema();
 	
     storico.nuovoPrestito(1,5,"a");
 	

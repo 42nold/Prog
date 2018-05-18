@@ -20,9 +20,11 @@ public interface MyView {
 
 	public void notify(String string);
 
-	public void incornicia(String messaggioErrore);
+	public String incornicia(String messaggioErrore);
 
 	public char Char(String string);
+
+	public boolean yesOrNo(String riprova);
 	
 	
 	

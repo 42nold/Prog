@@ -4,96 +4,25 @@ package model;
 
 import java.io.Serializable;
 
-import it.unibs.ing.mylib.BelleStringhe;
-import it.unibs.ing.mylib.InputDati;
-import it.unibs.ing.mylib.MyMenu;
-import it.unibs.ing.mylib.Stampa;
+import it.unibs.ing.mylib.BibliotecaView;
 
-@SuppressWarnings("serial")
+
+
 public class AppMain implements Serializable{
 	
-	private static final String INPUT_USERNAME = "Inserire username -> ";
-	private static final String INPUT_PASSWORD = "Inserire password -> ";
-	private static final String ERRORE = "Username o password sabliata!!!";
-	private static final String RIPROVA = "Voi riprovare il login?";
-	private static final String TITOLO = "Scegli tra le seguenti opzioni";
-	private static final String[] voci = {"Login","Registrati"};
-	private static final String MESSAGGIO_ERRORE = "Scelta non valida";
-	private static final String ARRIVEDERCI = "Arrivederci";
-	
+
 
 	public static void main(String[] args){
 		
-		Sistema sistema = new Sistema();
+		
 
-		sistema.importaFruitoriOperatori();//caricare fruitori e operatori da file a inizio sessione
-		sistema.importaArchivio();//importa archivio da file 
-		sistema.eliminaDecaduti();//cerco decaduti a inizio di ogni sessione
-		sistema.eliminaPrestitiScaduti();
-		sistema.idCorrente();		
-		System.out.println("Benvenuto  questo � il mio commit");
+		BibliotecaView view = new BibliotecaView();
 		
-		MyMenu menuPrincipale = new MyMenu(TITOLO, voci);
-		int scelta;
-		String username;
+		Model model = new Model() ;
 		
-		do {
-			scelta = menuPrincipale.scegli();
-			
-			
-			switch (scelta) {
-				case 0:
-					break;
-					
-				case 1:
-					login(sistema);
-					break;
-				
-				case 2:
-					username = Sistema.iscrizioneFruitore();
-					 if (username != "") {
-						sistema.usaFruitore(username);
-					}
-					break;
-					
-				default:
-					Stampa.aVideo(MESSAGGIO_ERRORE);
-					break;
-			}
-			
-		} while (scelta != 0);
+		Controller controller = new Controller(model,view);
 		
+		controller.start();
 		
-		
-		Sistema.salvaFruitoriOperatori();//salvare fruitori e Operatori a fine sessione su file
-		Sistema.salvaArchivio();        //salvaArchivio su file
-		
-		Stampa.aVideo(BelleStringhe.incornicia(ARRIVEDERCI));
-	}
-	
-	public static void login(Sistema sistema) {
-		boolean finito = false;
-		boolean continua = true;
-		String username, password;
-		
-		do {
-			username = InputDati.leggiStringaNonVuota(INPUT_USERNAME);
-			password = InputDati.leggiStringaNonVuota(INPUT_PASSWORD);
-			
-			if (Sistema.cercaFruitore(username, password)) {
-				sistema.usaFruitore(username);
-				finito = true;
-			}else {
-				if(Sistema.cercaOperatore(username, password)) {
-					sistema.usaOperatore(username);
-					finito = true;
-				}else {
-					Stampa.aVideo(BelleStringhe.rigaIsolata(ERRORE));
-					continua = InputDati.yesOrNo(RIPROVA);
-					if (!continua)
-						return;
-				}
-			}
-		}while(!finito);
 	}
 }
