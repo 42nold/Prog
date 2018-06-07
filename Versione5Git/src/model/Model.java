@@ -1,63 +1,24 @@
 package model;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Calendar;
-
-import it.unibs.ing.mylib.BelleStringhe;
-import it.unibs.ing.mylib.InputDati;
-import it.unibs.ing.mylib.MyMenu;
-import it.unibs.ing.mylib.ServizioFile;
-import it.unibs.ing.mylib.Stampa;
+import java.io.*;
+import java.util.*;
+import it.unibs.ing.mylib.*;
 
 public class Model {
-
 	private static final String NOMEFILEFRUITORI = "Fruitori.dat";
 	private static final String NOMEFILEOPERATORI = "Operatori.dat";
 	
-	private static final String TITOLO_MENU_GESTIONERISORSA= "Opzioni disponibili";
-	private static final String[] OPZIONI = {"visualizza risorse","aggiungi risorsa","elimina risorsa","modifica risorsa"} ;
-	
-	private static final String TITOLO_MENU_FRUITORE = "Menu Fruitore";
-	private static final String[] vociMenuFruitore = {"Visualizza Prestiti", "Richiedi prestito", "Rinnova prestito", "Rinnovo iscrizione"};
-	
-	private static final String TITOLO_SELEZIONA_ATTRIBUTO = "Scegli attributo con cui filtrare la ricerca";
-	private static final String[] vociMenuSelezionaAttributo = {"Nome","Autore/Regista","Casa editrice/Casa Di produzione","Genere","Lingua","Anno di pubblicazione","Numero di pagine", "Durata"};
-	
-	private static final String TITOLO_MENU_PRESTITO = "Scegli come desideri cercare la risorsa da aggiungere.";
-	private static final String[] opzioniDiricerca = {"Ricerca per attributo", "Ricerca navigando l'archivio"};
-	private static final String TITOLO_CATEGORIA = "Scegli la categoria";
-	private static final String TITOLO_SOTTOCATEGORIA = "Scegli la sottocategoria";
-	private static final String TITOLO_RISORSE = "Scegli la risorsa da selezionare";
-
-	private static final String MESSAGGIO_ERRORE = "Scelta non valida";
-	private static final String TITOLO_MENU_OPERATORE = "Menu Operatore.";
-	private static final String[] VOCI_MENU_OPERATORE = {"Visualizza dati fruitori", "Visualizza dati e prestiti dei fruitori", "Apri archivio","visualizza storico"};
-	private static final String[] OPZIONI_MENU_RICERCA = {"Esplora archivio", "Ricerca per attributo"};
-	private static final String MESSAGGIO_PRESTITO_NON_CONCESSO = "Non si pu� ottenere questa risorsa in prestito";
-	private static final String NO_IN_SCADENZA = "Non ci sono prestiti in scadenza";
-	private static final String TITOLO_IN_SCADENZA = "Ecco i prestiti in scadenza";
-	private static final String BUON_FINE = "Operazione eseguita correttamente";
-	private static final String TITOLO_MENU_STORICO = "scegli l'opzione desiderata";
-	private static final String[] vociMenuStorico = {"visualizza storico completo","visualizza numero prestiti per anno solare","visualizza numero proroghe per anno solare","visualizza risorsa prestata pi� volte per anno solare","visualizza i prestiti per fruitore per anno solare"};
-	private static final String TITOLO_ELI_O_MOD = "seleziona l'azione desiderata";
-	private static final String[] OPZIONI_ELI_O_MOD = {"visualizza", "modifica", "elimina"};
-	
 	private Archivio archivio;
-	
 	private static ArrayList<Operatore> operatori;
-	
 	private static ArrayList<Fruitore> fruitori; 
 	
 	public Model() {
-		
 		archivio = new Archivio();
 		operatori = new ArrayList<Operatore>();
 		fruitori = new ArrayList<Fruitore>();
-		
 	}
 
-private  boolean invariante() {
+	private  boolean invariante() {
 		
 		boolean invariante = false ;
 		ArrayList<Operatore> operatoriPre = operatori ;
