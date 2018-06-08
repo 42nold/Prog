@@ -98,13 +98,14 @@ public class Fruitore extends Utente implements Serializable{
 		
 		return -1;
 	}
-/**
- * verifica se la risorsa in ingresso � gi� stata presa in prestito
- * @pre risorsa>=0
- * @post @nochange	
- * @param risorsa id della risorsa 
- * @return true se la risorsa � gi� tra i prestiti attivi 
- */
+	
+	/**
+	 * verifica se la risorsa in ingresso � gi� stata presa in prestito
+	 * @pre risorsa>=0
+	 * @post @nochange	
+	 * @param risorsa id della risorsa 
+	 * @return true se la risorsa � gi� tra i prestiti attivi 
+	 */
 	public boolean giaPresente(int risorsa) {
 		assert invariante() && risorsa>=0 ;
 		Fruitore fruitorePre = this;

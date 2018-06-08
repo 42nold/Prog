@@ -4,45 +4,56 @@
 package test;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
-
+import java.util.*;
+import model.*;
 /**
  * @author Arnold
  *
  */
-public class FruitoreTest {
-
-	/**
-	 * Test method for {@link model.Fruitore#toString()}.
-	 */
-	@Test
-	public void testToString() {
-		fail("Not yet implemented");
+public class FruitoreTest{
+	
+	Calendar iscrizioneIscrizione = Calendar.getInstance();
+	Calendar scandezaIscrizione = Calendar.getInstance();
+	
+	Calendar inizioPrestito1 = Calendar.getInstance();
+	Calendar finePrestito1 = Calendar.getInstance();
+	
+	Calendar inizioPrestito2 = Calendar.getInstance();
+	Calendar finePrestito2 = Calendar.getInstance();
+	
+	public void setUpDate(){
+		iscrizioneIscrizione.set(2018, 0, 1);
+		scandezaIscrizione.set(2023, 0, 1);
+		
+		inizioPrestito1.set(2018, 5, 7);
+		finePrestito1.set(2018, 6, 7);
+		
+		inizioPrestito2.set(2018, 4, 7);
+		finePrestito2.set(2018, 5, 7);
 	}
-
-	/**
-	 * Test method for {@link model.Fruitore#Fruitore(java.lang.String, java.lang.String, int, java.lang.String, java.lang.String, java.util.Calendar, java.util.Calendar)}.
-	 */
-	@Test
-	public void testFruitore() {
-		fail("Not yet implemented");
+	
+	Fruitore fru = new Fruitore("nome", "cognome", 20, "a", "a", iscrizioneIscrizione, scandezaIscrizione);
+	Prestito pre1 = new Prestito(1, 1, "Prestito1", inizioPrestito1, finePrestito1, 30, 5);
+	Prestito pre2 = new Prestito(2, 2, "Prestito2", inizioPrestito2, finePrestito2, 30, 5);
+	
+	public void setUpFruitore(){
+		ArrayList<Prestito> prestiti = new ArrayList<Prestito>();
+		prestiti.add(pre1);
+		prestiti.add(pre2);
+		
+		fru.setPrestiti(prestiti);
 	}
-
-	/**
-	 * Test method for {@link model.Fruitore#setIdPrestito()}.
-	 */
-	@Test
-	public void testSetIdPrestito() {
-		fail("Not yet implemented");
-	}
-
+	
 	/**
 	 * Test method for {@link model.Fruitore#giaPresente(int)}.
 	 */
 	@Test
 	public void testGiaPresente() {
-		fail("Not yet implemented");
+		setUpDate();
+		setUpFruitore();
+		
+		assertFalse(fru.giaPresente(1)); // qui fallisce sia se fai assert true che assert false;
 	}
 
 	/**
