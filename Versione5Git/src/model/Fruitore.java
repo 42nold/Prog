@@ -1,8 +1,7 @@
 package model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.io.*;
+import java.util.*;
 
 @SuppressWarnings("serial")
 public class Fruitore extends Utente implements Serializable{
@@ -13,6 +12,7 @@ public class Fruitore extends Utente implements Serializable{
 	private Calendar data_iscrizione;
 	private Calendar data_scadenza;
 	private ArrayList<Prestito> prestiti;
+	
 	/**
 	 * istanzia la classe Fruitore
 	 * @param _nome
@@ -38,12 +38,13 @@ public class Fruitore extends Utente implements Serializable{
 		}
 		assert invariante();
 	}
-/**
- * verifica che le invarianti di classe siano verificate
- * @pre  true
- * @post @nochange
- * @return true se le invarianti sono verificate
- */
+	
+	/**
+	 * verifica che le invarianti di classe siano verificate
+	 * @pre  true
+	 * @post @nochange
+	 * @return true se le invarianti sono verificate
+	 */
 	private boolean invariante() {
 		Fruitore fruitorePre = this;
 		
@@ -97,13 +98,14 @@ public class Fruitore extends Utente implements Serializable{
 		
 		return -1;
 	}
-/**
- * verifica se la risorsa in ingresso � gi� stata presa in prestito
- * @pre risorsa>=0
- * @post @nochange	
- * @param risorsa id della risorsa 
- * @return true se la risorsa � gi� tra i prestiti attivi 
- */
+	
+	/**
+	 * verifica se la risorsa in ingresso � gi� stata presa in prestito
+	 * @pre risorsa>=0
+	 * @post @nochange	
+	 * @param risorsa id della risorsa 
+	 * @return true se la risorsa � gi� tra i prestiti attivi 
+	 */
 	public boolean giaPresente(int risorsa) {
 		assert invariante() && risorsa>=0 ;
 		Fruitore fruitorePre = this;

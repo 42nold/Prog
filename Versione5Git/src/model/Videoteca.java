@@ -2,8 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-import it.unibs.ing.mylib.InputDati;
-
+@SuppressWarnings("serial")
 public class Videoteca extends Categoria<Film>{
 
 	private static final int NUM_ATTRIBUTI_STRINGA = 5;

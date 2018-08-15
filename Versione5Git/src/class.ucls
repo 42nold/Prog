@@ -73,16 +73,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="model.Videoteca" project="ProgMaster" 
-    file="/ProgMaster/Versione5Git/src/model/Videoteca.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="102" x="1205" y="-1981"/>    
-    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="10" language="java" name="model.Evento" project="ProgMaster" 
+  <class id="9" language="java" name="model.Evento" project="ProgMaster" 
     file="/ProgMaster/Versione5Git/src/model/Evento.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="53" width="99" x="366" y="-1902"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -91,7 +82,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="model.LibreriaContenitore" project="ProgMaster" 
+  <class id="10" language="java" name="model.LibreriaContenitore" project="ProgMaster" 
     file="/ProgMaster/Versione5Git/src/model/LibreriaContenitore.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="53" width="146" x="530" y="-1972"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -100,7 +91,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="12" language="java" name="model.Operatore" project="ProgMaster" 
+  <class id="11" language="java" name="model.Operatore" project="ProgMaster" 
     file="/ProgMaster/Versione5Git/src/model/Operatore.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="53" width="116" x="785" y="-2233"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -109,7 +100,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="model.Utente" project="ProgMaster" 
+  <class id="12" language="java" name="model.Utente" project="ProgMaster" 
     file="/ProgMaster/Versione5Git/src/model/Utente.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="53" width="99" x="985" y="-2216"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -118,7 +109,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="model.Prestito" project="ProgMaster" 
+  <class id="13" language="java" name="model.Prestito" project="ProgMaster" 
     file="/ProgMaster/Versione5Git/src/model/Prestito.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="53" width="142" x="1219" y="-2326"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -127,7 +118,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" name="model.Libreria" project="ProgMaster" 
+  <class id="14" language="java" name="model.Libreria" project="ProgMaster" 
     file="/ProgMaster/Versione5Git/src/model/Libreria.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="53" width="102" x="1330" y="-1985"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -136,7 +127,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="16" language="java" name="model.Film" project="ProgMaster" 
+  <class id="15" language="java" name="model.Film" project="ProgMaster" 
     file="/ProgMaster/Versione5Git/src/model/Film.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="53" width="158" x="1186" y="-1731"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -145,16 +136,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="17" language="java" name="model.Fruitore" project="ProgMaster" 
-    file="/ProgMaster/Versione5Git/src/model/Fruitore.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="195" x="930" y="-2310"/>    
-    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="18" language="java" name="model.VideotecaContenitore" project="ProgMaster" 
+  <class id="16" language="java" name="model.VideotecaContenitore" project="ProgMaster" 
     file="/ProgMaster/Versione5Git/src/model/VideotecaContenitore.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="53" width="159" x="726" y="-1969"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -163,16 +145,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="19" language="java" name="model.Model" project="ProgMaster" 
-    file="/ProgMaster/Versione5Git/src/model/Model.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="172" x="628" y="-2361"/>    
-    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="20" language="java" name="view.BibliotecaView" project="ProgMaster" 
+  <class id="17" language="java" name="view.BibliotecaView" project="ProgMaster" 
     file="/ProgMaster/Versione5Git/src/view/BibliotecaView.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="138" width="141" x="222" y="-2293"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -181,180 +154,120 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <generalization id="21">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="5"/>  
-  </generalization>  
-  <association id="22">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="23" name="storia">        
-        <position height="0" width="0" x="-67" y="-282"/>      
-      </attribute>      
-      <multiplicity id="24" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="-67" y="-282"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="10" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="25">    
-    <end type="SOURCE" refId="15"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
-  <generalization id="26">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
-  <generalization id="27">    
-    <end type="SOURCE" refId="18"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <generalization id="28">    
-    <end type="SOURCE" refId="12"/>    
-    <end type="TARGET" refId="13"/>  
-  </generalization>  
-  <generalization id="29">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <generalization id="30">    
-    <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="13"/>  
-  </generalization>  
-  <association id="31">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="32" name="risorse">        
-        <position height="0" width="0" x="30" y="43"/>      
-      </attribute>      
-      <multiplicity id="33" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="30" y="43"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="34">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="11"/>  
-  </dependency>  
-  <association id="35">    
+  <association id="18">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="36" name="storico">        
-        <position height="0" width="0" x="-93" y="-189"/>      
-      </attribute>      
-      <multiplicity id="37" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-93" y="-189"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="38">    
-    <end type="SOURCE" refId="17" navigable="false">      
-      <attribute id="39" name="prestiti">        
-        <position height="0" width="0" x="-167" y="-127"/>      
-      </attribute>      
-      <multiplicity id="40" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="-167" y="-127"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="14" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="41">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="42" name="categorie">        
+      <attribute id="19" name="categorie">        
         <position height="0" width="0" x="-16" y="-11"/>      
       </attribute>      
-      <multiplicity id="43" minimum="0" maximum="2147483647">        
+      <multiplicity id="20" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="-16" y="-11"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="44">    
+  <generalization id="21">    
     <bendpoint x="973" y="-2056"/>    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
-  <dependency id="45">    
+  <generalization id="22">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="5"/>  
+  </generalization>  
+  <dependency id="23">    
     <bendpoint x="869" y="-2136"/>    
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="5"/>  
   </dependency>  
-  <association id="46">    
-    <end type="SOURCE" refId="19" navigable="false">      
-      <attribute id="47" name="operatori">        
-        <position height="0" width="0" x="38" y="55"/>      
+  <association id="24">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="25" name="storia">        
+        <position height="0" width="0" x="-67" y="-282"/>      
       </attribute>      
-      <multiplicity id="48" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="38" y="55"/>      
+      <multiplicity id="26" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-67" y="-282"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
+    <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="49">    
+  <association id="27">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="50" name="sottocategorie">        
+      <attribute id="28" name="sottocategorie">        
         <position height="0" width="0" x="44" y="228"/>      
       </attribute>      
-      <multiplicity id="51" minimum="0" maximum="2147483647">        
+      <multiplicity id="29" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="44" y="228"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="52">    
+  <dependency id="30">    
     <bendpoint x="872" y="-2144"/>    
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="2"/>  
   </dependency>  
-  <dependency id="53">    
+  <generalization id="31">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <dependency id="32">    
     <bendpoint x="662" y="-2050"/>    
     <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="18"/>  
+    <end type="TARGET" refId="16"/>  
   </dependency>  
-  <realization id="54">    
-    <end type="SOURCE" refId="20"/>    
+  <realization id="33">    
+    <end type="SOURCE" refId="17"/>    
     <end type="TARGET" refId="6"/>  
   </realization>  
-  <association id="55">    
-    <end type="SOURCE" refId="19" navigable="false">      
-      <attribute id="56" name="fruitori">        
-        <position height="0" width="0" x="10" y="20"/>      
-      </attribute>      
-      <multiplicity id="57" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="10" y="20"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="17" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="58">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="19"/>  
-  </dependency>  
-  <generalization id="59">    
+  <generalization id="34">    
     <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="35">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="12"/>  
+  </generalization>  
+  <generalization id="36">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="37">    
+    <end type="SOURCE" refId="15"/>    
     <end type="TARGET" refId="5"/>  
   </generalization>  
-  <dependency id="60">    
+  <dependency id="38">    
     <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="20"/>  
+    <end type="TARGET" refId="17"/>  
   </dependency>  
-  <association id="61">    
-    <end type="SOURCE" refId="19" navigable="false">      
-      <attribute id="62" name="archivio">        
-        <position height="0" width="0" x="18" y="41"/>      
+  <association id="39">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="40" name="risorse">        
+        <position height="0" width="0" x="30" y="43"/>      
       </attribute>      
-      <multiplicity id="63" minimum="0" maximum="1">        
-        <position height="0" width="0" x="18" y="41"/>      
+      <multiplicity id="41" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="30" y="43"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="42">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <association id="43">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="44" name="storico">        
+        <position height="0" width="0" x="-93" y="-189"/>      
+      </attribute>      
+      <multiplicity id="45" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-93" y="-189"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

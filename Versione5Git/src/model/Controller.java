@@ -414,7 +414,7 @@ public class Controller  implements Serializable{
 		else {
 			
 			if( !model.categoriaHaSottoCategoria(categoria) ) { 
-				view.notify("non ci sono sottocategorie nè risorse in questa categoria"); 
+				view.notify("non ci sono sottocategorie nï¿½ risorse in questa categoria"); 
 				gestioneRisorseCategoria(categoria); 
 			}
 			else {
