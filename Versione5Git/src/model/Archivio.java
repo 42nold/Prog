@@ -12,8 +12,7 @@ import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
 import it.unibs.ing.mylib.ServizioFile;
 import it.unibs.ing.mylib.Stampa;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
+
 
 @SuppressWarnings("serial")
 public class Archivio implements Serializable {

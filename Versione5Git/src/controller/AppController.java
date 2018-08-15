@@ -1,14 +1,16 @@
-package model;
+package controller;
 
 //Commit di prova. questo è il commit.
 
 import java.io.Serializable;
 
-import it.unibs.ing.mylib.BibliotecaView;
+import model.Controller;
+import model.Model;
+import view.BibliotecaView;
 
 
 
-public class AppMain implements Serializable{
+public class AppController implements Serializable{
 	
 
 
