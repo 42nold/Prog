@@ -153,7 +153,7 @@ public class InputDati {
 			catch (InputMismatchException e) {
 				
 				System.out.println(ERRORE_FORMATO);
-				@SuppressWarnings("unused")
+
 				String daButtare = lettore.next();
 			}
 		} while (!finito);
@@ -267,7 +267,7 @@ public class InputDati {
 			catch (InputMismatchException e) {
 				
 				System.out.println(ERRORE_FORMATO);
-				@SuppressWarnings("unused")
+
 				String daButtare = lettore.next();
 			}
 		} while (!finito);
