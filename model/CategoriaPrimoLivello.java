@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import it.unibs.ing.mylib.MyMenu;
+import risorse.Risorsa;
 
 @SuppressWarnings("serial")
 public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria<T> implements Serializable {

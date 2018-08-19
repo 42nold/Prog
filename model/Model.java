@@ -3,6 +3,8 @@ package model;
 import java.io.*;
 import java.util.*;
 import it.unibs.ing.mylib.*;
+import utenti.Fruitore;
+import utenti.Operatore;
 
 public class Model {
 	private static final String NOMEFILEFRUITORI = "Fruitori.dat";

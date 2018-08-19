@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 
 import it.unibs.ing.mylib.InputDati;
+import risorse.Libro;
+import storico.Storico;
 
 public class Libreria extends Categoria<Libro> {
 

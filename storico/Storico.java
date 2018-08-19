@@ -1,4 +1,4 @@
-package model;
+package storico;
 
 import java.io.File;
 import java.io.Serializable;

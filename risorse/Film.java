@@ -1,4 +1,4 @@
-package model;
+package risorse;
 
 
 import it.unibs.ing.mylib.InputDati;

@@ -5,9 +5,9 @@ import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Evento;
-import model.Controller;
-import model.Storico;
+import controller.Controller;
+import storico.Evento;
+import storico.Storico;
 
 public class StoricoTest {
 

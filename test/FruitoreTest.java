@@ -7,6 +7,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import java.util.*;
 import model.*;
+import utenti.Fruitore;
+import utenti.Prestito;
 /**
  * @author Arnold
  *
@@ -46,7 +48,7 @@ public class FruitoreTest{
 	}
 	
 	/**
-	 * Test method for {@link model.Fruitore#giaPresente(int)}.
+	 * Test method for {@link utenti.Fruitore#giaPresente(int)}.
 	 */
 	@Test
 	public void testGiaPresente() {
@@ -57,7 +59,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#getDataScadenza()}.
+	 * Test method for {@link utenti.Fruitore#getDataScadenza()}.
 	 */
 	@Test
 	public void testGetDataScadenza() {
@@ -65,7 +67,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#aggiornaDataScadenza()}.
+	 * Test method for {@link utenti.Fruitore#aggiornaDataScadenza()}.
 	 */
 	@Test
 	public void testAggiornaDataScadenza() {
@@ -73,7 +75,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#richiediPrestito(int, java.lang.String, java.util.Calendar, java.util.Calendar, int, int)}.
+	 * Test method for {@link utenti.Fruitore#richiediPrestito(int, java.lang.String, java.util.Calendar, java.util.Calendar, int, int)}.
 	 */
 	@Test
 	public void testRichiediPrestito() {
@@ -81,7 +83,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#visualizzaDatiFruitore()}.
+	 * Test method for {@link utenti.Fruitore#visualizzaDatiFruitore()}.
 	 */
 	@Test
 	public void testVisualizzaDatiFruitore() {
@@ -89,7 +91,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#visualizzaPrestitiFruitore()}.
+	 * Test method for {@link utenti.Fruitore#visualizzaPrestitiFruitore()}.
 	 */
 	@Test
 	public void testVisualizzaPrestitiFruitore() {
@@ -97,7 +99,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#setPrestiti(java.util.ArrayList)}.
+	 * Test method for {@link utenti.Fruitore#setPrestiti(java.util.ArrayList)}.
 	 */
 	@Test
 	public void testSetPrestiti() {
@@ -105,7 +107,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#getNumeroPrestiti()}.
+	 * Test method for {@link utenti.Fruitore#getNumeroPrestiti()}.
 	 */
 	@Test
 	public void testGetNumeroPrestiti() {
@@ -113,7 +115,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#inScadenza()}.
+	 * Test method for {@link utenti.Fruitore#inScadenza()}.
 	 */
 	@Test
 	public void testInScadenza() {
@@ -121,7 +123,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#rinnova(java.lang.Integer)}.
+	 * Test method for {@link utenti.Fruitore#rinnova(java.lang.Integer)}.
 	 */
 	@Test
 	public void testRinnova() {
@@ -129,7 +131,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#eliminaPrestitiScaduti()}.
+	 * Test method for {@link utenti.Fruitore#eliminaPrestitiScaduti()}.
 	 */
 	@Test
 	public void testEliminaPrestitiScaduti() {
@@ -137,7 +139,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#restituisciRisorseInPrestito()}.
+	 * Test method for {@link utenti.Fruitore#restituisciRisorseInPrestito()}.
 	 */
 	@Test
 	public void testRestituisciRisorseInPrestito() {
@@ -145,7 +147,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#getDescrizionePrestito(java.lang.Integer)}.
+	 * Test method for {@link utenti.Fruitore#getDescrizionePrestito(java.lang.Integer)}.
 	 */
 	@Test
 	public void testGetDescrizionePrestito() {
@@ -153,7 +155,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#setData_iscrizione(java.util.Calendar)}.
+	 * Test method for {@link utenti.Fruitore#setData_iscrizione(java.util.Calendar)}.
 	 */
 	@Test
 	public void testSetData_iscrizione() {
@@ -161,7 +163,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#setData_scadenza(java.util.Calendar)}.
+	 * Test method for {@link utenti.Fruitore#setData_scadenza(java.util.Calendar)}.
 	 */
 	@Test
 	public void testSetData_scadenza() {
@@ -169,7 +171,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Fruitore#getPrestiti()}.
+	 * Test method for {@link utenti.Fruitore#getPrestiti()}.
 	 */
 	@Test
 	public void testGetPrestiti() {
@@ -177,7 +179,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Utente#Utente(java.lang.String, java.lang.String, int, java.lang.String, java.lang.String)}.
+	 * Test method for {@link utenti.Utente#Utente(java.lang.String, java.lang.String, int, java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	public void testUtente() {
@@ -185,7 +187,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Utente#invarianteU()}.
+	 * Test method for {@link utenti.Utente#invarianteU()}.
 	 */
 	@Test
 	public void testInvarianteU() {
@@ -193,7 +195,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Utente#getUsername()}.
+	 * Test method for {@link utenti.Utente#getUsername()}.
 	 */
 	@Test
 	public void testGetUsername() {
@@ -201,7 +203,7 @@ public class FruitoreTest{
 	}
 
 	/**
-	 * Test method for {@link model.Utente#getPassword()}.
+	 * Test method for {@link utenti.Utente#getPassword()}.
 	 */
 	@Test
 	public void testGetPassword() {

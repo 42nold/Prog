@@ -5,7 +5,7 @@ import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Prestito;
+import utenti.Prestito;
 
 public class PrestitoTest {
 

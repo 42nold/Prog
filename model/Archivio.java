@@ -12,6 +12,8 @@ import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
 import it.unibs.ing.mylib.ServizioFile;
 import it.unibs.ing.mylib.Stampa;
+import risorse.Risorsa;
+import storico.Storico;
 
 
 @SuppressWarnings("serial")

@@ -5,6 +5,10 @@ import java.util.ArrayList;
 
 import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
+import risorse.Film;
+import risorse.Libro;
+import risorse.Risorsa;
+import storico.Storico;
 
 @SuppressWarnings("serial")
 public abstract class Categoria<T extends Risorsa> implements Serializable {

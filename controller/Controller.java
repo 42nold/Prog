@@ -1,4 +1,4 @@
-package model;
+package controller;
 
 import java.io.File;
 import java.io.Serializable;
@@ -10,7 +10,9 @@ import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
 import it.unibs.ing.mylib.ServizioFile;
 import it.unibs.ing.mylib.Stampa;
+import model.Model;
 import view.BibliotecaView;
+import view.MyView;
 
 @SuppressWarnings("serial")
 

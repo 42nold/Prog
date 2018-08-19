@@ -3,7 +3,7 @@ package test;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Film;
+import risorse.Film;
 
 public class FilmTest {
 
