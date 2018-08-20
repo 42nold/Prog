@@ -408,7 +408,7 @@ public class Storico implements Serializable{
 	 * @post @nochange
 	 * @return lunghezza dell'array
 	 */
-	static int size() {
+	public static int size() {
 		assert invariante() ;
 		ArrayList<Evento> storiaPre = storia;
 

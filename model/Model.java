@@ -508,8 +508,8 @@ public class Model {
 					else  return archivio.elencoRisorse(categoria,sottocategoria);
 				}
 				public int getId(int risorsaDaEliminare, int categoria, int sottocategoria) {
-					if(sottocategoria == -1) return archivio.getId(risorsaDaEliminare-1,categoria);
-					return archivio.getId(risorsaDaEliminare-1,categoria,sottocategoria);
+					if(sottocategoria == -1) return archivio.getId(risorsaDaEliminare,categoria);
+					return archivio.getId(risorsaDaEliminare,categoria,sottocategoria);
 				}
 
 				public void rimuoviRisorsa(int id, int categoria, int sottocategoria) {

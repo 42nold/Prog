@@ -1,10 +1,10 @@
-package model;
+package risorse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import it.unibs.ing.mylib.MyMenu;
-import risorse.Risorsa;
+import storico.Storico;
 
 @SuppressWarnings("serial")
 public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria<T> implements Serializable {
@@ -539,11 +539,16 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 		return sottocategorie.get(0).getAttributiNumerici();
 	}
 	
-	public void aggiungiRisorsa(String[] attributiStringa, int[] attributiNumerici, int sottocategoria) {
+	public void aggiungiRisorsaEAggiornaStorico(String[] attributiStringa, int[] attributiNumerici, int sottocategoria) {
 
 		sottocategorie.get(sottocategoria).aggiungiRisorsa(attributiStringa, attributiNumerici);
+		Storico.risorsaAggiunta(idRisorsa-1);
 	}
 	
+	
 
+	
+
+	
 
 }

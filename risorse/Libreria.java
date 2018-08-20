@@ -1,32 +1,19 @@
-package model;
+package risorse;
 
 import java.util.ArrayList;
 
 import it.unibs.ing.mylib.InputDati;
-import risorse.Libro;
 import storico.Storico;
 
-public class LibreriaContenitore extends CategoriaPrimoLivello<Libro> {
+public class Libreria extends Categoria<Libro> {
 
 	private static final int NUM_ATTRIBUTI_STRINGA = 5;
 	private static final int NUM_ATTRIBUTI_NUMERICI = 2;
-	
-	public LibreriaContenitore(String nome, int durataMassimaPrestito, int durataMassimaProroga, int termineProroga,
-			int maxRisorse, int id) {
-		super(nome, durataMassimaPrestito, durataMassimaProroga, termineProroga, maxRisorse, id);
+
+	public Libreria(String param) {
+		super(param);
 	}
 
-	@Override
-	public void aggiungiSottoCategoria(String nome) {
- 		assert invariante();
- 		int lunghPre = sottocategorie.size() ;
- 		
-		sottocategorie.add(new Libreria(nome));
-		
-		assert invariante() && lunghPre+1==sottocategorie.size();		
-	}
-
-	@Override
 	public void aggiungiRisorsa(String[] attributiStringa , int[] attributiNumerici) {
 
 		assert invarianteC() && attributiStringa.length==NUM_ATTRIBUTI_STRINGA && attributiNumerici.length == NUM_ATTRIBUTI_NUMERICI+1;//+1 comprende anche il num di licenze
@@ -48,7 +35,6 @@ public class LibreriaContenitore extends CategoriaPrimoLivello<Libro> {
 		Libro libro = new Libro(nome,aut,casa,gen,lin,anno,pagine,id,numLicenze) ;
 		risorse.add(libro);
 		
-		Storico.risorsaAggiunta(id);
 		
 		assert invarianteC() && (risorse.size()==libriPre+1 ) && idRisorsa==idPre+1 ;
 
@@ -59,7 +45,7 @@ public class LibreriaContenitore extends CategoriaPrimoLivello<Libro> {
 	protected ArrayList<Integer> filtra(int attributoScelto, String chiaveDiRicerca, int numDiRicerca) {
 		
 		assert invarianteC() && chiaveDiRicerca!=null && attributoScelto>=1 && attributoScelto<=8;
-		LibreriaContenitore thisPre = this;
+		Libreria thisPre = this;
 		
 		ArrayList<Integer> risultato = new ArrayList<Integer>();
 		
@@ -103,14 +89,35 @@ public class LibreriaContenitore extends CategoriaPrimoLivello<Libro> {
 
 	@Override
 	public String[] getAttributiStringa() {
-
+		// TODO Auto-generated method stub
 		return Libro.getAttributiStringa();
 	}
 
 	@Override
 	public String[] getAttributiNumerici() {
-
+		// TODO Auto-generated method stub
 		return Libro.getAttributiNumerici();
 	}
+
+	@Override
+	public int getIdCategoria(int idRisorsa) {
+		assert invarianteC();
+		
+		
+		if(risorse.size()>0) {
+			for(Libro l : risorse) {
+				if (l.getId() == idRisorsa) {
+					assert invarianteC() ;
+					if(l.getClass()==new Libro("","","","","",1,1,1,1).getClass())    return 0;  //if clause ridondante
+					
+					}
+			}
+		}
+	
+		assert invarianteC() ;
+		return -1;
+	}
+
+	
 
 }

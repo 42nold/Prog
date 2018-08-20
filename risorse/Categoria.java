@@ -1,13 +1,10 @@
-package model;
+package risorse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
-import risorse.Film;
-import risorse.Libro;
-import risorse.Risorsa;
 import storico.Storico;
 
 @SuppressWarnings("serial")
@@ -19,9 +16,8 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 	
 	
 	protected String nome;
-
 	protected ArrayList<T> risorse;
-	static int idRisorsa;														
+	protected static int idRisorsa;														
 	protected int idCategoria;
 	
 	/**
@@ -79,6 +75,10 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 	public abstract void aggiungiRisorsa(String[] attributiStringa , int[] attributiNumerici) ;
 
 
+	public void aggiungiRisorsaEAggiornaStorico(String[] attributiStringa , int[] attributiNumerici) {
+		aggiungiRisorsa(attributiStringa ,  attributiNumerici);
+		Storico.risorsaAggiunta(idRisorsa-1);
+	}
 	
 /**ritorna un elenco dei nomi delle risorse presenti nella categoria
  * @pre true
@@ -128,7 +128,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 * @param id della risorsa da visualizzare
 */
 	
-	protected String showRisorsa(int id) {
+	public String showRisorsa(int id) {
 		assert invarianteC();
 		Categoria<T> thisPre = this;
 		
@@ -172,7 +172,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
  * @true true 
  * @post librisize()+filmsize()==librisize()@pre+filmsize()@pre-1 || @nochange
  */
-	protected void rimuoviRisorsa(int id) {		
+	public void rimuoviRisorsa(int id) {		
 		assert invarianteC();
 		Categoria<T> thisPre = this;
 		int libriPre = risorse.size();
@@ -355,7 +355,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
  * @pre (idCategoria()==0 && posArray>=0 && posArray<=librisize() )|| (idCategoria()==1 && posArray>=0 && posArray<=filmsize() )
  * @post @nochange
  */
-	protected int getId(int posArray) {
+	public int getId(int posArray) {
 		assert invarianteC() && (idCategoria==0 && posArray>=0 && posArray<=risorse.size()) || (idCategoria==1 && posArray>=0 )  ;
 		Categoria<T> thisPre = this;
 		
@@ -384,23 +384,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
  * @pre true
  * @post @nochange
  */
-	public int getIdCategoria(int idRisorsa) {
-		assert invarianteC();
-		Categoria<T> thisPre = this;
-		
-		if(risorse.size()>0) {
-			for(T l : risorse) {
-				if (l.getId() == idRisorsa) {
-					assert invarianteC() && thisPre==this;
-					if(l.getClass()==new Libro("","","","","",1,1,1,1).getClass())        {return 0;}
-					if(l.getClass()==new Film("", "", "", "", "", 1, 1, 1, 1).getClass()) {return 1;}
-					}
-			}
-		}
-	
-		assert invarianteC() && thisPre==this;
-		return -1;
-	}
+	public abstract int getIdCategoria(int idRisorsa);
 /**
  * verifica che le propriet� invarianti della classe siano mantenute 
  * @pre true

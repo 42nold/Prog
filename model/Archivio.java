@@ -12,7 +12,11 @@ import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
 import it.unibs.ing.mylib.ServizioFile;
 import it.unibs.ing.mylib.Stampa;
+import risorse.Categoria;
+import risorse.CategoriaPrimoLivello;
+import risorse.LibreriaContenitore;
 import risorse.Risorsa;
+import risorse.VideotecaContenitore;
 import storico.Storico;
 
 
@@ -170,7 +174,7 @@ public class Archivio implements Serializable {
 		Archivio archivioPre = this;
 		
 		String risultato=null;
-		for(CategoriaPrimoLivello categoriaPrimoLivello : categorie) {
+		for(CategoriaPrimoLivello<? extends Risorsa> categoriaPrimoLivello : categorie) {
 			risultato=categoriaPrimoLivello.getNomeRisorsa(r);
 			if (risultato!=null) return risultato;
 		}
@@ -178,25 +182,7 @@ public class Archivio implements Serializable {
 		assert invariante() && archivioPre==this;
 		return risultato;
 	}
-/**
- * propaga il metodo azione di ricerca alle categorie dell'archivio
- * @param id 
- * @param eliMod
- * @pre id>=0 && eliMod>=0 
- * @post categorieSize()==categorieSize()@pre
- */
-	/**
-	 * usa showRisorsa(id) modifica(id) o rimuoviRisorsa(id) in base al parametro in ingresso 
-	 * @param id parametro da usare
-	 * @param eli_o_mod determina quale metodo usare con id come parametro
-	 * 
-	 */
-	private void azioneDaRicerca(int id, int eliMod) {							
-		assert invariante() && id>=0 && eliMod>=0;
-		int categoriePre=categorie.size();
-		
-		
-	}
+
 
 	/**
 	 * filtra tutte le risorse che rispecchiano i parametri immessi in un unico array : può ritornare null!
@@ -249,15 +235,18 @@ public class Archivio implements Serializable {
 	assert  nome!= null && durataMassimaPrestito>=0 && durataProrogaLibri>=0 && termineProroga>=0 && maxRisorsePerLibri>0 && id>=0;
 	int categoriePre = categorie.size();
 	
-	CategoriaPrimoLivello<?> nuovo = null;
-	
-	if(tipo.equals("libreria"))
-		nuovo = new LibreriaContenitore(nome, durataMassimaPrestito, durataProrogaLibri, termineProroga, maxRisorsePerLibri, id);
-	
-	if(tipo.equals("videoteca"))
-		nuovo = new VideotecaContenitore(nome, durataMassimaPrestito, durataProrogaLibri, termineProroga, maxRisorsePerLibri, id);
+		
+		CategoriaPrimoLivello<?> nuovo = null;
+		
+		if(tipo.equals("libreria"))
+			 nuovo = new LibreriaContenitore(nome, durataMassimaPrestito, durataProrogaLibri, termineProroga, maxRisorsePerLibri, id);
+			
+			if(tipo.equals("videoteca"))
+				nuovo = new VideotecaContenitore(nome, durataMassimaPrestito, durataProrogaLibri, termineProroga, maxRisorsePerLibri, id);
 
-	categorie.add(nuovo);
+		if(nuovo!=null)	categorie.add( nuovo);
+	
+
 		
 		assert invariante() && categoriePre==categorie.size()-1;
 	}
@@ -312,7 +301,7 @@ public class Archivio implements Serializable {
 		
 		File f = new File(NOMEFILECATEGORIE);
 		@SuppressWarnings("unchecked")
-		 ArrayList<CategoriaPrimoLivello<? extends Risorsa>> a = ( ArrayList<CategoriaPrimoLivello<? extends Risorsa>>)ServizioFile.caricaSingoloOggetto(f);
+		 ArrayList<CategoriaPrimoLivello<?>> a = ( ArrayList<CategoriaPrimoLivello<?>>)ServizioFile.caricaSingoloOggetto(f);
 		
 		if( a==null ) {
 			assert invariante();
@@ -798,7 +787,7 @@ public class Archivio implements Serializable {
 
 		assert attributiStringaFinali!=null && attributiNumericiFinali != null && categoria >= 0;
 		
-		categorie.get(categoria).aggiungiRisorsa(attributiStringaFinali,attributiNumericiFinali);
+		categorie.get(categoria).aggiungiRisorsaEAggiornaStorico(attributiStringaFinali,attributiNumericiFinali);
 	}
 	
 	
@@ -838,7 +827,7 @@ public class Archivio implements Serializable {
 	
 	public void aggiungiRisorsa(String[] attributiStringa, int[] attributiNumerici, int categoria, int sottocategoria) {
 
-		categorie.get(categoria).aggiungiRisorsa(attributiStringa, attributiNumerici,sottocategoria);
+		categorie.get(categoria).aggiungiRisorsaEAggiornaStorico(attributiStringa, attributiNumerici,sottocategoria);
 	}
 
 	
