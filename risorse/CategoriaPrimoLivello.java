@@ -542,7 +542,6 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 	public void aggiungiRisorsaEAggiornaStorico(String[] attributiStringa, int[] attributiNumerici, int sottocategoria) {
 
 		sottocategorie.get(sottocategoria).aggiungiRisorsa(attributiStringa, attributiNumerici);
-		Storico.risorsaAggiunta(idRisorsa-1);
 	}
 	
 	

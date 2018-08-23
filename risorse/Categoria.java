@@ -77,7 +77,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 
 	public void aggiungiRisorsaEAggiornaStorico(String[] attributiStringa , int[] attributiNumerici) {
 		aggiungiRisorsa(attributiStringa ,  attributiNumerici);
-		Storico.risorsaAggiunta(idRisorsa-1);
+		
 	}
 	
 /**ritorna un elenco dei nomi delle risorse presenti nella categoria
@@ -180,7 +180,6 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 		
 				for(int i=0; i <risorse.size();i++)
 					if (risorse.get(i).getId() == id) {
-						Storico.risorsaEliminata(risorse.get(i).getId());
 						risorse.remove(i);
 					}
 				assert invarianteC() && (libriPre==risorse.size() || thisPre==this);

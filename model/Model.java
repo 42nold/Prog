@@ -3,14 +3,39 @@ package model;
 import java.io.*;
 import java.util.*;
 import it.unibs.ing.mylib.*;
+import storico.Evento;
+import storico.Storico;
 import utenti.Fruitore;
 import utenti.Operatore;
 
-public class Model {
+public class Model extends Observable {
+	
 	private static final String NOMEFILEFRUITORI = "Fruitori.dat";
+	
 	private static final String NOMEFILEOPERATORI = "Operatori.dat";
 	
+	public static final String ISCRIZIONE_FRUITORE = "ISCRIZIONE DEL FRUITORE: ";
+	
+	public static final String FRUITORE_DECADUTO = "E' DECADUTO IL FRUITORE: ";
+	
+	public static final String RINNOVO_ISCRIZIONE = "ISCRIZIONE RINNOVATA PER IL FRUITORE: ";
+	
+	public static final String RISORSA_AGGIUNTA = "AGGIUNTA LA RISORSA : ";
+
+	public static final String RISORSA_ELIMINATA = "E' STATA ELIMINATA LA RISORSA : ";
+
+	public static final String NUOVO_PRESTITO = "NUOVO PRESTITO CONCESSO A : ";
+
+	public static final String TERMINE_DISPONIBILITA = "LA RISORSA NON E' PIU' DISPONIBILE AL PRESTITO";
+
+	public static final String PROROGA_PRESTITO = "PROROGA DEL PRESTITO A : ";
+
+	public static final String RISORSA_DISPONIBILE = "LA RISORSA E' NUOVAMENTE DISPONIBILE AL PRESTITO : ";
+	
+	private static final int VALORE_NULLO_EVENTI = -1;
+	
 	private Archivio archivio;
+	private Storico storico;
 	private static ArrayList<Operatore> operatori;
 	private static ArrayList<Fruitore> fruitori; 
 	
@@ -18,6 +43,8 @@ public class Model {
 		archivio = new Archivio();
 		operatori = new ArrayList<Operatore>();
 		fruitori = new ArrayList<Fruitore>();
+		storico = new Storico();
+		addObserver(storico);
 	}
 
 	private  boolean invariante() {
@@ -109,9 +136,12 @@ public class Model {
 								archivio.aggiornaLicenze(prestitiDaRestituire.get(j), 1); //1 � il flag per incrementare numeroLicenze
 						}
 
-					archivio.storiaFruitoreDecaduto(fruitori.get(i).getUsername());
-
+					String utenteEliminato=(fruitori.get(i).getUsername());
+					
 					fruitori.remove(i);
+					
+					setChanged();
+					notifyObservers(new Evento(FRUITORE_DECADUTO+utenteEliminato, VALORE_NULLO_EVENTI));
 				}
 			assert invariante() && operatoriPre == operatori ;
 		}
@@ -139,7 +169,11 @@ public class Model {
 							catRisorsa=archivio.trovaIdCategoria(prestitiScaduti.get(i));
 							if(catRisorsa==0 || catRisorsa==1)
 								archivio.aggiornaLicenze(prestitiScaduti.get(j), 1); //1 � il mio flag per incrementare numeroLicenze
-							if(archivio.numeroLicenzeRisorsa(prestitiScaduti.get(j))==1) archivio.risorsaDisponibile(prestitiScaduti.get(j));
+							
+							if(archivio.numeroLicenzeRisorsa(prestitiScaduti.get(j))==1) {
+								setChanged();
+								notifyObservers(new Evento(RISORSA_DISPONIBILE,prestitiScaduti.get(j)));
+							}
 						}
 				}
 				assert invariante() && operatoriPre == operatori ; 
@@ -275,6 +309,7 @@ public class Model {
 									Archivio archivioPre = archivio ;
 									
 									archivio.salvaDati();	
+									storico.salvaDati();
 									
 									assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
 								}
@@ -323,21 +358,22 @@ public class Model {
 
 
 					fruitori.add(new Fruitore(nome, cognome, eta, username, password, data_iscrizione, data_scadenza));
-				}
-
-				public void storiaIscrizioneFruitore(String username) {
-					archivio.storiaIscrizioneFruitore(username);
 					
+					setChanged();
+					notifyObservers(new Evento(ISCRIZIONE_FRUITORE+username,VALORE_NULLO_EVENTI));
 				}
 
+
+				/*
+				 * nome autoesplicativo, invocato al verificarsi di un rinnovo di iscrizione
+				 * @param numFruitore posizione del fruitore nell'archivio
+				 */
 				public void aggiornaDataScadenzaFruitore(int numFruitore) {
 					 fruitori.get(numFruitore).aggiornaDataScadenza();
-				}
-
-				public void storiaRinnovoIscrizioneFruitore(int numFruitore) {
-
-					archivio.storiaRinnovoIscrizioneFruitore(fruitori.get(numFruitore).getUsername());
-				}
+					 
+					 setChanged();
+					 notifyObservers(new Evento(RINNOVO_ISCRIZIONE+fruitori.get(numFruitore).getUsername(),VALORE_NULLO_EVENTI));
+				}		
 
 				public Calendar getDataScadenzaFruitore(int numFruitore) {
 				
@@ -351,7 +387,6 @@ public class Model {
 				}
 
 				public void setIdPrestitoFruitore(int numFruitore) {
-
 
 					fruitori.get(numFruitore).setIdPrestito();
 				}
@@ -396,16 +431,22 @@ public class Model {
 					
 						Calendar inizio, Calendar fine, int durataProroga, int termineProroga) {
 
+						Fruitore fruitoreInQuestione = fruitori.get(numFruitore);
 
-					fruitori.get(numFruitore).richiediPrestito(risorsaScelta, descrizioneRisorsa, inizio, fine, durataProroga, termineProroga);
-				}
+					fruitoreInQuestione.richiediPrestito(risorsaScelta, descrizioneRisorsa, inizio, fine, durataProroga, termineProroga);
 				
-				
-				public void storiaNuovoPrestito(int risorsaScelta, int numFruitore) {
+					//controllo degli eventi per gli observers
+					setChanged();
+					notifyObservers(new Evento(NUOVO_PRESTITO+fruitoreInQuestione.getUsername(),risorsaScelta));
 					
-					archivio.storiaNuovoPrestito(risorsaScelta,archivio.numeroLicenzeRisorsa(risorsaScelta),fruitori.get(numFruitore).getUsername());
-				}
+					int licenzeRimaste = archivio.numeroLicenzeRisorsa(risorsaScelta);
+					if(licenzeRimaste==0) {
+						setChanged();
+						notifyObservers(new Evento(TERMINE_DISPONIBILITA,risorsaScelta));
+					}
 				
+				}
+							
 				
 			
 				public String getFruitoreUsername(int numFruitore) {
@@ -426,20 +467,15 @@ public class Model {
 				public void rinnovaPrestitoFruitore(int numFruitore, ArrayList<Integer> inScadenza,
 						int scegliDaRinnovare) {
 
-
-					fruitori.get(numFruitore).rinnova(inScadenza.get(scegliDaRinnovare-1));
+					Fruitore fruitoreInQuestione = fruitori.get(numFruitore);
+					int risorsa = inScadenza.get(scegliDaRinnovare-1);
+					fruitoreInQuestione.rinnova(risorsa);
+					
+					setChanged();
+					notifyObservers(new Evento(PROROGA_PRESTITO+fruitoreInQuestione.getUsername(),risorsa));
 				}
 
-				public void prorogaPrestitoFruitore(int numFruitore, ArrayList<Integer> inScadenza,
-						int scegliDaRinnovare) {
-
-
-					archivio.prorogaPrestito(fruitori.get(numFruitore).getUsername(),inScadenza.get(scegliDaRinnovare-1));
-				}
-
-			
-
-			
+	
 
 				public boolean ArchivioVuoto() {
 					// TODO Auto-generated method stub
@@ -456,32 +492,6 @@ public class Model {
 					return archivio.size();
 				}
 
-				public String getDescrizioneStorico() {
-					return archivio.getDescrizioneStorico();
-				}
-
-				public String numEventoAnnoSolare(String evento, String descrizione) {
-
-					return archivio.numEventoAnnoSolare(evento,descrizione);
-				}
-
-				public String getEventoNuovoPrestito() {
-					return Archivio.NUOVO_PRESTITO;
-				}
-
-				public String getEventoProrogaPrestito() {
-
-					return archivio.PROROGA_PRESTITO;
-				}
-
-				public String risorsaPiuPrestata() {
-
-					return archivio.risorsaPiuPrestata();
-				}
-
-				public String prestitiFruitoriAnnoSolare() {
-					return archivio.prestitiFruitoriAnnoSolare();
-				}
 
 				public boolean haRisorseEsottocategorie(int categoria) {
 
@@ -519,6 +529,8 @@ public class Model {
 
 					else archivio.rimuoviRisorsa(id,categoria,sottocategoria);		
 
+					setChanged();
+					notifyObservers(new Evento(RISORSA_ELIMINATA, id));
 				}
 
 				public void aggiungiRisorsa(String[] attributiStringa, int[] attributinumerici, int categoria,int sottocategoria) {
@@ -529,6 +541,8 @@ public class Model {
 					
 					else archivio.aggiungiRisorsa(attributiStringa, attributinumerici, categoria , sottocategoria);
 
+					setChanged();
+					notifyObservers(new Evento(RISORSA_AGGIUNTA,archivio.idMax()));
 				}
 
 				public String[] getAttributiNumericiRisorse(int categoria) {
@@ -582,10 +596,9 @@ public class Model {
 
 				public void importaDati() {
 
-
 					archivio.importaDati();
-					
-				}
+					storico.importaDati();
+					}
 
 				public int scegliRisorsa(int categoriaScelta, int sottoCategoriaScelta, int risorsaSelezionata) {
 
