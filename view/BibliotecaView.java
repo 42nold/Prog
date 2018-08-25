@@ -1,6 +1,7 @@
 package view;
 
 import java.util.Observable;
+import java.util.Scanner;
 
 import it.unibs.ing.mylib.BelleStringhe;
 import it.unibs.ing.mylib.InputDati;
@@ -58,6 +59,30 @@ public class BibliotecaView implements MyView{
 	public boolean yesOrNo(String riprova) {
 		
 		return InputDati.yesOrNo(riprova);
+	}
+
+	@Override
+	public Object leggiInput(String messaggio) {
+		
+		String s;		
+		s = InputDati.leggiStringaNonVuota(messaggio);
+		
+		try {
+		if ( (Integer) Integer.parseInt(s) instanceof Integer)
+		
+			return Integer.parseInt(s);
+		}catch(NumberFormatException e1) {
+			try {
+				if ((Double) Double.parseDouble(s) instanceof Double)
+					return Double.parseDouble(s);
+			}catch(NumberFormatException e2) {
+				return s;
+			}
+		}
+		
+		return s;
+		
+		
 	}
 
 }

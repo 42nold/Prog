@@ -507,6 +507,7 @@ public class Model {
 				
 					else  return archivio.elencoRisorse(categoria,sottocategoria);
 				}
+				
 				public int getId(int risorsaDaEliminare, int categoria, int sottocategoria) {
 					if(sottocategoria == -1) return archivio.getId(risorsaDaEliminare,categoria);
 					return archivio.getId(risorsaDaEliminare,categoria,sottocategoria);
@@ -521,17 +522,17 @@ public class Model {
 
 				}
 
-				public void aggiungiRisorsa(String[] attributiStringa, int[] attributinumerici, int categoria,int sottocategoria) {
+				public void aggiungiRisorsa(ArrayList<Object> nuoviAttributi, int categoria,int sottocategoria) throws ClassCastException{
 
 
 					if(sottocategoria==-1)
-						archivio.aggiungiRisorsa(attributiStringa, attributinumerici, categoria);
+						archivio.aggiungiRisorsa(nuoviAttributi, categoria);
 					
-					else archivio.aggiungiRisorsa(attributiStringa, attributinumerici, categoria , sottocategoria);
+					else archivio.aggiungiRisorsa(nuoviAttributi, categoria , sottocategoria);
 
 				}
 
-				public String[] getAttributiNumericiRisorse(int categoria) {
+				/*public String[] getAttributiNumericiRisorse(int categoria) {
 
 					return archivio.getAttributiNumericiRisorse( categoria);
 				}
@@ -539,11 +540,15 @@ public class Model {
 				public String[] getAttributiStringaRisorse(int categoria) {
 
 					return archivio.getAttributiStringaRisorse( categoria);
+				}*/
+				
+				public ArrayList<String> getDescrizioneCampi(int categoria){
+					return archivio.getDescrizioneCampi(categoria);
 				}
 
-				public ArrayList<Integer> filtraRisorse(int attributoScelto, String chiaveDiRicerca, int numDiRicerca) {
+				public ArrayList<Integer> filtraRisorse(int attributoScelto, Object parametroDiRicerca) throws ClassCastException{
 					// TODO Auto-generated method stub
-					return    archivio.filtraRisorse(attributoScelto,chiaveDiRicerca,numDiRicerca);
+					return    archivio.filtraRisorse(parametroDiRicerca,attributoScelto);
 
 				}
 
@@ -552,11 +557,10 @@ public class Model {
 					return archivio.getNomeRisorsa(r);
 				}
 
-				public void modificaRisorsa(int id, int categoria, String[] nuoviAttributiStringa,
-						int[] nuoviAttributiNumerici) {
+				public void modificaRisorsa(int id, int categoria, Object[] nuoviAttributi) throws ClassCastException {
 
 
-					archivio.modificaRisorsa(id,categoria,nuoviAttributiStringa,nuoviAttributiNumerici);
+					archivio.modificaRisorsa(id,categoria,nuoviAttributi);
 
 				}
 
@@ -580,32 +584,34 @@ public class Model {
 					return operatori.get(i).getUsername().equals(username);
 				}
 
-				public void importaDati() {
+		public void importaDati() {
 
 
-					archivio.importaDati();
-					
-				}
+			archivio.importaDati();
+			
+		}
 
-				public int scegliRisorsa(int categoriaScelta, int sottoCategoriaScelta, int risorsaSelezionata) {
+		public int scegliRisorsa(int categoriaScelta, int sottoCategoriaScelta, int risorsaSelezionata) {
 
-					if(sottoCategoriaScelta == -1) return archivio.scegliRisorsa(categoriaScelta,risorsaSelezionata);
-					return 	archivio.scegliRisorsa(categoriaScelta,sottoCategoriaScelta,risorsaSelezionata);
+			if(sottoCategoriaScelta == -1) return archivio.scegliRisorsa(categoriaScelta,risorsaSelezionata);
+			return 	archivio.scegliRisorsa(categoriaScelta,sottoCategoriaScelta,risorsaSelezionata);
 
-				}
-				/**
-				 * triggera il metodo che aggiorna il contatore di id prestiti dell'archivio
-				 * @pre true
-				 * @post true	
-				 */
-				public void idCorrente() {
+		}
+		/**
+		 * triggera il metodo che aggiorna il contatore di id prestiti dell'archivio
+		 * @pre true
+		 * @post true	
+		 */
+		public void idCorrente() {
+			archivio.idCorrente();
+		}
 
+		public boolean verificaPrerequisitiPrestito(int numFruitore, int risorsaScelta) {
 
-					archivio.idCorrente();
-				}
-
-				public boolean verificaPrerequisitiPrestito(int numFruitore, int risorsaScelta) {
-
-					return verificaPrerequisitiPrestito(fruitori.get(numFruitore), risorsaScelta);
-				}
+			return verificaPrerequisitiPrestito(fruitori.get(numFruitore), risorsaScelta);
+		}
+		
+		public ArrayList<String> getDescrizioneCampiRisorsa(int categoriaScelta){
+			return archivio.getDescrizioneCampiRisorsa(categoriaScelta);
+		}
 }

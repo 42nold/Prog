@@ -23,11 +23,13 @@ public class Controller  implements Serializable{
 	private static final String NOMEFILEFRUITORI = "Fruitori.dat";
 	private static final String NOMEFILEOPERATORI = "Operatori.dat";
 	
+	private static final String ERROREINPUT="\n\nErrore nell'input";
+	
 	private static final String TITOLO_MENU_GESTIONERISORSA= "Opzioni disponibili";
 	private static final String[] OPZIONI = {"visualizza risorse","aggiungi risorsa","elimina risorsa","modifica risorsa"} ;
 	
 	private static final String TITOLO_MENU_FRUITORE = "Menu Fruitore";
-	private static final String[] vociMenuFruitore = {"Visualizza Prestiti", "Richiedi prestito", "Rinnova prestito", "Rinnovo iscrizione"};
+	private static final String[] VOCIMENUFRUITORE = {"Visualizza Prestiti", "Richiedi prestito", "Rinnova prestito", "Rinnovo iscrizione"};
 	
 	private static final String TITOLO_SELEZIONA_ATTRIBUTO = "Scegli attributo con cui filtrare la ricerca";
 	private static final String[] vociMenuSelezionaAttributo = {"Nome","Autore/Regista","Casa editrice/Casa Di produzione","Genere","Lingua","Anno di pubblicazione","Numero di pagine", "Durata"};
@@ -42,7 +44,7 @@ public class Controller  implements Serializable{
 	private static final String TITOLO_MENU_OPERATORE = "Menu Operatore.";
 	private static final String[] VOCI_MENU_OPERATORE = {"Visualizza dati fruitori", "Visualizza dati e prestiti dei fruitori", "Apri archivio","visualizza storico"};
 	private static final String[] OPZIONI_MENU_RICERCA = {"Esplora archivio", "Ricerca per attributo"};
-	private static final String MESSAGGIO_PRESTITO_NON_CONCESSO = "Non si puï¿½ ottenere questa risorsa in prestito";
+	private static final String MESSAGGIO_PRESTITO_NON_CONCESSO = "Non si può ottenere questa risorsa in prestito";
 	private static final String NO_IN_SCADENZA = "Non ci sono prestiti in scadenza";
 	private static final String TITOLO_IN_SCADENZA = "Ecco i prestiti in scadenza";
 	private static final String BUON_FINE = "Operazione eseguita correttamente";
@@ -207,7 +209,7 @@ public class Controller  implements Serializable{
 		model.setIdPrestitoFruitore(numFruitore);
 				
 		do {
-			scelta = view.scelta(TITOLO_MENU_FRUITORE, vociMenuFruitore);
+			scelta = view.scelta(TITOLO_MENU_FRUITORE,  VOCIMENUFRUITORE);
 					
 			switch (scelta) {
 			
@@ -356,9 +358,9 @@ public class Controller  implements Serializable{
 									break;
 							
 							case 2:
-								
+								int categoriaScelta=view.scelta("Categorie",model.elencoCategorie());
 							
-								int attributoScelto = view.scelta(TITOLO_SELEZIONA_ATTRIBUTO, vociMenuSelezionaAttributo);
+								int attributoScelto = view.scelta(TITOLO_SELEZIONA_ATTRIBUTO, getDescrizioneCampiRisorsa(categoriaScelta));
 																	
 								if(attributoScelto!=0)
 									cercaPerAttributoOmode(attributoScelto);
@@ -441,10 +443,6 @@ public class Controller  implements Serializable{
 
 	private void gestioneRisorseSottocategoria(int categoria, int sottocategoria) {
 
-		
-
-
-		
 		boolean esciMenu = false;
 	
 		while(!esciMenu) {
@@ -587,18 +585,32 @@ public class Controller  implements Serializable{
 	}
 
 
-	private void aggiungiRisorsaCategoria(int categoria,int sottocategoria) {
+	/*private void aggiungiRisorsaCategoria(int categoria,int sottocategoria) {
 
 		String[] attributiStringa = acquisisciAttributiStringaCategoria(categoria);
-		int[] attributinumerici = acquisisciAttributiNumericiCategoria(categoria);
+		int[] attributiNumerici = acquisisciAttributiNumericiCategoria(categoria);
+		
+		model.aggiungiRisorsa(attributiStringa, attributiNumerici,categoria,sottocategoria);		
 		
 		
+	}*/
+	
+	private void aggiungiRisorsaCategoria(int categoria,int sottocategoria) {
+
+	//	String[] attributiStringa = acquisisciAttributiStringaCategoria(categoria);
+	//	int[] attributiNumerici = acquisisciAttributiNumericiCategoria(categoria);
 		
-			model.aggiungiRisorsa(attributiStringa,attributinumerici,categoria,sottocategoria);		
+		ArrayList<Object> attributi = acquisisciAttributiCategoria(categoria);
+		try {
+			model.aggiungiRisorsa(attributi,categoria,sottocategoria);		
+		}catch(ClassCastException e) {
+			view.notify(ERROREINPUT);
+		}
 		
 		
 	}
-	private int[] acquisisciAttributiNumericiCategoria(int categoria) {
+	
+	/*private int[] acquisisciAttributiInteriCategoria(int categoria) {
 
 
 				String[] attributiNumerici = model.getAttributiNumericiRisorse( categoria);
@@ -614,9 +626,23 @@ public class Controller  implements Serializable{
 				return attributiNumericiFinali;
 
 		
+	}*/
+	
+	private ArrayList<Object> acquisisciAttributiCategoria(int categoria) {
+
+		ArrayList<String> descrizioneCampiRisorsa= model.getDescrizioneCampi(categoria);
+	
+		ArrayList<Object> nuoviAttributi = new ArrayList<Object>();
+		
+		for(int i = 1 ; i<descrizioneCampiRisorsa.size(); i++) {
+			nuoviAttributi.add( view.leggiInput("inserire "+descrizioneCampiRisorsa.get(i)+" :"));
+			
+		}
+		
+		return nuoviAttributi;
 	}
 	
-	private String[] acquisisciAttributiStringaCategoria(int categoria) {
+	/*private String[] acquisisciAttributiStringaCategoria(int categoria) {
 
 	
 			
@@ -636,7 +662,7 @@ public class Controller  implements Serializable{
 
 	
 		
-	}
+	}*/
 
 
 	/**
@@ -646,110 +672,85 @@ public class Controller  implements Serializable{
 	 * @post true
 	 */
 		
-private  void cercaPerAttributoOmode(int attributoScelto) {
-
-	
-	String chiaveDiRicerca = null;
-	int numDiRicerca = 0;
-	if(attributoScelto<6)  chiaveDiRicerca = view.StringaNonVuota("inserisci la stringa da cercare nell'attributo selezionato");
-	else numDiRicerca = view.InteroNonNegativo("inserisci il valore da cercare per l'attributo selezionato");
-
-    ArrayList<Integer> match = model.filtraRisorse(attributoScelto,chiaveDiRicerca,numDiRicerca);
-	
-	if(match.size()<1) return;
-	
-	String[] opzioniEsiti= new String[match.size()];
-	int i=0;
-	for(int r : match) { 
-		if(model.getNomeRisorsa(r)!=null) {	opzioniEsiti[i]= model.getNomeRisorsa(r); i++; } 
+	private  void cercaPerAttributoOmode(int attributoScelto) {
+		try {
+			Object parametro;
+			parametro = view.leggiInput("inserisci il parametro da cercare per l'attributo selezionato");
+			ArrayList<Integer> match = model.filtraRisorse(attributoScelto,parametro);
+			
+			if(match.size()<1) return;
+		
+			String[] opzioniEsiti= new String[match.size()];
+			int i=0;
+			for(int r : match) { 
+				if(model.getNomeRisorsa(r)!=null) {	opzioniEsiti[i]= model.getNomeRisorsa(r); i++; } 
+			}	
+			int risorsaScelta = view.scelta("ecco l'esito della ricerca :", opzioniEsiti);
+			
+			if(risorsaScelta!=0) {
+				int eliMod;
+				
+				do{	
+					 eliMod = view.scelta(TITOLO_ELI_O_MOD, OPZIONI_ELI_O_MOD);
+			
+					 if(eliMod==0) return;
+					 
+				int id = match.get(risorsaScelta-1) ;
+				 int categoria = model.trovaCategoria(id);
+				azioneDaRicerca(id,eliMod, categoria);
+				
+					 
+				}while (eliMod==1);
+			
+			}
+		}catch(ClassCastException e) {
+			view.notify(ERROREINPUT);
 		}
-	
-	int risorsaScelta = view.scelta("ecco l'esito della ricerca :", opzioniEsiti);
-	
-	if(risorsaScelta!=0) {
-		int eliMod;
-		
-		do{	
-			 eliMod = view.scelta(TITOLO_ELI_O_MOD, OPZIONI_ELI_O_MOD);
-	
-			 if(eliMod==0) return;
-			 
-		int id = match.get(risorsaScelta-1) ;
-		
-		azioneDaRicerca(id,eliMod);
-		
-			 
-		}while (eliMod==1);
-	
-	}
 	}
 
-private void modifica(int id , int categoria) {
-	
-
-	String[]  attributiStringa = model.getAttributiStringaRisorse(categoria);
-	String[]  attributiNumerici = model.getAttributiNumericiRisorse(categoria);
-	
-	String[] nuoviAttributiStringa = new String[attributiStringa.length];
-	int[] nuoviAttributiNumerici = new int[+attributiNumerici.length];
-	
-	int i=0;
-	
-	for(String s : attributiStringa) {
+	private void modifica(int id , int categoria) {
+		try {
+			ArrayList<String> campiRisorsa = model.getDescrizioneCampi(categoria);
+			
+			Object[] nuoviAttributi = new Object[campiRisorsa.size()];
+			
+			//id non modificabile
+			for(int i=1; i<campiRisorsa.size();i++) {
+				
+				char modificaNome = view.Char("vuoi modificare "+campiRisorsa.get(i)+" ? (s/n)");
+				
+				if(modificaNome=='s'||modificaNome=='S') {
+				
+					Object nomeNuovo= view.leggiInput("inserisci il nuovo valore");
+				
+					nuoviAttributi[i]=nomeNuovo;
+				}	
+				
+				else nuoviAttributi[i]= null;	
+			}
 		
-		char modificaNome = view.Char("vuoi modificare "+s+" ? (s/n)");
-		
-		if(modificaNome=='s'||modificaNome=='S') {
-		
-			String nomeNuovo= view.StringaNonVuota("inserisci il nuovo valore");
-		
-			nuoviAttributiStringa[i]=nomeNuovo;
-		}	
-		
-		else nuoviAttributiStringa[i]= null;
-
-		i++;
-	}
-	
-	i=0;
-	
-for(String s : attributiNumerici) {
-		
-		char modificaNome = view.Char("vuoi modificare "+s+" ? (s/n)");
-		
-		if(modificaNome=='s'||modificaNome=='S') {
-		
-			int valoreNuovo= view.InteroNonNegativo("inserisci il nuovo valore");
-		
-			nuoviAttributiNumerici[i]=valoreNuovo;
-		}	
-		else 			nuoviAttributiNumerici[i]= -1;
-
-		i++;
+			model.modificaRisorsa(id,categoria,nuoviAttributi);
+		}catch(ClassCastException e) {
+			view.notify(ERROREINPUT);
+		}
 	}
 
-	model.modificaRisorsa(id,categoria,nuoviAttributiStringa,nuoviAttributiNumerici);
-	
-}
 
 
+private void azioneDaRicerca(int id, int eliMod, int categoria) {
 
-private void azioneDaRicerca(int id, int eliMod) {
 
-
-	for(int c = 0; c<model.sizeArchivio();c++)  {
-
-		if(model.categoriaHaRisorse(c)) 
+		if(model.categoriaHaRisorse(categoria)) 
 		{
 			switch (eliMod) {
 			case 1:
-				view.notify(model.showRisorsa(id,c,-1));
+				view.notify(model.showRisorsa(id,categoria,-1));
 				break;
 			case 2:
-				modifica(id,c);
+				modifica(id,categoria);
 				break;
 			case 3:
-				model.rimuoviRisorsa(id,c,-1);
+				model.rimuoviRisorsa(id,categoria,-1);
 				break;
 			default:
 				break;
@@ -757,17 +758,17 @@ private void azioneDaRicerca(int id, int eliMod) {
 		}
 		else 
 		{
-			for(int s= 0; s< model.elencoSottoCategorie(c).length; s++) {
+			
 				
 			switch (eliMod) {
 			case 1:
-				view.notify(model.showRisorsa(id,c,s));
+				view.notify(model.showRisorsa(id,categoria,s));
 				break;
 			case 2:
 				modifica(id,c);
 				break;
 			case 3:
-				model.rimuoviRisorsa(id,c,s);
+				model.rimuoviRisorsa(id,categoria,s);
 				break;
 			default:
 				break;
@@ -884,33 +885,32 @@ private void azioneDaRicerca(int id, int eliMod) {
 			
 			switch (scelta) {
 				case 1:
-					int attributoScelto = view.scelta(TITOLO_SELEZIONA_ATTRIBUTO, vociMenuSelezionaAttributo);
-				
-					if(attributoScelto!=0 ) {
-						String chiaveDiRicerca = "";
-						int numDiRicerca = 0;
-						if(attributoScelto<6)  chiaveDiRicerca = view.StringaNonVuota("inserisci la stringa da cercare nell'attributo selezionato");
-						else numDiRicerca = view.InteroNonNegativo("inserisci il valore da cercare per l'attributo selezionato");
-						
-						
-						ArrayList<Integer> match = model.filtraRisorse(attributoScelto,chiaveDiRicerca,numDiRicerca);
-						if(match.size()<1) 	{risorsaScelta =  -1; break;}
-						
-
-						String[] opzioniEsiti= new String[match.size()];
-						int i=0;
-						for(int r : match) { opzioniEsiti[i]= model.getNomeRisorsa(r); i++;}
-												
-						  risorsaScelta = view.scelta("ecco l'esito della ricerca :", opzioniEsiti);
-
-						if(risorsaScelta==0) 
-							return -1;
+					try {
+						int attributoScelto = view.scelta(TITOLO_SELEZIONA_ATTRIBUTO, vociMenuSelezionaAttributo);
+					
+						if(attributoScelto!=0 ) {
+							Object parametro;
+							parametro = view.leggiInput("inserisci il parametro da cercare per l'attributo selezionato");
+									
+							ArrayList<Integer> match = model.filtraRisorse(attributoScelto,parametro);
+							if(match.size()<1) 	{risorsaScelta =  -1; break;}
 							
-						else 
-							return match.get(risorsaScelta-1);
-					
-					
+	
+							String[] opzioniEsiti= new String[match.size()];
+							int i=0;
+							for(int r : match) { opzioniEsiti[i]= model.getNomeRisorsa(r); i++;}
+													
+							  risorsaScelta = view.scelta("ecco l'esito della ricerca :", opzioniEsiti);
+	
+							if(risorsaScelta==0) 
+								return -1;
+							else 
+								return match.get(risorsaScelta-1);
+						}
+					}catch(ClassCastException e) {
+						view.notify(ERROREINPUT);
 					}
+					
 				break;
 			
 				case 2:
@@ -1030,5 +1030,17 @@ private void azioneDaRicerca(int id, int eliMod) {
 				}
 			}
 		}while(!finito);		
+	}
+	
+	private String[] getDescrizioneCampiRisorsa(int categoriaScelta) {
+		ArrayList<String> campiRisorsaList =new ArrayList();
+		campiRisorsaList=model.getDescrizioneCampiRisorsa(categoriaScelta);
+		
+		String [] s = new String [campiRisorsaList.size()];
+		
+		for(int i=0; i<campiRisorsaList.size();i++)
+			s[i]=campiRisorsaList.get(i);
+		
+		return s;
 	}
 }
