@@ -621,4 +621,29 @@ public class Model extends Observable {
 
 					return verificaPrerequisitiPrestito(fruitori.get(numFruitore), risorsaScelta);
 				}
+
+				public String numEventoAnnoSolare(String nomeEvento, String descrizione) {
+					
+					return storico.numEventoAnnoSolare(nomeEvento, descrizione,getElencoEventi());
+				}
+
+				private String[] getElencoEventi() {
+					String[] lista = {ISCRIZIONE_FRUITORE,FRUITORE_DECADUTO,NUOVO_PRESTITO,PROROGA_PRESTITO,RINNOVO_ISCRIZIONE,RISORSA_AGGIUNTA,RISORSA_DISPONIBILE,RISORSA_ELIMINATA,TERMINE_DISPONIBILITA}; 
+					return lista;
+				}
+
+				public String risorsaPiuPrestata() {
+
+					return storico.maxOccorrenzeEvento(NUOVO_PRESTITO);
+				}
+
+				public String prestitiFruitoriAnnoSolare() {
+
+					return storico.prestitiFruitoriAnnoSolare(NUOVO_PRESTITO);
+				}
+
+				public String getDescrizioneStorico() {
+					// TODO Auto-generated method stub
+					return storico.getDescrizione();
+				}
 }

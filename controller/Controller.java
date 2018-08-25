@@ -373,19 +373,19 @@ public class Controller  implements Serializable{
 					switch(sceltaMenuStorico) {
 					
 					case 1: 
-						view.notify(Storico.getDescrizione());
+						view.notify(model.getDescrizioneStorico());
 						break;
 					case 2:
-						view.notify(Storico.numEventoAnnoSolare(model.NUOVO_PRESTITO,"prestiti"));
+						view.notify(model.numEventoAnnoSolare(Model.NUOVO_PRESTITO,"prestiti"));
 						break;
 					case 3:
-						view.notify(Storico.numEventoAnnoSolare(model.PROROGA_PRESTITO,"proroghe"));
+						view.notify(model.numEventoAnnoSolare(Model.PROROGA_PRESTITO,"proroghe"));
 						break;
 					case 4:
-						view.notify(Storico.risorsaPiuPrestata());
+						view.notify(model.risorsaPiuPrestata());
 						break;
 					case 5:
-						view.notify(Storico.prestitiFruitoriAnnoSolare());
+						view.notify(model.prestitiFruitoriAnnoSolare());
 						break;
 					default : break;					
 

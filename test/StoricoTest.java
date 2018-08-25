@@ -70,18 +70,6 @@ public class StoricoTest {
 	public void testRisorsaPiuPrestata() {
 
 	
-    storico.nuovoPrestito(1,5,"a");
-	
-	assert storico.risorsaPiuPrestata().equals("2018 : risorsa più prestata : 1");
-	
-    storico.nuovoPrestito(2,5,"a");
-
-	
-    assert storico.risorsaPiuPrestata().equals("2018 : risorse più prestate a pari merito : 1 , 2");
-
-    storico.nuovoPrestito(1,5,"a");
-    
-	assert storico.risorsaPiuPrestata().equals("2018 : risorsa più prestata : 1");
 
 
 	}
@@ -89,22 +77,7 @@ public class StoricoTest {
 	@Test
 	public void testPrestitiFruitoriAnnoSolare() {
 
-		storico.iscrizioneFruitore("a");
-		storico.nuovoPrestito(1, 5, "a");
-
-		assert storico.prestitiFruitoriAnnoSolare().equals("2018 : utente : a -> 1 prestiti \n");
 	
-		storico.iscrizioneFruitore("b");
-		
-		assert storico.prestitiFruitoriAnnoSolare().equals("2018 : utente : a -> 1 prestiti \n");
-
-
-		storico.nuovoPrestito(3, 5, "b");
-		storico.nuovoPrestito(3, 5, "b");
-
-		
-		assert storico.prestitiFruitoriAnnoSolare().equals("2018 : utente : a -> 1 prestiti \n2018 : utente : b -> 2 prestiti \n");
-
 		
 		
 	}
