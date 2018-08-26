@@ -1,4 +1,4 @@
-package model;
+package controller;
 
 import java.io.File;
 import java.io.Serializable;
@@ -10,7 +10,10 @@ import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
 import it.unibs.ing.mylib.ServizioFile;
 import it.unibs.ing.mylib.Stampa;
+import model.Model;
+import storico.Storico;
 import view.BibliotecaView;
+import view.MyView;
 
 @SuppressWarnings("serial")
 
@@ -128,7 +131,7 @@ public class Controller  implements Serializable{
 		data_scadenza.add(Calendar.YEAR, 5);
 		
 		model.addFruitore(nome, cognome, eta, username, password, data_iscrizione, data_scadenza);
-		model.storiaIscrizioneFruitore(username) ; //crea evento nell'archivio storico 
+		
 		
 		assert invariante() ;		
 		return username;	}
@@ -162,7 +165,7 @@ public class Controller  implements Serializable{
 
 		}else {
 			model.aggiornaDataScadenzaFruitore(numFruitore);
-			model.storiaRinnovoIscrizioneFruitore(numFruitore);
+			
 		}
 		assert invariante()  ; 
 	}
@@ -238,7 +241,6 @@ public class Controller  implements Serializable{
 						
 						model.richiediPrestitoFruitore(numFruitore,risorsaScelta, descrizioneRisorsa, inizio, fine, durataProroga, termineProroga);
 						view.notify(BelleStringhe.rigaIsolata(BUON_FINE));
-						model.storiaNuovoPrestito(risorsaScelta,numFruitore);
 					} else {
 						Stampa.aVideo(MESSAGGIO_PRESTITO_NON_CONCESSO);
 					}
@@ -263,7 +265,6 @@ public class Controller  implements Serializable{
 
 						default:
 							model.rinnovaPrestitoFruitore(numFruitore,inScadenza,scegliDaRinnovare);
-							model.prorogaPrestitoFruitore(numFruitore,inScadenza,scegliDaRinnovare);
 							break;
 						}
 					} else {
@@ -375,10 +376,10 @@ public class Controller  implements Serializable{
 						view.notify(model.getDescrizioneStorico());
 						break;
 					case 2:
-						view.notify(model.numEventoAnnoSolare(model.getEventoNuovoPrestito(),"prestiti"));
+						view.notify(model.numEventoAnnoSolare(Model.NUOVO_PRESTITO,"prestiti"));
 						break;
 					case 3:
-						view.notify(model.numEventoAnnoSolare(model.getEventoProrogaPrestito(),"proroghe"));
+						view.notify(model.numEventoAnnoSolare(Model.PROROGA_PRESTITO,"proroghe"));
 						break;
 					case 4:
 						view.notify(model.risorsaPiuPrestata());

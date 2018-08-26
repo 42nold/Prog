@@ -1,8 +1,9 @@
-package model;
+package risorse;
 
 import java.util.ArrayList;
 
 import it.unibs.ing.mylib.InputDati;
+import storico.Storico;
 
 public class VideotecaContenitore extends CategoriaPrimoLivello<Film>{
 
@@ -49,7 +50,6 @@ public class VideotecaContenitore extends CategoriaPrimoLivello<Film>{
 		idRisorsa++ ;
 		
 		risorse.add(new Film(nome,regista,casa,gen,lin,anno,durata,id,numLicenze));
-	Storico.risorsaAggiunta(id);
 		
 		assert invarianteC() && (risorse.size()==libriPre+1 ) && idRisorsa==idPre+1 ;
 		
@@ -114,6 +114,20 @@ public class VideotecaContenitore extends CategoriaPrimoLivello<Film>{
 	public String[] getAttributiNumerici() {
 		// TODO Auto-generated method stub
 		return Film.getAttributiNumerici();
+	}
+
+
+	@Override
+	public int getIdCategoria(int idRisorsa) {
+		assert invarianteC();
+		
+	for(Categoria<Film> categoria : sottocategorie) {
+		
+		int risultatoParziale = categoria.getIdCategoria(idRisorsa);
+		
+		if(risultatoParziale!=-1) return risultatoParziale;
+	}
+	return -1;
 	}
 
 }

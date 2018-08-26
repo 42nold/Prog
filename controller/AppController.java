@@ -4,7 +4,6 @@ package controller;
 
 import java.io.Serializable;
 
-import model.Controller;
 import model.Model;
 import view.BibliotecaView;
 

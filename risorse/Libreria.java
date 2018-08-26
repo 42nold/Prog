@@ -1,8 +1,9 @@
-package model;
+package risorse;
 
 import java.util.ArrayList;
 
 import it.unibs.ing.mylib.InputDati;
+import storico.Storico;
 
 public class Libreria extends Categoria<Libro> {
 
@@ -34,7 +35,6 @@ public class Libreria extends Categoria<Libro> {
 		Libro libro = new Libro(nome,aut,casa,gen,lin,anno,pagine,id,numLicenze) ;
 		risorse.add(libro);
 		
-		Storico.risorsaAggiunta(id);
 		
 		assert invarianteC() && (risorse.size()==libriPre+1 ) && idRisorsa==idPre+1 ;
 
@@ -97,6 +97,25 @@ public class Libreria extends Categoria<Libro> {
 	public String[] getAttributiNumerici() {
 		// TODO Auto-generated method stub
 		return Libro.getAttributiNumerici();
+	}
+
+	@Override
+	public int getIdCategoria(int idRisorsa) {
+		assert invarianteC();
+		
+		
+		if(risorse.size()>0) {
+			for(Libro l : risorse) {
+				if (l.getId() == idRisorsa) {
+					assert invarianteC() ;
+					if(l.getClass()==new Libro("","","","","",1,1,1,1).getClass())    return 0;  //if clause ridondante
+					
+					}
+			}
+		}
+	
+		assert invarianteC() ;
+		return -1;
 	}
 
 	

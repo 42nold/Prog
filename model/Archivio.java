@@ -12,6 +12,12 @@ import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
 import it.unibs.ing.mylib.ServizioFile;
 import it.unibs.ing.mylib.Stampa;
+import risorse.Categoria;
+import risorse.CategoriaPrimoLivello;
+import risorse.LibreriaContenitore;
+
+import risorse.VideotecaContenitore;
+import storico.Storico;
 
 
 @SuppressWarnings("serial")
@@ -34,9 +40,8 @@ public class Archivio implements Serializable {
 	static final String NUOVO_PRESTITO = "NUOVO PRESTITO CONCESSO A : ";
 	static final String PROROGA_PRESTITO = "PROROGA DEL PRESTITO A : ";
 	
-	private static Storico storico = new Storico();
 	
-	private static ArrayList<CategoriaPrimoLivello<? extends Risorsa>> categorie;
+	private static ArrayList<CategoriaPrimoLivello> categorie;
 	
 	private int attributoScelto;
 	private ArrayList<Integer> match;
@@ -46,7 +51,7 @@ public class Archivio implements Serializable {
 	 * 
 	 */
 	public Archivio(){
-		categorie = new ArrayList<CategoriaPrimoLivello<? extends Risorsa>>();
+		categorie = new ArrayList<CategoriaPrimoLivello>();
 		aggiungiCategoria("libreria","Libri", DURATA_PRESTITO_LIBRI, DURATA_PROROGA_LIBRI, TERMINE_PROROGA_LIBRI, MAX_RISORSE_PER_LIBRI, ID_LIBRI); //inizializzazione di default
 		aggiungiCategoria("videoteca","Film", DURATA_PRESTITO_FILM, DURATA_PROROGA_FILM, TERMINE_PROROGA_FILM, MAX_RISORSE_PER_FILM, ID_FILM); //inizializzazione di default
 		
@@ -62,7 +67,7 @@ public class Archivio implements Serializable {
 	 */
 	protected boolean invariante() {
 	
-	if(	categorie!=null && categorie.size()>0 && storico!=null ) return true;
+	if(	categorie!=null && categorie.size()>0 ) return true;
 		
 	return false;
 	}
@@ -176,25 +181,7 @@ public class Archivio implements Serializable {
 		assert invariante() && archivioPre==this;
 		return risultato;
 	}
-/**
- * propaga il metodo azione di ricerca alle categorie dell'archivio
- * @param id 
- * @param eliMod
- * @pre id>=0 && eliMod>=0 
- * @post categorieSize()==categorieSize()@pre
- */
-	/**
-	 * usa showRisorsa(id) modifica(id) o rimuoviRisorsa(id) in base al parametro in ingresso 
-	 * @param id parametro da usare
-	 * @param eli_o_mod determina quale metodo usare con id come parametro
-	 * 
-	 */
-	private void azioneDaRicerca(int id, int eliMod) {							
-		assert invariante() && id>=0 && eliMod>=0;
-		int categoriePre=categorie.size();
-		
-		
-	}
+
 
 	/**
 	 * filtra tutte le risorse che rispecchiano i parametri immessi in un unico array : può ritornare null!
@@ -247,15 +234,18 @@ public class Archivio implements Serializable {
 	assert  nome!= null && durataMassimaPrestito>=0 && durataProrogaLibri>=0 && termineProroga>=0 && maxRisorsePerLibri>0 && id>=0;
 	int categoriePre = categorie.size();
 	
-	CategoriaPrimoLivello<?> nuovo = null;
-	
-	if(tipo.equals("libreria"))
-		nuovo = new LibreriaContenitore(nome, durataMassimaPrestito, durataProrogaLibri, termineProroga, maxRisorsePerLibri, id);
-	
-	if(tipo.equals("videoteca"))
-		nuovo = new VideotecaContenitore(nome, durataMassimaPrestito, durataProrogaLibri, termineProroga, maxRisorsePerLibri, id);
+		
+		CategoriaPrimoLivello<?> nuovo = null;
+		
+		if(tipo.equals("libreria"))
+			 nuovo = new LibreriaContenitore(nome, durataMassimaPrestito, durataProrogaLibri, termineProroga, maxRisorsePerLibri, id);
+			
+			if(tipo.equals("videoteca"))
+				nuovo = new VideotecaContenitore(nome, durataMassimaPrestito, durataProrogaLibri, termineProroga, maxRisorsePerLibri, id);
 
-	categorie.add(nuovo);
+		if(nuovo!=null)	categorie.add( nuovo);
+	
+
 		
 		assert invariante() && categoriePre==categorie.size()-1;
 	}
@@ -310,7 +300,7 @@ public class Archivio implements Serializable {
 		
 		File f = new File(NOMEFILECATEGORIE);
 		@SuppressWarnings("unchecked")
-		 ArrayList<CategoriaPrimoLivello<? extends Risorsa>> a = ( ArrayList<CategoriaPrimoLivello<? extends Risorsa>>)ServizioFile.caricaSingoloOggetto(f);
+		 ArrayList<CategoriaPrimoLivello> a = ( ArrayList<CategoriaPrimoLivello>)ServizioFile.caricaSingoloOggetto(f);
 		
 		if( a==null ) {
 			assert invariante();
@@ -318,9 +308,7 @@ public class Archivio implements Serializable {
 		}
 		else 
 			categorie=a; 
-		
-		storico.importaDati();
-		
+				
 		assert invariante();
 	}
 	
@@ -336,7 +324,6 @@ public class Archivio implements Serializable {
 		File f = new File(NOMEFILECATEGORIE);
 		ServizioFile.salvaSingoloOggetto(f, categorie);
 		
-		storico.salvaDati();
 		
 		assert invariante() && archivioPre == this;
 	}
@@ -547,11 +534,9 @@ public class Archivio implements Serializable {
 	/**
 	 * cerca il massimo valore id tra le risorse dell'archivio e aggiorna il contatore di id
 	 * @pre true
-	 * @post storicoNoChange()
 	 */
 	public void idCorrente() {
 		assert invariante() ;
-		Storico storicoPre = storico ;
 		
 		int maxIdCorrente;
 		int maxIdNext;
@@ -567,7 +552,7 @@ public class Archivio implements Serializable {
 			
 			Categoria.setId(maxIdCorrente+1);  
 		}
-		assert invariante() && storicoPre == storico;
+		assert invariante() ;
 	}
 /**
  * 	cerca l'id della categoria che contiene la risorsa in ingresso
@@ -592,142 +577,7 @@ public class Archivio implements Serializable {
 		assert invariante() && archivioPre== this;
 		return -1;
 	}
-/**
- * triggera la generazione evento di iscrizione nuovo fruitore nello storico
- * @param username del fruitore protagonista dell'evento
- * @pre username != null
- * @post storicoSize() == storicoSize()@pre +1
- */
-	public void storiaIscrizioneFruitore(String username) {
-		assert invariante() &&  username != null ;
-		int storicoPre = Storico.size();
-		
-		storico.iscrizioneFruitore(username);	
-		
-		assert invariante() && storicoPre==Storico.size()-1 ;
-	}
-	/**
-	 * triggera la generazione evento di decadimento di un fruitore nello storico
-	 * @param username del fruitore protagonista dell'evento
-	 * @pre username != null
-	 * @post storicoSize() == storicoSize()@pre +1
-	 */
-	public void storiaFruitoreDecaduto(String username) {
-		assert invariante() &&  username != null ;
-		int storicoPre = Storico.size();
-		
-		storico.FruitoreDecaduto(username);	
-	
-		assert invariante() && storicoPre==Storico.size()-1 ;
-	}
-	/**
-	 * triggera la generazione evento di rinnovo iscrizione nello storico
-	 * @param username del fruitore protagonista dell'evento
-	 * @pre username != null
-	 * @post storicoSize() == storicoSize()@pre +1
-	 */
-	public void storiaRinnovoIscrizioneFruitore(String username) {
-		assert invariante() &&  username != null ;
-		int storicoPre = Storico.size();
-		
-		storico.RinnovoIscrizioneFruitore(username);		
-		
-		assert invariante() && storicoPre==Storico.size()-1 ;
-	}
-	/**
-	 * ritorna la descrizione dello storico completo
-	 * @return la descrizione
-	 * @pre true
-	 * @post @nochange && @return!=null
-	 */
-	public String getDescrizioneStorico() {
-		assert invariante() ;
-		Archivio archivioPre = this ;
-		
-		String risultato = storico.toString();
-		
-		assert invariante() && archivioPre == this && risultato!= null; 
-		return risultato ;
-	}
-	/**
-	 * triggera la generazione evento di nuovo prestito nello storico
-	 * @param risorsaScelta risorsa prestata(id)
-	 * @param numeroLicenzeRisorsa numero licenze rimaste della risorsa prestata
-	 * @param username fruitore protagonista 
-	 * @pre username != null && risorsaScelta>=0 && numeroLicenzeRisorsa
-	 * @post (size() == size()@pre + 1 || size() == size()@pre +2)
-	 */
-	public void storiaNuovoPrestito(int risorsaScelta, int numeroLicenzeRisorsa, String username) {
-		assert invariante() && username != null && risorsaScelta>=0 && numeroLicenzeRisorsa>=0 ;
-		int storicoPre = Storico.size();
-		
-		storico.nuovoPrestito(risorsaScelta,numeroLicenzeRisorsa,username);	
-		
-		assert invariante() && (Storico.size() == storicoPre + 1 || Storico.size() == storicoPre +2);
-	}
-	/**
-	 * triggera la generazione evento di proroga prestito nello storico
-	 * @param username del fruitore protagonista dell'evento
-	 * @param integer numero di proroga
-	 * @pre username != null && integer >= 0
-	 * @post storicoSize() == storicoSize()@pre +1
-	 */
-	public void prorogaPrestito(String username, Integer integer) {
-		assert invariante() && username != null && integer >= 0;
-		int storicoPre = Storico.size();
-		
-		storico.prorogaPrestito(username,integer);		
-		
-		assert invariante() && storicoPre==Storico.size()-1 ;
-	}
-	/**
-	 * triggera la generazione evento di risorsa disponibile nello storico
-	 * @param integer id della risorsa prestata
-	 * @pre integer>=0
-	 * @post storicoSize() == storicoSize()@pre +1
-	 */
-	public void risorsaDisponibile(Integer integer) {
-		assert invariante() && integer>=0 ;
-		int storicoPre = Storico.size() ;
-		
-		storico.risorsaDisponibile(integer);
-		
-		assert invariante()  && storicoPre+1 == Storico.size();
-	}
-/**
- * stampa a video il risultato della statistica riguardo ad un evento voluto 
- * @param evento sselezionato
- * @param descrizione stringa di descrizione dell'occorrenza
- * @pre eventoValido(nomeEvento) && descrizione!= null
- * @post @nochange
- */
-	public String numEventoAnnoSolare(String evento ,String descrizione) {
 
-		return storico.numEventoAnnoSolare(evento,descrizione);		
-		
-	}
-	/**
-	 * stampa a video il risultato della statistica riguardo alla risorsa più prestata
-	 * @pre true
-	 * @post @nochange
-	 */
-	public String risorsaPiuPrestata() {
-
-		return storico.risorsaPiuPrestata();
-		
-	}
-	/**
-	 * stampa a video il risultato della statistica riguardo ai prestiti per fruitore per anno solare
-	 * @pre true
-	 * @post @nochange
-	 */
-	public String prestitiFruitoriAnnoSolare() {
-
-		return storico.prestitiFruitoriAnnoSolare();
-		
-
-	}	
-	
 	/**
 	 * chiama il metodo scegli risorsa della categoria voluta nell'archivio
 	 * @param posizione della categoria
@@ -796,7 +646,7 @@ public class Archivio implements Serializable {
 
 		assert attributiStringaFinali!=null && attributiNumericiFinali != null && categoria >= 0;
 		
-		categorie.get(categoria).aggiungiRisorsa(attributiStringaFinali,attributiNumericiFinali);
+		categorie.get(categoria).aggiungiRisorsaEAggiornaStorico(attributiStringaFinali,attributiNumericiFinali);
 	}
 	
 	
@@ -836,7 +686,18 @@ public class Archivio implements Serializable {
 	
 	public void aggiungiRisorsa(String[] attributiStringa, int[] attributiNumerici, int categoria, int sottocategoria) {
 
-		categorie.get(categoria).aggiungiRisorsa(attributiStringa, attributiNumerici,sottocategoria);
+		categorie.get(categoria).aggiungiRisorsaEAggiornaStorico(attributiStringa, attributiNumerici,sottocategoria);
+	}
+
+	/*
+	 * cerca qual'è l'id più alto tra tutte le risorse oppure -1 se non ci sono categorie
+	 *  
+	 */
+	public int idMax() {
+
+		if(categorie.size()>0) return categorie.get(0).idMax();
+	
+		return -1;
 	}
 
 	

@@ -1,4 +1,4 @@
-package model;
+package risorse;
 
 import java.io.Serializable;
 

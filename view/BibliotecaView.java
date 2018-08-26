@@ -6,7 +6,6 @@ import it.unibs.ing.mylib.BelleStringhe;
 import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
 import it.unibs.ing.mylib.Stampa;
-import model.MyView;
 
 public class BibliotecaView implements MyView{
 

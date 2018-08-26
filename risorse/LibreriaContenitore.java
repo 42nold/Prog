@@ -1,8 +1,9 @@
-package model;
+package risorse;
 
 import java.util.ArrayList;
 
 import it.unibs.ing.mylib.InputDati;
+import storico.Storico;
 
 public class LibreriaContenitore extends CategoriaPrimoLivello<Libro> {
 
@@ -46,7 +47,6 @@ public class LibreriaContenitore extends CategoriaPrimoLivello<Libro> {
 		Libro libro = new Libro(nome,aut,casa,gen,lin,anno,pagine,id,numLicenze) ;
 		risorse.add(libro);
 		
-		Storico.risorsaAggiunta(id);
 		
 		assert invarianteC() && (risorse.size()==libriPre+1 ) && idRisorsa==idPre+1 ;
 
@@ -111,4 +111,18 @@ public class LibreriaContenitore extends CategoriaPrimoLivello<Libro> {
 		return Libro.getAttributiNumerici();
 	}
 
-}
+	@Override
+	public int getIdCategoria(int idRisorsa) {
+		assert invarianteC();
+		
+		for(Categoria<Libro> categoria : sottocategorie) {
+			
+			int risultatoParziale = categoria.getIdCategoria(idRisorsa);
+			
+			if(risultatoParziale!=-1) return risultatoParziale;
+		}
+		return -1;
+		}
+	}
+
+

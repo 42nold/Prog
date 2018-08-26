@@ -1,6 +1,8 @@
-package model;
+package risorse;
 
 import java.util.ArrayList;
+
+import storico.Storico;
 
 @SuppressWarnings("serial")
 public class Videoteca extends Categoria<Film>{
@@ -32,7 +34,6 @@ public class Videoteca extends Categoria<Film>{
 		idRisorsa++ ;
 		
 		risorse.add(new Film(nome,regista,casa,gen,lin,anno,durata,id,numLicenze));
-	Storico.risorsaAggiunta(id);
 		
 		assert invarianteC() && (risorse.size()==libriPre+1 ) && idRisorsa==idPre+1 ;
 		
@@ -93,6 +94,22 @@ public class Videoteca extends Categoria<Film>{
 	public String[] getAttributiNumerici() {
 
 		return Film.getAttributiNumerici();
+	}
+
+	@Override
+	public int getIdCategoria(int idRisorsa) {
+		assert invarianteC();
+		
+		if(risorse.size()>0) {
+			for(Film l : risorse) {
+				if (l.getId() == idRisorsa) {
+					if(l.getClass()==new Film("", "", "", "", "", 1, 1, 1, 1).getClass())  return 1;
+					}
+			}
+		}
+	
+		assert invarianteC() ;
+		return -1;
 	}
 	
 
