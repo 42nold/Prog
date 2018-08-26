@@ -118,19 +118,20 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 	 * @pre attributoScelto!=null && (chiaveDiRicerca!=null || numDiRicerca!=null)
 	 * @post @nochange
 	 */
-	public ArrayList<Integer> filtraSottoCategorie(int attributoScelto, Object parametroRicerca) throws ClassCastException{		
+	public ArrayList<Integer> filtraRisorse(int attributoScelto, Object parametroRicerca) throws ClassCastException{		
 		//assert invariante() && attributoScelto>=0 && (chiaveDiRicerca!=null || numDiRicerca>=0);
 		//CategoriaPrimoLivello<T> thisPre = this;
 		
 		 ArrayList<Integer> risultato = new  ArrayList<Integer>();
 		
-		 for(Categoria<T> s : sottocategorie) {
-			
-			ArrayList<Integer> risorseDiSottocategoria = s.filtraRisorse(attributoScelto, parametroRicerca);
-	
-			for( int sotto : risorseDiSottocategoria) 
-				risultato.add(sotto);
-		}
+		 if (hasSottoCategoria())
+			 for(Categoria<T> s : sottocategorie) {
+				
+				ArrayList<Integer> risorseDiSottocategoria = s.filtraRisorse(attributoScelto, parametroRicerca);
+		
+				for( int sotto : risorseDiSottocategoria) 
+					risultato.add(sotto);
+			}
 		
 		// assert invariante() && thisPre == this ;
 		return risultato;
@@ -312,14 +313,21 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 
 	public void modifica(int id, Object[] nuoviAttributi) throws ClassCastException{
 	
-		if(hasSottoCategoria()) trovaSottoCategoria(id).modifica(id,nuoviAttributi);
+		if(hasSottoCategoria()) {
+			Categoria <T> c = trovaSottoCategoria(id);
+			if (c!=null)
+				c.modifica(id,nuoviAttributi);
+		}
 	}
 
 
 	public void rimuoviRisorsa(int id) {
 		
-		trovaSottoCategoria(id).rimuoviRisorsa(id);
-	
+		if(hasSottoCategoria()) {
+			Categoria <T> c = trovaSottoCategoria(id);
+			if (c!=null)
+			c.rimuoviRisorsa(id);
+		}
 	}
 	
 	public String[] elencoRisorse(int s) {
@@ -360,4 +368,14 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 		assert this==thisPre;
 		return invariante;
 	}*/
+	
+	public int getIdCategoria(int idRisorsa) {
+		if(hasSottoCategoria()) 
+			for (Categoria c: sottocategorie) {
+				int id=c.getIdCategoria(idRisorsa);
+				if (id!=-1) 
+					return id;
+			}	
+		return -1;
+	}
 }

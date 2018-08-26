@@ -80,9 +80,7 @@ public class BibliotecaView implements MyView{
 			}
 		}
 		
-		return s;
-		
+		return s;		
 		
 	}
-
 }

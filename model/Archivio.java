@@ -18,6 +18,8 @@ import risorse.LibreriaContenitore;
 import risorse.Risorsa;
 import risorse.VideotecaContenitore;
 import storico.Storico;
+import utility.Load;
+import utility.Save;
 
 
 @SuppressWarnings("serial")
@@ -39,6 +41,8 @@ public class Archivio implements Serializable {
 	
 	private int attributoScelto;
 	private ArrayList<Integer> match;
+	private Save save;
+	private Load load;
 	
 	/**
 	 * istanzia la classe archivio con due categorie e due sottocategorie
@@ -46,8 +50,8 @@ public class Archivio implements Serializable {
 	 */
 	public Archivio(){
 		categorie = new ArrayList<CategoriaPrimoLivello<? extends Risorsa>>();
-		aggiungiCategoria("libreria","Libri", ID_LIBRI); //inizializzazione di default
-		aggiungiCategoria("videoteca","Film", ID_FILM); //inizializzazione di default
+		aggiungiCategoriaPrimoLivello("libreria","Libri", ID_LIBRI); //inizializzazione di default
+		aggiungiCategoriaPrimoLivello("videoteca","Film", ID_FILM); //inizializzazione di default
 		
 		//idCorrente();
 		assert invariante();
@@ -80,7 +84,7 @@ public class Archivio implements Serializable {
 		else {
 				int i=0;
 				
-				for(CategoriaPrimoLivello c : categorie) {
+				for(Categoria c : categorie) {
 					
 					elenco[i]=c.getNome();
 					
@@ -116,20 +120,12 @@ public class Archivio implements Serializable {
 	 public boolean categoriaHaRisorse(int scelta) {
 		 
 
-			CategoriaPrimoLivello categoriaPrimoLivello = categorie.get(scelta);
+			Categoria categoria = categorie.get(scelta);
 
 		
-			return categoriaPrimoLivello.hasRisorse();
+			return categoria.hasRisorse();
 	 }
 	 
-	/* private void gestioneRisorse(int scelta) {
-
-
-			CategoriaPrimoLivello categoriaPrimoLivello = categorie.get(scelta);
-
-			categoriaPrimoLivello.gestioneRisorse();
-
-		}*/
 	 
 	 public boolean categoriaHaSottoCategoria(int scelta) {
 
@@ -145,14 +141,6 @@ public class Archivio implements Serializable {
 			 return categoriaPrimoLivello.elencoSottoCategorie();
 		}
 		
-	/*	public void usaSottoCategoria(int categoria,int sottocategoria) {
-
-			CategoriaPrimoLivello categoriaPrimoLivello = categorie.get(categoria);
-
-			categoriaPrimoLivello.usaSottoCategoria(sottocategoria);
-			
-		}*/
-
 
 /**
  * ricerca il nome di una risorsa avendo in ingresso l'id di essa in  tutto l'archivio
@@ -166,8 +154,8 @@ public class Archivio implements Serializable {
 		Archivio archivioPre = this;
 		
 		String risultato=null;
-		for(CategoriaPrimoLivello<? extends Risorsa> categoriaPrimoLivello : categorie) {
-			risultato=categoriaPrimoLivello.getNomeRisorsa(r);
+		for(Categoria<? extends Risorsa> categoria : categorie) {
+			risultato=categoria.getNomeRisorsa(r);
 			if (risultato!=null) return risultato;
 		}
 		
@@ -191,22 +179,12 @@ public class Archivio implements Serializable {
 
 		ArrayList<Integer> risultato = new ArrayList<Integer>();
 	
-		for(CategoriaPrimoLivello c : categorie) {
+		for(Categoria c : categorie) {
+		
+			ArrayList<Integer> risorse = c.filtraRisorse(attributoScelto,parametroDiRicerca);
+			for(int ris : risorse)
+				risultato.add(ris);
 			
-			if(c.hasRisorse()) {
-				ArrayList<Integer> risorseDiCategoria = c.filtraRisorse(attributoScelto,parametroDiRicerca);
-				for(int ris : risorseDiCategoria)
-					risultato.add(ris);
-			}
-			else  {
-				
-				if (c.hasSottoCategoria()) {
-					ArrayList<Integer> risorseDiSottoCategoria = c.filtraSottoCategorie(attributoScelto,parametroDiRicerca);
-					for(int ris : risorseDiSottoCategoria) 
-						risultato.add(ris);
-					
-				}	
-			}
 		}
 		
 		assert invariante() && archivioPre==this;
@@ -223,22 +201,20 @@ public class Archivio implements Serializable {
  * @pre nome!= null && durataMassimaPrestito>=0 && durataProrogaLibri>=0 && termineProroga>=0 && maxiRisorseLibri>0 && id>=0
  * @post categorieSize() == categorieSize()@pre+1
  */
-	public void aggiungiCategoria(String tipo,String nome, int id) {
-	assert  nome!= null &&  id>=0;
-	int categoriePre = categorie.size();
+	public void aggiungiCategoriaPrimoLivello(String tipo,String nome, int id) {
+		assert  nome!= null &&  id>=0;
+		int categoriePre = categorie.size();
 	
 		
 		CategoriaPrimoLivello<?> nuovo = null;
 		
 		if(tipo.equals("libreria"))
 			 nuovo = new LibreriaContenitore(nome, id);
-			
-			if(tipo.equals("videoteca"))
-				nuovo = new VideotecaContenitore(nome, id);
+		
+		if(tipo.equals("videoteca"))
+			nuovo = new VideotecaContenitore(nome, id);
 
 		if(nuovo!=null)	categorie.add(nuovo);
-	
-
 		
 		assert invariante() && categoriePre==categorie.size()-1;
 	}
@@ -291,9 +267,7 @@ public class Archivio implements Serializable {
 	public void importaDati() {
 		assert invariante();
 		
-		File f = new File(NOMEFILECATEGORIE);
-		@SuppressWarnings("unchecked")
-		 ArrayList<CategoriaPrimoLivello<?>> a = ( ArrayList<CategoriaPrimoLivello<?>>)ServizioFile.caricaSingoloOggetto(f);
+		ArrayList<CategoriaPrimoLivello<?>> a = (ArrayList<CategoriaPrimoLivello<?>>) load.importaDatiDaFile(NOMEFILECATEGORIE);
 		
 		if( a==null ) {
 			assert invariante();
@@ -316,8 +290,7 @@ public class Archivio implements Serializable {
 		assert invariante();
 		Archivio archivioPre = this;
 		
-		File f = new File(NOMEFILECATEGORIE);
-		ServizioFile.salvaSingoloOggetto(f, categorie);
+		save.salvaDatiSuFile(NOMEFILECATEGORIE, categorie);
 		
 		storico.salvaDati();
 		
@@ -325,9 +298,6 @@ public class Archivio implements Serializable {
 	}
 	
 		
-
-
-
 	/**
 	 * Cerca la durata del prestito di una risorsa di una categoria.
 	 * @param risorsa id della risorsa cercata
@@ -711,7 +681,6 @@ public class Archivio implements Serializable {
 
 		return storico.prestitiFruitoriAnnoSolare();
 		
-
 	}	
 	
 	/**
@@ -743,17 +712,14 @@ public class Archivio implements Serializable {
 
 	public void rimuoviRisorsa(int id, int c) {
 
-		if (categorie.get(c).hasRisorse())
-			categorie.get(c).rimuoviRisorsa(id);
-		else {
-			int sottocategoria=
-		}
+		categorie.get(c).rimuoviRisorsa(id);
 			
 	}
 	public int numeroSottocategorie(int c) {
 
 		return categorie.get(c).numeroSottoCategorie();
 	}
+	
 	public String showRisorsa(int id, int c, int s) {
 		return categorie.get(c).showRisorsa(id,s);
 	}
@@ -773,14 +739,7 @@ public class Archivio implements Serializable {
 
 		return categorie.get(c).elencoRisorse();
 	}
-	/*public void gestioneRisorseCategoria(int scelta) {
-
-
-		categorie.get(scelta).gestioneRisorse();
-		
-
 	
-	}*/
 	protected void aggiungiRisorsa(ArrayList<Object> nuoviAttributi, int categoria) throws ClassCastException {
 
 

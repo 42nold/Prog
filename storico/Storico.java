@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import it.unibs.ing.mylib.ServizioFile;
+import risorse.Categoria;
+import utility.Load;
+import utility.Save;
 
 @SuppressWarnings("serial")
 
@@ -38,6 +41,8 @@ public class Storico implements Serializable{
 
 	
 	private static ArrayList<Evento> storia;
+	private Save save;
+	private Load load;
 	
 
 	 /**
@@ -159,10 +164,7 @@ public class Storico implements Serializable{
 		assert invariante() ;
 		ArrayList<Evento> storiaPre = storia;
 		
-		
-		File g = new File(NOMEFILESTORICO);
-		ServizioFile.salvaSingoloOggetto(g, storia);	
-		
+		save.salvaDatiSuFile(NOMEFILESTORICO, storia);
 	
 		assert storiaPre==storia;
 		assert invariante() ;
@@ -176,12 +178,12 @@ public class Storico implements Serializable{
 	public void importaDati() {
 		assert invariante() ;
 
-		File h = new File(NOMEFILESTORICO);
+		ArrayList<Evento> b = (ArrayList<Evento>) load.importaDatiDaFile(NOMEFILESTORICO);
 		
-		@SuppressWarnings("unchecked")
-		ArrayList<Evento> b = (ArrayList<Evento>)ServizioFile.caricaSingoloOggetto(h);
-		if(b==null) {storia = new ArrayList<Evento>();}
-		else {storia=b;}	
+		if(b==null) 
+			storia = new ArrayList<Evento>();
+		else 
+			storia=b;
 		
 		assert invariante();
 	}
@@ -391,8 +393,7 @@ public class Storico implements Serializable{
 						}
 						statistica.append(annoIndice+" : utente : "+utenteCorrente+" -> "+count+" prestiti \n");
 						
-					}
-									
+					}					
 			}
 		
 		}

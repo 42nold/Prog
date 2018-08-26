@@ -120,15 +120,15 @@ public class Prestito implements Serializable{
 		ceiling.add(Calendar.DAY_OF_YEAR, UNO); // 1 per fare il >= essendoci solo after che corrisponde a >
 		floor.add(Calendar.DAY_OF_YEAR, -(termineProroga + UNO));
 		
-		/*
+		
 		if (Calendar.getInstance().after(floor) && Calendar.getInstance().before(ceiling) && !rinnovato) {
 			return true;
 		} else {
 			return false;
 		}
-		*/
 		
-		//test scadenze senza dover aspettare 1 mese
+		
+		/*test scadenze senza dover aspettare 1 mese
 				Calendar dataPerProve = Calendar.getInstance(); 
 				
 				dataPerProve.set(2018, 4, 14);
@@ -139,7 +139,7 @@ public class Prestito implements Serializable{
 		} else {
 			assert invariante() && prestitoPre==this;
 			return false;
-		}
+		}*/
 	}
 /**
  * verifica se il prestito � gi� stato rinnovato

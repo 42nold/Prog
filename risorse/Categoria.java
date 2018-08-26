@@ -462,6 +462,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 		return descrizioneCampi.get(attributoScelto-1);
 	}
 	
+	
 	/**
 	 * getter
 	 * @return durata massima del prestito
