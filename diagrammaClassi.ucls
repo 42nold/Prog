@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="risorse.CategoriaPrimoLivello" project="ProgMaster" 
     file="/ProgMaster/risorse/CategoriaPrimoLivello.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="172" x="816" y="-1755"/>    
+    <position height="53" width="172" x="795" y="-1751"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="risorse.Categoria" project="ProgMaster" file="/ProgMaster/risorse/Categoria.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="101" x="859" y="-1593"/>    
+    <position height="53" width="101" x="1043" y="-1741"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="model.Archivio" project="ProgMaster" file="/ProgMaster/model/Archivio.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="92" x="863" y="-1884"/>    
+    <position height="53" width="92" x="855" y="-1882"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="risorse.Risorsa" project="ProgMaster" file="/ProgMaster/risorse/Risorsa.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="1262" y="-1754"/>    
+    <position height="53" width="87" x="1271" y="-1745"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -57,7 +57,7 @@
   </interface>  
   <class id="7" language="java" name="risorse.Libro" project="ProgMaster" file="/ProgMaster/risorse/Libro.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="1241" y="-1640"/>    
+    <position height="53" width="87" x="1241" y="-1592"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -84,7 +84,7 @@
   </class>  
   <class id="10" language="java" name="risorse.Videoteca" project="ProgMaster" file="/ProgMaster/risorse/Videoteca.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="1053" y="-1718"/>    
+    <position height="53" width="87" x="1147" y="-1806"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -93,7 +93,7 @@
   </class>  
   <class id="11" language="java" name="storico.Evento" project="ProgMaster" file="/ProgMaster/storico/Evento.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="641" y="-1714"/>    
+    <position height="53" width="87" x="600" y="-1725"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -102,7 +102,7 @@
   </class>  
   <class id="12" language="java" name="risorse.LibreriaContenitore" project="ProgMaster" 
     file="/ProgMaster/risorse/LibreriaContenitore.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="134" x="1073" y="-1556"/>    
+    <position height="53" width="134" x="903" y="-1601"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -138,7 +138,7 @@
   </class>  
   <class id="16" language="java" name="risorse.Libreria" project="ProgMaster" file="/ProgMaster/risorse/Libreria.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="1096" y="-1640"/>    
+    <position height="53" width="87" x="1106" y="-1654"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -147,7 +147,7 @@
   </class>  
   <class id="17" language="java" name="risorse.Film" project="ProgMaster" file="/ProgMaster/risorse/Film.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="1225" y="-1878"/>    
+    <position height="53" width="87" x="1251" y="-1872"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -165,7 +165,7 @@
   </class>  
   <class id="19" language="java" name="risorse.VideotecaContenitore" project="ProgMaster" 
     file="/ProgMaster/risorse/VideotecaContenitore.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="147" x="1035" y="-1884"/>    
+    <position height="53" width="147" x="996" y="-1878"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -200,10 +200,10 @@
   <association id="25">    
     <end type="SOURCE" refId="9" navigable="false">      
       <attribute id="26" name="archivio">        
-        <position height="0" width="0" x="137" y="43"/>      
+        <position height="0" width="0" x="129" y="45"/>      
       </attribute>      
       <multiplicity id="27" minimum="0" maximum="1">        
-        <position height="0" width="0" x="137" y="43"/>      
+        <position height="0" width="0" x="129" y="45"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
@@ -220,10 +220,10 @@
   <association id="30">    
     <end type="SOURCE" refId="3" navigable="false">      
       <attribute id="31" name="risorse">        
-        <position height="0" width="0" x="-50" y="-4"/>      
+        <position height="0" width="0" x="-41" y="5"/>      
       </attribute>      
       <multiplicity id="32" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="-50" y="-4"/>      
+        <position height="0" width="0" x="-41" y="5"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
@@ -248,10 +248,10 @@
   <association id="37">    
     <end type="SOURCE" refId="4" navigable="false">      
       <attribute id="38" name="categorie">        
-        <position height="0" width="0" x="151" y="-173"/>      
+        <position height="0" width="0" x="130" y="-169"/>      
       </attribute>      
       <multiplicity id="39" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="151" y="-173"/>      
+        <position height="0" width="0" x="130" y="-169"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
@@ -288,10 +288,10 @@
   <association id="47">    
     <end type="SOURCE" refId="8" navigable="false">      
       <attribute id="48" name="storia">        
-        <position height="0" width="0" x="460" y="-136"/>      
+        <position height="0" width="0" x="419" y="-147"/>      
       </attribute>      
       <multiplicity id="49" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="460" y="-136"/>      
+        <position height="0" width="0" x="419" y="-147"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="11" navigable="true"/>    
@@ -348,10 +348,10 @@
   <association id="63">    
     <end type="SOURCE" refId="2" navigable="false">      
       <attribute id="64" name="sottocategorie">        
-        <position height="0" width="0" x="162" y="162"/>      
+        <position height="0" width="0" x="346" y="14"/>      
       </attribute>      
       <multiplicity id="65" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="162" y="162"/>      
+        <position height="0" width="0" x="346" y="14"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
@@ -393,16 +393,12 @@
     <end type="SOURCE" refId="2"/>    
     <end type="TARGET" refId="5"/>  
   </dependency>  
-  <dependency id="75">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="5"/>  
-  </dependency>  
-  <association id="76">    
+  <association id="75">    
     <end type="SOURCE" refId="20" navigable="false">      
-      <attribute id="77" name="model">        
+      <attribute id="76" name="model">        
         <position height="0" width="0" x="108" y="81"/>      
       </attribute>      
-      <multiplicity id="78" minimum="0" maximum="1">        
+      <multiplicity id="77" minimum="0" maximum="1">        
         <position height="0" width="0" x="108" y="81"/>      
       </multiplicity>    
     </end>    

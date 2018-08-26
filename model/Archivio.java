@@ -15,7 +15,7 @@ import it.unibs.ing.mylib.Stampa;
 import risorse.Categoria;
 import risorse.CategoriaPrimoLivello;
 import risorse.LibreriaContenitore;
-import risorse.Risorsa;
+
 import risorse.VideotecaContenitore;
 import storico.Storico;
 
@@ -41,7 +41,7 @@ public class Archivio implements Serializable {
 	static final String PROROGA_PRESTITO = "PROROGA DEL PRESTITO A : ";
 	
 	
-	private static ArrayList<CategoriaPrimoLivello<? extends Risorsa>> categorie;
+	private static ArrayList<CategoriaPrimoLivello> categorie;
 	
 	private int attributoScelto;
 	private ArrayList<Integer> match;
@@ -51,7 +51,7 @@ public class Archivio implements Serializable {
 	 * 
 	 */
 	public Archivio(){
-		categorie = new ArrayList<CategoriaPrimoLivello<? extends Risorsa>>();
+		categorie = new ArrayList<CategoriaPrimoLivello>();
 		aggiungiCategoria("libreria","Libri", DURATA_PRESTITO_LIBRI, DURATA_PROROGA_LIBRI, TERMINE_PROROGA_LIBRI, MAX_RISORSE_PER_LIBRI, ID_LIBRI); //inizializzazione di default
 		aggiungiCategoria("videoteca","Film", DURATA_PRESTITO_FILM, DURATA_PROROGA_FILM, TERMINE_PROROGA_FILM, MAX_RISORSE_PER_FILM, ID_FILM); //inizializzazione di default
 		
@@ -173,7 +173,7 @@ public class Archivio implements Serializable {
 		Archivio archivioPre = this;
 		
 		String risultato=null;
-		for(CategoriaPrimoLivello<? extends Risorsa> categoriaPrimoLivello : categorie) {
+		for(CategoriaPrimoLivello categoriaPrimoLivello : categorie) {
 			risultato=categoriaPrimoLivello.getNomeRisorsa(r);
 			if (risultato!=null) return risultato;
 		}
@@ -300,7 +300,7 @@ public class Archivio implements Serializable {
 		
 		File f = new File(NOMEFILECATEGORIE);
 		@SuppressWarnings("unchecked")
-		 ArrayList<CategoriaPrimoLivello<?>> a = ( ArrayList<CategoriaPrimoLivello<?>>)ServizioFile.caricaSingoloOggetto(f);
+		 ArrayList<CategoriaPrimoLivello> a = ( ArrayList<CategoriaPrimoLivello>)ServizioFile.caricaSingoloOggetto(f);
 		
 		if( a==null ) {
 			assert invariante();
