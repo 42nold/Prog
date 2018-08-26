@@ -7,110 +7,68 @@ import storico.Storico;
 @SuppressWarnings("serial")
 public class Videoteca extends Categoria<Film>{
 
-	private static final int NUM_ATTRIBUTI_STRINGA = 5;
-	private static final int NUM_ATTRIBUTI_NUMERICI = 2;
-
-	public Videoteca(String param) {
-		super(param);
+	private static final String REGISTA="Regista";
+	private static final String GENERE="Genere";
+	private static final String LINGUA="Lingua";
+	private static final String CASAPRODUZIONE="Casa Produzione";
+	private static final String DURATA="Durata";
+	
+	private static final int NUM_ATTRIBUTI = 9 ;
+	
+	private static final int DURATA_PRESTITO_FILM = 15;
+	private static final int DURATA_PROROGA_FILM = 15;
+	private static final int TERMINE_PROROGA_FILM = 2;
+	private static final int MAX_RISORSE_PER_FILM= 2;
+	
+	
+	public Videoteca (String nome, int id) {
+		super(nome, DURATA_PRESTITO_FILM,  DURATA_PROROGA_FILM, TERMINE_PROROGA_FILM, MAX_RISORSE_PER_FILM, id);
+		
+		setDescrizioneCampi();
 	}
-
-	public void aggiungiRisorsa(String[] attributiStringa, int[] attributiNumerici) {
-
-		assert invarianteC() && attributiStringa.length==NUM_ATTRIBUTI_STRINGA && attributiNumerici.length == NUM_ATTRIBUTI_NUMERICI+1;//+1 comprende anche il num di licenze
+	
+	public Videoteca(String nome) {
+		super(nome);
+		setDescrizioneCampi();
+	}
+	
+	@Override
+	protected void setDescrizioneCampi() {
+		descrizioneCampi.add(ID);
+		descrizioneCampi.add(TITOLO);
+		descrizioneCampi.add(ANNO);
+		descrizioneCampi.add(NUMEROLICENZE);
+		descrizioneCampi.add(REGISTA);
+		descrizioneCampi.add(GENERE);
+		descrizioneCampi.add(LINGUA);
+		descrizioneCampi.add(CASAPRODUZIONE);
+		descrizioneCampi.add(DURATA);
+	}
+	
+	public void aggiungiRisorsa(ArrayList<Object> attributiNuovaRisorsa) throws ClassCastException{
+		/*assert invarianteC() && attributiStringa.length==NUM_ATTRIBUTI_STRINGA && attributiNumerici.length == NUM_ATTRIBUTI_NUMERICI+1;//+1 comprende anche il num di licenze
 		int libriPre = risorse.size();
-		int idPre = idRisorsa;
+		int idPre = idRisorsa;*/
 		
-		String nome= attributiStringa[0];
-		String gen= attributiStringa[1];
-		String lin= attributiStringa[2];
-		int anno =attributiNumerici[0];
+		int attributiRestanti=NUM_ATTRIBUTI-2;
 		
-		String regista= attributiStringa[3];
-		String casa= attributiStringa[4];
-		int durata = attributiNumerici[1];
-		int numLicenze = attributiNumerici[2];
-
+		int durata = (Integer) attributiNuovaRisorsa.get(attributiRestanti--);
+		String casa = (String) attributiNuovaRisorsa.get(attributiRestanti--);
+		String lin = (String) attributiNuovaRisorsa.get(attributiRestanti--);
+		String gen = (String) attributiNuovaRisorsa.get(attributiRestanti--);
+		String reg = (String) attributiNuovaRisorsa.get(attributiRestanti--);
+		int numLicenze = (Integer) attributiNuovaRisorsa.get(attributiRestanti--);
+		int anno = (Integer) attributiNuovaRisorsa.get(attributiRestanti--);
+		String titolo = (String) attributiNuovaRisorsa.get(attributiRestanti--);
+		
 		int id = idRisorsa;
-		idRisorsa++ ;
+		idRisorsa++;
 		
-		risorse.add(new Film(nome,regista,casa,gen,lin,anno,durata,id,numLicenze));
+		Film film = new Film(id, ID, titolo, TITOLO, anno, ANNO, numLicenze, NUMEROLICENZE, reg, REGISTA, 
+				 gen, GENERE, lin, LINGUA, casa, CASAPRODUZIONE, durata, DURATA) ;
+		risorse.add(film);
 		
-		assert invarianteC() && (risorse.size()==libriPre+1 ) && idRisorsa==idPre+1 ;
-		
-	}
-
-	protected ArrayList<Integer> filtra(int attributoScelto, String chiaveDiRicerca, int numDiRicerca) {
-
-		assert invarianteC() && chiaveDiRicerca!=null && attributoScelto>=1 && attributoScelto<=8&& (!chiaveDiRicerca.equals("") || numDiRicerca>0);
-		Videoteca thisPre = this;
-		
-		ArrayList<Integer> risultato = new ArrayList<Integer>();
-		
-		if(risorse.size()>0)
-			switch(attributoScelto) {
-		
-				default : break;
-				
-				case 1:
-					for(Film f: risorse)
-						if(f.matchNome(chiaveDiRicerca)) risultato.add(f.getId());
-					break;
-				case 2:
-					for(Film f: risorse)
-						if(f.matchRegista(chiaveDiRicerca)) risultato.add(f.getId());
-					break;
-				case 3:
-					for(Film f: risorse)
-						if(f.matchCasaProduzione(chiaveDiRicerca)) risultato.add(f.getId());
-					break;
-				case 4:
-					for(Film f: risorse)
-						if(f.matchGenere(chiaveDiRicerca)) risultato.add(f.getId());
-					break;
-				case 5:
-					for(Film f: risorse)
-						if(f.matchLingua(chiaveDiRicerca)) risultato.add(f.getId());
-					break;
-				case 6:
-					for(Film f: risorse)
-						if(f.matchAnno(numDiRicerca)) risultato.add(f.getId());
-					break;
-				case 8:
-					for(Film f: risorse)
-						if(f.matchDurata(numDiRicerca)) risultato.add(f.getId());
-					break;		
-			}
-		assert invarianteC() && thisPre==this;	
-		return risultato;
-	}
-
-	@Override
-	public String[] getAttributiStringa() {
-
-		return Film.getAttributiStringa();
-	}
-
-	@Override
-	public String[] getAttributiNumerici() {
-
-		return Film.getAttributiNumerici();
-	}
-
-	@Override
-	public int getIdCategoria(int idRisorsa) {
-		assert invarianteC();
-		
-		if(risorse.size()>0) {
-			for(Film l : risorse) {
-				if (l.getId() == idRisorsa) {
-					if(l.getClass()==new Film("", "", "", "", "", 1, 1, 1, 1).getClass())  return 1;
-					}
-			}
-		}
-	
-		assert invarianteC() ;
-		return -1;
+		//assert invarianteC() && (risorse.size()==libriPre+1 ) && idRisorsa==idPre+1 ;
 	}
 	
-
 }

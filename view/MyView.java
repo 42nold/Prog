@@ -13,6 +13,7 @@ public interface MyView {
 
 	public String StringaNonVuota(String string);
 
+	public Object leggiInput(String string);
 
 	public int InteroNonNegativo(String string);
 
