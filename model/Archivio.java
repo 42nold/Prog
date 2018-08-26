@@ -35,7 +35,6 @@ public class Archivio implements Serializable {
 	static final String NUOVO_PRESTITO = "NUOVO PRESTITO CONCESSO A : ";
 	static final String PROROGA_PRESTITO = "PROROGA DEL PRESTITO A : ";
 	
-	private static Storico storico = new Storico();
 	
 	private static ArrayList<CategoriaPrimoLivello<? extends Risorsa>> categorie;
 	
@@ -64,7 +63,7 @@ public class Archivio implements Serializable {
 	 */
 	protected boolean invariante() {
 	
-	if(	categorie!=null && categorie.size()>0 && storico!=null ) return true;
+	if(	categorie!=null && categorie.size()>0 ) return true;
 		
 	return false;
 	}
@@ -275,9 +274,7 @@ public class Archivio implements Serializable {
 		}
 		else 
 			categorie=a; 
-		
-		storico.importaDati();
-		
+				
 		assert invariante();
 	}
 	
@@ -292,7 +289,6 @@ public class Archivio implements Serializable {
 		
 		save.salvaDatiSuFile(NOMEFILECATEGORIE, categorie);
 		
-		storico.salvaDati();
 		
 		assert invariante() && archivioPre == this;
 	}
@@ -500,11 +496,9 @@ public class Archivio implements Serializable {
 	/**
 	 * cerca il massimo valore id tra le risorse dell'archivio e aggiorna il contatore di id
 	 * @pre true
-	 * @post storicoNoChange()
 	 */
-	/*public void idCorrente() {
+	/*public void setIdCorrente() {
 		assert invariante() ;
-		Storico storicoPre = storico ;
 		
 		int maxIdCorrente;
 		int maxIdNext;
@@ -520,10 +514,15 @@ public class Archivio implements Serializable {
 			
 			Categoria.setId(maxIdCorrente+1);  
 		}
+
 		assert invariante() && storicoPre == storico;
 	}*/
-	public void idCorrente() {
+	public void setIdCorrente() {
 		Categoria.setId(0);
+	}
+	
+	public int getIdCorrente() {
+		return Categoria.getIdRisorsaCorrente();
 	}
 /**
  * 	cerca l'id della categoria che contiene la risorsa in ingresso
@@ -548,141 +547,8 @@ public class Archivio implements Serializable {
 		assert invariante() && archivioPre== this;
 		return -1;
 	}
-/**
- * triggera la generazione evento di iscrizione nuovo fruitore nello storico
- * @param username del fruitore protagonista dell'evento
- * @pre username != null
- * @post storicoSize() == storicoSize()@pre +1
- */
-	public void storiaIscrizioneFruitore(String username) {
-		assert invariante() &&  username != null ;
-		int storicoPre = Storico.size();
-		
-		storico.iscrizioneFruitore(username);	
-		
-		assert invariante() && storicoPre==Storico.size()-1 ;
-	}
-	/**
-	 * triggera la generazione evento di decadimento di un fruitore nello storico
-	 * @param username del fruitore protagonista dell'evento
-	 * @pre username != null
-	 * @post storicoSize() == storicoSize()@pre +1
-	 */
-	public void storiaFruitoreDecaduto(String username) {
-		assert invariante() &&  username != null ;
-		int storicoPre = Storico.size();
-		
-		storico.FruitoreDecaduto(username);	
-	
-		assert invariante() && storicoPre==Storico.size()-1 ;
-	}
-	/**
-	 * triggera la generazione evento di rinnovo iscrizione nello storico
-	 * @param username del fruitore protagonista dell'evento
-	 * @pre username != null
-	 * @post storicoSize() == storicoSize()@pre +1
-	 */
-	public void storiaRinnovoIscrizioneFruitore(String username) {
-		assert invariante() &&  username != null ;
-		int storicoPre = Storico.size();
-		
-		storico.RinnovoIscrizioneFruitore(username);		
-		
-		assert invariante() && storicoPre==Storico.size()-1 ;
-	}
-	/**
-	 * ritorna la descrizione dello storico completo
-	 * @return la descrizione
-	 * @pre true
-	 * @post @nochange && @return!=null
-	 */
-	public String getDescrizioneStorico() {
-		assert invariante() ;
-		Archivio archivioPre = this ;
-		
-		String risultato = storico.toString();
-		
-		assert invariante() && archivioPre == this && risultato!= null; 
-		return risultato ;
-	}
-	/**
-	 * triggera la generazione evento di nuovo prestito nello storico
-	 * @param risorsaScelta risorsa prestata(id)
-	 * @param numeroLicenzeRisorsa numero licenze rimaste della risorsa prestata
-	 * @param username fruitore protagonista 
-	 * @pre username != null && risorsaScelta>=0 && numeroLicenzeRisorsa
-	 * @post (size() == size()@pre + 1 || size() == size()@pre +2)
-	 */
-	public void storiaNuovoPrestito(int risorsaScelta, int numeroLicenzeRisorsa, String username) {
-		assert invariante() && username != null && risorsaScelta>=0 && numeroLicenzeRisorsa>=0 ;
-		int storicoPre = Storico.size();
-		
-		storico.nuovoPrestito(risorsaScelta,numeroLicenzeRisorsa,username);	
-		
-		assert invariante() && (Storico.size() == storicoPre + 1 || Storico.size() == storicoPre +2);
-	}
-	/**
-	 * triggera la generazione evento di proroga prestito nello storico
-	 * @param username del fruitore protagonista dell'evento
-	 * @param integer numero di proroga
-	 * @pre username != null && integer >= 0
-	 * @post storicoSize() == storicoSize()@pre +1
-	 */
-	public void prorogaPrestito(String username, Integer integer) {
-		assert invariante() && username != null && integer >= 0;
-		int storicoPre = Storico.size();
-		
-		storico.prorogaPrestito(username,integer);		
-		
-		assert invariante() && storicoPre==Storico.size()-1 ;
-	}
-	/**
-	 * triggera la generazione evento di risorsa disponibile nello storico
-	 * @param integer id della risorsa prestata
-	 * @pre integer>=0
-	 * @post storicoSize() == storicoSize()@pre +1
-	 */
-	public void risorsaDisponibile(Integer integer) {
-		assert invariante() && integer>=0 ;
-		int storicoPre = Storico.size() ;
-		
-		storico.risorsaDisponibile(integer);
-		
-		assert invariante()  && storicoPre+1 == Storico.size();
-	}
-/**
- * stampa a video il risultato della statistica riguardo ad un evento voluto 
- * @param evento sselezionato
- * @param descrizione stringa di descrizione dell'occorrenza
- * @pre eventoValido(nomeEvento) && descrizione!= null
- * @post @nochange
- */
-	public String numEventoAnnoSolare(String evento ,String descrizione) {
 
-		return storico.numEventoAnnoSolare(evento,descrizione);		
-		
-	}
-	/**
-	 * stampa a video il risultato della statistica riguardo alla risorsa più prestata
-	 * @pre true
-	 * @post @nochange
-	 */
-	public String risorsaPiuPrestata() {
 
-		return storico.risorsaPiuPrestata();
-		
-	}
-	/**
-	 * stampa a video il risultato della statistica riguardo ai prestiti per fruitore per anno solare
-	 * @pre true
-	 * @post @nochange
-	 */
-	public String prestitiFruitoriAnnoSolare() {
-
-		return storico.prestitiFruitoriAnnoSolare();
-		
-	}	
-	
 	/**
 	 * chiama il metodo scegli risorsa della categoria voluta nell'archivio
 	 * @param posizione della categoria
@@ -778,8 +644,10 @@ public class Archivio implements Serializable {
 		categorie.get(categoria).aggiungiRisorsaEAggiornaStorico(nuoviAttributi,sottocategoria);
 	}
 
+
 	public ArrayList<String> getDescrizioneCampiRisorsa(int categoriaScelta){
 		return categorie.get(categoriaScelta-1).getDescrizioneCampi();
 	}
+
 	
 }

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Observable;
+import java.util.Observer;
 
 import it.unibs.ing.mylib.ServizioFile;
 import risorse.Categoria;
@@ -12,33 +14,14 @@ import utility.Save;
 
 @SuppressWarnings("serial")
 
-public class Storico implements Serializable{
+public class Storico implements Serializable, Observer{
 	
 
 	/**
 	 * rappresentazione di una linea del tempo composta da eventi
 	 * @invariant invariante()
 	 */
-	private static final String NOMEFILESTORICO = "storico.dat";
-
-	private static final String ISCRIZIONE_FRUITORE = "ISCRIZIONE DEL FRUITORE: ";
-	
-	private static final String FRUITORE_DECADUTO = "E' DECADUTO IL FRUITORE: ";
-	
-	private static final String RINNOVO_ISCRIZIONE = "ISCRIZIONE RINNOVATA PER IL FRUITORE: ";
-	
-	private static final String RISORSA_AGGIUNTA = "AGGIUNTA LA RISORSA : ";
-
-	private static final String RISORSA_ELIMINATA = "E' STATA ELIMINATA LA RISORSA : ";
-
-	private static final String NUOVO_PRESTITO = "NUOVO PRESTITO CONCESSO A : ";
-
-	private static final String TERMINE_DISPONIBILITA = "LA RISORSA NON E' PIU' DISPONIBILE AL PRESTITO";
-
-	private static final String PROROGA_PRESTITO = "PROROGA DEL PRESTITO A : ";
-
-	private static final String RISORSA_DISPONIBILE = "LA RISORSA E' NUOVAMENTE DISPONIBILE AL PRESTITO : ";
-
+	public static final String NOMEFILESTORICO = "storico.dat";
 	
 	private static ArrayList<Evento> storia;
 	private Save save;
@@ -54,92 +37,12 @@ public class Storico implements Serializable{
 	}
 
 	/**
-	 * aggiungi evento di iscrizione nuovo fruitore all'array storia
-	 * @param username fruitore che si è iscritto
-	 * @pre true
-	 * @post size() == size()@pre + 1
-	 */
-	public void iscrizioneFruitore(String username) {
-		int sizePrima = size();
-		assert invariante();
-		
-		storia.add(new Evento(ISCRIZIONE_FRUITORE+username, -1));
-		
-		assert(size() == sizePrima+1) ;
-		assert invariante() ;
-		}
-	/**
-	 * aggiungi evento di eliminazione risorsa dall'array storia
-	 * @param id id risorsa eliminata
-	 * @pre true
-	 * @post size() == size()@pre + 1
-	 */
-	public static void risorsaEliminata(int id) {
-		int sizePrima = size();
-		assert invariante();
-		
-		storia.add(new Evento(RISORSA_ELIMINATA,id));
-		
-		
-		assert (size() == sizePrima+1) ;
-		assert invariante();
-	}
-	
-	/**
-	 * aggiungi evento di decadimento fruitore all'array storia
-	 * @param username fruitore che è decaduto
-	 * @pre true
-	 * @post size() == size()@pre + 1
-	 */
-	public void FruitoreDecaduto(String username) {
-		int sizePrima = size();
-		assert invariante() ;
-
-		storia.add(new Evento(FRUITORE_DECADUTO+username, -1));
-		
-		assert (size() == sizePrima+1) ;
-		assert invariante() ;
-
-	}
-	/**
-	 * aggiungi evento di rinnovo iscrizione di un fruitore all'array storia
-	 * @param username fruitore che ha rinnovato l'iscrizione
-	 * @pre true
-	 * @post size() == size()@pre + 1
-	 */
-	public void RinnovoIscrizioneFruitore(String username) {
-		int sizePrima = size();
-		assert invariante() ;
-
-		storia.add(new Evento(RINNOVO_ISCRIZIONE+username, -1));
-
-		assert(size() == sizePrima+1) ;
-		assert invariante() ;
-
-	}
-	/**
-	 * aggiungi evento di aggiunta risorsa all'array storia
-	 * @param id id risorsa aggiunta
-	 * @pre true
-	 * @post size() == size()@pre + 1
-	 */
-
-	public static void risorsaAggiunta(int id) {
-		int sizePrima = size();
-		assert invariante() ;
-
-		storia.add(new Evento(RISORSA_AGGIUNTA,id));
-		
-		assert(size() == sizePrima+1) ;
-		assert invariante() ;
-	}
-	/**
 	 * restituisce una stringa con la descrizione di ogni evento nell'array storia
 	 * @pre true
 	 * @post @nochange
 	 * @return stringa con elenco di eventi 
 	 */
-	public String toString() {
+	public static  String getDescrizione() {
 		assert invariante() ;
 		ArrayList<Evento> storiaPre = storia;
 		
@@ -204,71 +107,9 @@ public class Storico implements Serializable{
 		return invariante;
 	}
 
-	/**
-	 * aggiungi evento di nuovo prestito all'array storia e in caso di esaurimento licenze della risorsa prestata , aggiunta di un evento di termine disponibilità risorsa
-	 * @param risorsaScelta id risorsa prestata
-	 * @param numeroLicenzaRisorsa numero di licenze rimaste alla risorsa prestata
-	 * @param username username del fruitore 
-	 * @pre true
-	 * @post (size() == size()@pre + 1 || size() == size()@pre +2)
-	 */
-	public void nuovoPrestito(int risorsaScelta, int numeroLicenzeRisorsa, String username) {
-		int sizePrima = size();
+	public static String numEventoAnnoSolare(String nomeEvento, String descrizione,String[] nomiEventi) {
 		assert invariante() ;
-
-		
-		storia.add(new Evento(NUOVO_PRESTITO+username,risorsaScelta));
-		if(numeroLicenzeRisorsa==0)	storia.add(new Evento(TERMINE_DISPONIBILITA,risorsaScelta));
-		
-	
-		assert (size() == sizePrima+1 || size() == sizePrima+2) ;
-		assert invariante();
-		 
-	}
-	/**
-	 * aggiungi evento di proroga prestito all'array storia
-	 * @param username username del fruitore richiedente
-	 * @param integer idrisorsa prestata
-	 * @pre true
-	 * @post size() == size()@pre + 1
-	 */
-	public void prorogaPrestito(String username, Integer integer) {
-		assert invariante() ;
-		int sizePrima = size();
-
-		storia.add(new Evento(PROROGA_PRESTITO+username,integer));
-		
-		
-		assert (size() == sizePrima+1) ;
-		assert invariante() ;
-	}
-	/**
-	 * aggiungi evento di risorsa disponibile all'array storia
-	 * @param  id idrisorsa prestata
-	 * @pre true
-	 * @post size() == size()@pre + 1
-	 */
-	public void risorsaDisponibile(Integer id) {
-		assert invariante() ;
-		int sizePrima = size();
-
-		storia.add(new Evento(RISORSA_DISPONIBILE,id));	
-		
-		
-		assert (size() == sizePrima+1) ;
-	}
-	
-	 /** restituisce una stringa con le occorrenze per anno solare dell'evento selezionato
-	 * @param nomeEvento evento selezionato
-	 * @param descrizione stringa di descrizione dell'occorrenza
-	 * @pre eventoValido(nomeEvento)
-	 * @post @nochange
-	 * @return stringa col risultato della statistica
-	 */
-	
-	public String numEventoAnnoSolare(String nomeEvento, String descrizione) {
-		assert invariante() ;
-		assert eventoValido(nomeEvento);
+		assert eventoValido(nomiEventi,nomeEvento);
 		ArrayList<Evento> storiaPre = storia;
 		
 		
@@ -304,7 +145,7 @@ public class Storico implements Serializable{
 	 * @post @nochange
 	 * @return stringa col risultato della statistica
 	 */
-	public String risorsaPiuPrestata() {
+	public static String maxOccorrenzeEvento(String nomeEvento) {
 		assert invariante() ;
 		ArrayList<Evento> storiaPre = storia;
 		
@@ -318,7 +159,7 @@ public class Storico implements Serializable{
 	    	
 	    	for( int annoIndice=anno ; annoIndice<=Calendar.getInstance().get(Calendar.YEAR); annoIndice++) {
 	    		for(Evento evento : storia) {
-	    			if(evento.getDescrizione().contains(NUOVO_PRESTITO)&&annoIndice==evento.getData().get(Calendar.YEAR)) prestitiAnno.add(evento.getValore()) ;
+	    			if(evento.getDescrizione().contains(nomeEvento)&&annoIndice==evento.getData().get(Calendar.YEAR)) prestitiAnno.add(evento.getValore()) ;
 	    		}
 	    		if (prestitiAnno.size()>0) {
 	    			ArrayList<String> pariMerito = new ArrayList<String>() ;
@@ -364,7 +205,7 @@ public class Storico implements Serializable{
 	 * @post @nochange
 	 * @return stringa col risultato della statistica
 	 */
-	public String prestitiFruitoriAnnoSolare() {
+	public static String prestitiFruitoriAnnoSolare(String eventoPrestito) {
 		assert invariante() ;
 		ArrayList<Evento> storiaPre = storia;
 		
@@ -379,7 +220,7 @@ public class Storico implements Serializable{
 
 				for(Evento evento : storia) {
 			
-					if(evento.getDescrizione().contains(NUOVO_PRESTITO)&&evento.getData().get(Calendar.YEAR)==i) eventiAnnoIndice.add(evento.getDescrizione().substring(NUOVO_PRESTITO.length()));
+					if(evento.getDescrizione().contains(eventoPrestito)&&evento.getData().get(Calendar.YEAR)==i) eventiAnnoIndice.add(evento.getDescrizione().substring(eventoPrestito.length()));
 				}
 					while(eventiAnnoIndice.size()>0) {
 						String utenteCorrente = eventiAnnoIndice.get(0);
@@ -427,17 +268,25 @@ public class Storico implements Serializable{
 	 * @post @change
 	 * @return true se il parametro è valido
 	 */
-	static boolean eventoValido(String nomeEvento) {
+	static boolean eventoValido(String[] nomiEvento,String eventoDaValutare) {
 		assert invariante() ;
 		ArrayList<Evento> storiaPre = storia;
 		
-		boolean valido =(nomeEvento.equals(ISCRIZIONE_FRUITORE) ||nomeEvento.equals(FRUITORE_DECADUTO) ||nomeEvento.equals(RINNOVO_ISCRIZIONE) || nomeEvento.equals(RISORSA_AGGIUNTA) || nomeEvento.equals(RISORSA_ELIMINATA) ||nomeEvento.equals(NUOVO_PRESTITO) ||nomeEvento.equals(TERMINE_DISPONIBILITA) ||nomeEvento.equals(PROROGA_PRESTITO) ||nomeEvento.equals(RISORSA_DISPONIBILE)  );
+		boolean valido=false;
+		
+		for(int i=0; i<nomiEvento.length ; i++)
+		 if(nomiEvento[i].equals(eventoDaValutare)) return true;
 		
 		assert storiaPre==storia;
 		assert invariante() ;
 		
-		if(valido)return true ;
-		else return false;
+		return false;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		
+		storia.add((Evento) arg);
 	}
 
 }

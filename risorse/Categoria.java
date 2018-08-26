@@ -113,7 +113,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 
 	public void aggiungiRisorsaEAggiornaStorico(ArrayList<Object> attributiNuovaRisorsa) throws ClassCastException{
 		aggiungiRisorsa(attributiNuovaRisorsa);
-		Storico.risorsaAggiunta(idRisorsa-1);
+
 	}
 	
 /**ritorna un elenco dei nomi delle risorse presenti nella categoria
@@ -214,12 +214,11 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 		if(risorse.size()>0)
 			for(int i=0; i <risorse.size();i++)
 				if (((Integer)risorse.get(i).getValue(ID)) == id) {
-					Storico.risorsaEliminata((Integer)risorse.get(i).getValue(ID));
 					risorse.remove(i);
 				}
 		
 	//	assert invarianteC() && (libriPre==risorse.size() || thisPre==this);
-			
+
 	}
 	
 	/**
@@ -561,5 +560,8 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 		//assert invariante();
 	}
 
+	public static int getIdRisorsaCorrente() {
+		return idRisorsa;
+	}
 }
 
