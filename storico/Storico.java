@@ -8,6 +8,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import it.unibs.ing.mylib.ServizioFile;
+import risorse.Categoria;
+import utility.Load;
+import utility.Save;
 
 @SuppressWarnings("serial")
 
@@ -21,6 +24,8 @@ public class Storico implements Serializable, Observer{
 	public static final String NOMEFILESTORICO = "storico.dat";
 	
 	private static ArrayList<Evento> storia;
+	private Save save;
+	private Load load;
 	
 
 	 /**
@@ -62,10 +67,7 @@ public class Storico implements Serializable, Observer{
 		assert invariante() ;
 		ArrayList<Evento> storiaPre = storia;
 		
-		
-		File g = new File(NOMEFILESTORICO);
-		ServizioFile.salvaSingoloOggetto(g, storia);	
-		
+		save.salvaDatiSuFile(NOMEFILESTORICO, storia);
 	
 		assert storiaPre==storia;
 		assert invariante() ;
@@ -79,12 +81,14 @@ public class Storico implements Serializable, Observer{
 	public void importaDati() {
 		assert invariante() ;
 
-		File h = new File(NOMEFILESTORICO);
-		
 		@SuppressWarnings("unchecked")
-		ArrayList<Evento> b = (ArrayList<Evento>)ServizioFile.caricaSingoloOggetto(h);
-		if(b==null) {storia = new ArrayList<Evento>();}
-		else {storia=b;}	
+        File f = new File(NOMEFILESTORICO);
+		ArrayList<Evento> b =(ArrayList<Evento>) ServizioFile.caricaSingoloOggetto(f);
+		
+		if(b==null) 
+			storia = new ArrayList<Evento>();
+		else 
+			storia=b;
 		
 		assert invariante();
 	}
@@ -232,8 +236,7 @@ public class Storico implements Serializable, Observer{
 						}
 						statistica.append(annoIndice+" : utente : "+utenteCorrente+" -> "+count+" prestiti \n");
 						
-					}
-									
+					}					
 			}
 		
 		}

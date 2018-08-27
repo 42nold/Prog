@@ -475,12 +475,7 @@ public class Model extends Observable {
 					notifyObservers(new Evento(PROROGA_PRESTITO+fruitoreInQuestione.getUsername(),risorsa));
 				}
 
-	
 
-				public boolean ArchivioVuoto() {
-					// TODO Auto-generated method stub
-					return archivio.vuoto();
-				}
 
 				public String[] elencoCategorie() {
 
@@ -503,11 +498,9 @@ public class Model extends Observable {
 				}
 
 				public boolean categoriaHaSottoCategoria(int categoria) {
-					// TODO Auto-generated method stub
 					return archivio.categoriaHaSottoCategoria(categoria);				}
 
 				public String[] elencoSottoCategorie(int categoria) {
-					// TODO Auto-generated method stub
 					return archivio.elencoSottoCategorie(categoria);
 				}
 
@@ -517,47 +510,42 @@ public class Model extends Observable {
 				
 					else  return archivio.elencoRisorse(categoria,sottocategoria);
 				}
+				
 				public int getId(int risorsaDaEliminare, int categoria, int sottocategoria) {
 					if(sottocategoria == -1) return archivio.getId(risorsaDaEliminare,categoria);
 					return archivio.getId(risorsaDaEliminare,categoria,sottocategoria);
 				}
 
-				public void rimuoviRisorsa(int id, int categoria, int sottocategoria) {
+				public void rimuoviRisorsa(int id, int categoria) {
 
-
-					if(sottocategoria == -1)	archivio.rimuoviRisorsa(id,categoria);		
-
-					else archivio.rimuoviRisorsa(id,categoria,sottocategoria);		
-
-					setChanged();
-					notifyObservers(new Evento(RISORSA_ELIMINATA, id));
+					if( archivio.rimuoviRisorsa(id,categoria)) {
+						
+						setChanged();
+						notifyObservers(new Evento(RISORSA_ELIMINATA, id));
+						
+					}					
 				}
 
-				public void aggiungiRisorsa(String[] attributiStringa, int[] attributinumerici, int categoria,int sottocategoria) {
+				public void aggiungiRisorsa(ArrayList<Object> nuoviAttributi, int categoria, int sottocategoria) throws ClassCastException{
 
 
 					if(sottocategoria==-1)
-						archivio.aggiungiRisorsa(attributiStringa, attributinumerici, categoria);
+						archivio.aggiungiRisorsa(nuoviAttributi, categoria);
 					
-					else archivio.aggiungiRisorsa(attributiStringa, attributinumerici, categoria , sottocategoria);
+					else archivio.aggiungiRisorsa(nuoviAttributi, categoria , sottocategoria);
 
 					setChanged();
-					notifyObservers(new Evento(RISORSA_AGGIUNTA,archivio.idMax()));
+					notifyObservers(new Evento(RISORSA_AGGIUNTA,archivio.getIdCorrente()));
 				}
 
-				public String[] getAttributiNumericiRisorse(int categoria) {
-
-					return archivio.getAttributiNumericiRisorse( categoria);
+				
+				public ArrayList<String> getDescrizioneCampi(int categoria){
+					return archivio.getDescrizioneCampi(categoria);
 				}
 
-				public String[] getAttributiStringaRisorse(int categoria) {
-
-					return archivio.getAttributiStringaRisorse( categoria);
-				}
-
-				public ArrayList<Integer> filtraRisorse(int attributoScelto, String chiaveDiRicerca, int numDiRicerca) {
+				public ArrayList<Integer> filtraRisorse(int attributoScelto, Object parametroDiRicerca) throws ClassCastException{
 					// TODO Auto-generated method stub
-					return    archivio.filtraRisorse(attributoScelto,chiaveDiRicerca,numDiRicerca);
+					return    archivio.filtraRisorse(parametroDiRicerca,attributoScelto);
 
 				}
 
@@ -566,17 +554,15 @@ public class Model extends Observable {
 					return archivio.getNomeRisorsa(r);
 				}
 
-				public void modificaRisorsa(int id, int categoria, String[] nuoviAttributiStringa,
-						int[] nuoviAttributiNumerici) {
+				public void modificaRisorsa(int id, int categoria, Object[] nuoviAttributi) throws ClassCastException {
 
 
-					archivio.modificaRisorsa(id,categoria,nuoviAttributiStringa,nuoviAttributiNumerici);
+					archivio.modificaRisorsa(id,categoria,nuoviAttributi);
 
 				}
 
-				public String showRisorsa(int id, int c, int s) {
-					if(s == -1) return archivio.showRisorsa(id,c);
-					else return archivio.showRisorsa(id,c,s);
+				public String showRisorsa(int id, int c) {
+					 return archivio.showRisorsa(id,c);
 				}
 
 				public boolean verificaPasswordOperatore(int numOperatore, String password) {
@@ -594,56 +580,68 @@ public class Model extends Observable {
 					return operatori.get(i).getUsername().equals(username);
 				}
 
-				public void importaDati() {
+	public void importaDati() {
 
-					archivio.importaDati();
-					storico.importaDati();
-					}
+		archivio.importaDati();
+		storico.importaDati();
+			
+	}
 
-				public int scegliRisorsa(int categoriaScelta, int sottoCategoriaScelta, int risorsaSelezionata) {
+		public int scegliRisorsa(int categoriaScelta, int sottoCategoriaScelta, int risorsaSelezionata) {
 
-					if(sottoCategoriaScelta == -1) return archivio.scegliRisorsa(categoriaScelta,risorsaSelezionata);
-					return 	archivio.scegliRisorsa(categoriaScelta,sottoCategoriaScelta,risorsaSelezionata);
+			if(sottoCategoriaScelta == -1) return archivio.scegliRisorsa(categoriaScelta,risorsaSelezionata);
+			return 	archivio.scegliRisorsa(categoriaScelta,sottoCategoriaScelta,risorsaSelezionata);
 
-				}
-				/**
-				 * triggera il metodo che aggiorna il contatore di id prestiti dell'archivio
-				 * @pre true
-				 * @post true	
-				 */
-				public void idCorrente() {
+		}
+		/**
+		 * triggera il metodo che aggiorna il contatore di id prestiti dell'archivio
+		 * @pre true
+		 * @post true	
+		 */
+		public void idCorrente() {
+			archivio.setIdCorrente();
+		}
 
+		public boolean verificaPrerequisitiPrestito(int numFruitore, int risorsaScelta) {
 
-					archivio.idCorrente();
-				}
+			return verificaPrerequisitiPrestito(fruitori.get(numFruitore), risorsaScelta);
+		}
+		
+		public ArrayList<String> getDescrizioneCampiRisorsa(int categoriaScelta){
+			return archivio.getDescrizioneCampiRisorsa(categoriaScelta);
+		}
+			
 
-				public boolean verificaPrerequisitiPrestito(int numFruitore, int risorsaScelta) {
+		public String numEventoAnnoSolare(String nomeEvento, String descrizione) {
+			
+			return storico.numEventoAnnoSolare(nomeEvento, descrizione,getElencoEventi());
+		}
 
-					return verificaPrerequisitiPrestito(fruitori.get(numFruitore), risorsaScelta);
-				}
+		private String[] getElencoEventi() {
+			String[] lista = {ISCRIZIONE_FRUITORE,FRUITORE_DECADUTO,NUOVO_PRESTITO,PROROGA_PRESTITO,RINNOVO_ISCRIZIONE,RISORSA_AGGIUNTA,RISORSA_DISPONIBILE,RISORSA_ELIMINATA,TERMINE_DISPONIBILITA}; 
+			return lista;
+		}
 
-				public String numEventoAnnoSolare(String nomeEvento, String descrizione) {
-					
-					return storico.numEventoAnnoSolare(nomeEvento, descrizione,getElencoEventi());
-				}
+		public String risorsaPiuPrestata() {
 
-				private String[] getElencoEventi() {
-					String[] lista = {ISCRIZIONE_FRUITORE,FRUITORE_DECADUTO,NUOVO_PRESTITO,PROROGA_PRESTITO,RINNOVO_ISCRIZIONE,RISORSA_AGGIUNTA,RISORSA_DISPONIBILE,RISORSA_ELIMINATA,TERMINE_DISPONIBILITA}; 
-					return lista;
-				}
+			return storico.maxOccorrenzeEvento(NUOVO_PRESTITO);
+		}
 
-				public String risorsaPiuPrestata() {
+		public String prestitiFruitoriAnnoSolare() {
 
-					return storico.maxOccorrenzeEvento(NUOVO_PRESTITO);
-				}
+			return storico.prestitiFruitoriAnnoSolare(NUOVO_PRESTITO);
+		}
 
-				public String prestitiFruitoriAnnoSolare() {
+		public String getDescrizioneStorico() {
+			// TODO Auto-generated method stub
+			return storico.getDescrizione();
+		}
 
-					return storico.prestitiFruitoriAnnoSolare(NUOVO_PRESTITO);
-				}
+		public boolean ArchivioVuoto() {
+			return archivio.vuoto();
+		}
 
-				public String getDescrizioneStorico() {
-					// TODO Auto-generated method stub
-					return storico.getDescrizione();
-				}
+		public int trovaPosizioneCategoria(int id) {
+			return archivio.trovaPosizioneCategoria(id);
+		}
 }

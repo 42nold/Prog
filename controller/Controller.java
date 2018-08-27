@@ -21,32 +21,31 @@ public class Controller  implements Serializable{
 	/**
 	 * @invariant invariante() 
 	 */
-	private static final String NOMEFILEFRUITORI = "Fruitori.dat";
-	private static final String NOMEFILEOPERATORI = "Operatori.dat";
 	
-	private static final String TITOLO_MENU_GESTIONERISORSA= "Opzioni disponibili";
-	private static final String[] OPZIONI = {"visualizza risorse","aggiungi risorsa","elimina risorsa","modifica risorsa"} ;
 	
-	private static final String TITOLO_MENU_FRUITORE = "Menu Fruitore";
-	private static final String[] vociMenuFruitore = {"Visualizza Prestiti", "Richiedi prestito", "Rinnova prestito", "Rinnovo iscrizione"};
+	
+	
 	
 	private static final String TITOLO_SELEZIONA_ATTRIBUTO = "Scegli attributo con cui filtrare la ricerca";
 	private static final String[] vociMenuSelezionaAttributo = {"Nome","Autore/Regista","Casa editrice/Casa Di produzione","Genere","Lingua","Anno di pubblicazione","Numero di pagine", "Durata"};
 	
-	private static final String TITOLO_MENU_PRESTITO = "Scegli come desideri cercare la risorsa da aggiungere.";
+	
 	private static final String[] opzioniDiricerca = {"Ricerca per attributo", "Ricerca navigando l'archivio"};
 	private static final String TITOLO_CATEGORIA = "Scegli la categoria";
 	private static final String TITOLO_SOTTOCATEGORIA = "Scegli la sottocategoria";
-	private static final String TITOLO_RISORSE = "Scegli la risorsa da selezionare";
+	
 
 	private static final String MESSAGGIO_ERRORE = "Scelta non valida";
 	private static final String TITOLO_MENU_OPERATORE = "Menu Operatore.";
 	private static final String[] VOCI_MENU_OPERATORE = {"Visualizza dati fruitori", "Visualizza dati e prestiti dei fruitori", "Apri archivio","visualizza storico"};
 	private static final String[] OPZIONI_MENU_RICERCA = {"Esplora archivio", "Ricerca per attributo"};
-	private static final String MESSAGGIO_PRESTITO_NON_CONCESSO = "Non si puï¿½ ottenere questa risorsa in prestito";
-	private static final String NO_IN_SCADENZA = "Non ci sono prestiti in scadenza";
-	private static final String TITOLO_IN_SCADENZA = "Ecco i prestiti in scadenza";
-	private static final String BUON_FINE = "Operazione eseguita correttamente";
+	
+	
+	private static final String ERROREINPUT="\n\nErrore nell'input";
+	private static final String TITOLO_MENU_GESTIONERISORSA= "Opzioni disponibili";
+	private static final String[] OPZIONI = {"visualizza risorse","aggiungi risorsa","elimina risorsa","modifica risorsa"} ;
+	
+	
 	private static final String TITOLO_MENU_STORICO = "scegli l'opzione desiderata";
 	private static final String[] vociMenuStorico = {"visualizza storico completo","visualizza numero prestiti per anno solare","visualizza numero proroghe per anno solare","visualizza risorsa prestata piï¿½ volte per anno solare","visualizza i prestiti per fruitore per anno solare"};
 	private static final String TITOLO_ELI_O_MOD = "seleziona l'azione desiderata";
@@ -56,354 +55,110 @@ public class Controller  implements Serializable{
 	private static final String ERRORE = "Username o password sabliata!!!";
 	private static final String RIPROVA = "Voi riprovare il login?";
 	private static final String TITOLO = "Scegli tra le seguenti opzioni";
-	private static final String[] voci = {"Login","Registrati"};
+	private static final String[] VOCI = {"Login","Registrati"};
 	private static final String ARRIVEDERCI = "Arrivederci";
 	
-	
+	private static final String NOMEFILEFRUITORI = "Fruitori.dat";
+	private static final String TITOLO_MENU_PRESTITO = "Scegli come desideri cercare la risorsa da aggiungere.";
+	private static final String BUON_FINE = "Operazione eseguita correttamente";
+	private static final String MESSAGGIO_PRESTITO_NON_CONCESSO = "Non si può ottenere questa risorsa in prestito";
+	private static final String TITOLO_IN_SCADENZA = "Ecco i prestiti in scadenza";
+	private static final String NO_IN_SCADENZA = "Non ci sono prestiti in scadenza";
+	private static final String TITOLO_MENU_FRUITORE = "Menu Fruitore";
+	private static final String[] VOCIMENUFRUITORE = {"Visualizza Prestiti", "Richiedi prestito", "Rinnova prestito", "Rinnovo iscrizione"};
+	private static final String TITOLO_RISORSE = "Scegli la risorsa da selezionare";
+
+	private static final String NOMEFILEOPERATORI = "Operatori.dat";
 
 	private Model model;
 	private MyView view ;
-	
+
 	
 	public Controller(Model model , MyView view) {
 		this.model = model ;
 		this.view = view ;
-	}
-		/**
-		 * verifica che le invarianti di classe siano verificate
-		 * @pre true
-		 * @post @nochange
-		 * @return true se sono verificate tutte le ivnarianti
-		 */
-	private  boolean invariante() {
-	return true;
-	}
-           
 	
-	// metodi relativi ai fruitori-----------------------------------------------------------------------------------------------------
-	
-	
-	/**
-	 * verifica se il fruitore relativo a username e password ï¿½ iscritto
-	 * @param username del fruitore
-	 * @param password del fruitore
-	 * @return true se il fruitore ï¿½ iscritto
-	 * @pre username!=null && password!=null 
-	 * @post @nochange
-	 */
-	public  boolean cercaFruitore(String username, String password) {
-		return model.cercaFruitore(username,password);
+		
 	}
 	
 	
-	
-	public  String iscrizioneFruitore() {
-		assert invariante() ;
-	
+	public void start() {
+
+		importaFruitori();
+		importaOperatori();//caricare fruitori e operatori da file a inizio sessione
+		importaArchivio();//importa archivio da file 
+		eliminaDecaduti();//cerco decaduti a inizio di ogni sessione
+		eliminaPrestitiScaduti();
+		idCorrente();		
 		
-		String nome, cognome, password, username;
-		int eta;
-		Calendar data_iscrizione, data_scadenza;
-		boolean finito=false;
+		view.notify("Benvenuto  ");
 		
-		nome=view.StringaNonVuota("Inserisci nome\n");
-		cognome=view.StringaNonVuota("Inserisci cognome\n");
-		eta=view.InteroNonNegativo("inserisci la tua etï¿½\n");
-		
-		if(eta<18) {
-			view.notify("Servizio riservato ai soli cittadini maggiorenni\n");
-			assert invariante() ;		
-			return "";
-		}	
+		int scelta;
+		String username;
 		
 		do {
-			username=view.StringaNonVuota("Inserisci username\n");
-			if (model.posizioneFruitore(username) != -1)
-				view.notify("username giï¿½ presente \n");
-			else
-				finito=true;
-		}while(!finito);
-		
-		password=view.StringaNonVuota("Inserisci password\n");		
-		
-		data_iscrizione=Calendar.getInstance();
-		data_scadenza=Calendar.getInstance();
-		data_scadenza.add(Calendar.YEAR, 5);
-		
-		model.addFruitore(nome, cognome, eta, username, password, data_iscrizione, data_scadenza);
-		
-		
-		assert invariante() ;		
-		return username;	}
-	
-	
-	public  void eliminaDecaduti() {
-		model.eliminaDecaduti();
-	}
-
-	public  void eliminaPrestitiScaduti() {
-		model.eliminaPrestitiScaduti();
-	}
-	
-	/**
-	 * rinnova l'iscrizione del fruitore selezionato
-	 * @param numFruitore posizione del fruitore nell'array
-	 * @pre numFruitore>=0 && numFruitore<fruitori.size() 
-	 * @post operatoriNoChange()
-	 */
-	private  void rinnovoIscrizioneFruitore(int numFruitore) {
-		assert invariante() && numFruitore>=0  ;
-		
-		Calendar data_scadenza=model.getDataScadenzaFruitore(numFruitore);
-		Calendar data_odierna=Calendar.getInstance();
-		
-		//calcolo della differenza di giorni tra data scadenza e data odierna 
-		long diff=(data_scadenza.getTimeInMillis()-data_odierna.getTimeInMillis())/ 86400000;
-		
-		if (diff>10) {
-			view.notify("mancano ancora "+ diff+" giorni alla scadenza, impossibile soddisfare richiesta\n");
-
-		}else {
-			model.aggiornaDataScadenzaFruitore(numFruitore);
+			scelta = view.scelta(TITOLO, VOCI);
 			
-		}
-		assert invariante()  ; 
-	}
-
-	public  String elencoFruitori() {
-		
-		if(model.hasFruitori()) view.notify("elenco fruitori vuoto");
-
-		return model.elencoFruitori();
-	}
-	
-
-	public  String elencoFruitoriFull() {
-		
-		if(model.hasFruitori()) view.notify("elenco fruitori vuoto");
-		
-		return model.elencoFruitoriFull();
-	}
-	
-	/**
-	 * Gestisce le operazioni del fruitore.
-	 * @param username del fruitore.
-	 * @pre username!=null
-	 * @post operatoriNoChange()
-	 */
-	public  void usaFruitore(String username) {
-		assert invariante() && username!= null;
-		
-		int scelta, numFruitore;
-		
-		numFruitore = model.posizioneFruitore(username);//numero fruitore nell'array
-		
-		
-		//se non lo trovo esco
-		if (numFruitore==-1) {
-			assert invariante() ;
-			return;
-			}
-		
-		model.setIdPrestitoFruitore(numFruitore);
-				
-		do {
-			scelta = view.scelta(TITOLO_MENU_FRUITORE, vociMenuFruitore);
-					
-			switch (scelta) {
-			
-				case 1:
-					view.notify(view.incornicia(model.visualizzaPrestitiFruitore(numFruitore)));
-					break;
-					
-				case 2:
-					int risorsaScelta = selezionaRisorsa();
-					if (risorsaScelta==-1) {
-						view.notify("Nessuna corrispondenza");
-						break;
-					}
-					
-					boolean rispettaPrerequisiti = model.verificaPrerequisitiPrestito(numFruitore, risorsaScelta);
-				
-					if (rispettaPrerequisiti) {
-						model.aggiornaLicenze(risorsaScelta, 0);// flag per diminuire numeroLicenze
-						String descrizioneRisorsa = model.getDescrizioneRisorsa(risorsaScelta);
-						
-						int durataPrestito = model.durataPrestitoDataUnaRisorsa(risorsaScelta);
-						int durataProroga = model.durataProrogaDataUnaRisorsa(risorsaScelta);
-						int termineProroga = model.termineProrogaDataUnaRisorsa(risorsaScelta);
-						
-						
-						
-						Calendar inizio = Calendar.getInstance();
-						Calendar fine = Calendar.getInstance();
-						fine.add(Calendar.DAY_OF_YEAR, durataPrestito);
-						
-						model.richiediPrestitoFruitore(numFruitore,risorsaScelta, descrizioneRisorsa, inizio, fine, durataProroga, termineProroga);
-						view.notify(BelleStringhe.rigaIsolata(BUON_FINE));
-					} else {
-						Stampa.aVideo(MESSAGGIO_PRESTITO_NON_CONCESSO);
-					}
-					break;
-					
-				case 3:
-					
-					ArrayList<Integer> inScadenza = model.getInScadenzafruitore(numFruitore);
-					
-					if (inScadenza != null) {
-						String[] inScadenzaString = new String[inScadenza.size()];
-						
-						for (int i = 0; i < inScadenzaString.length; i++) {
-							inScadenzaString[i] = model.getDescrizionePrestitoFruitore(numFruitore,inScadenza,i);
-						}
-						
-						int scegliDaRinnovare = view.scelta(TITOLO_IN_SCADENZA, inScadenzaString);
-						
-						switch (scegliDaRinnovare) {
-						case 0:
-							break;
-
-						default:
-							model.rinnovaPrestitoFruitore(numFruitore,inScadenza,scegliDaRinnovare);
-							break;
-						}
-					} else {
-						view.notify(NO_IN_SCADENZA);
-					}
-					break;
-					
-				case 4:
-					rinnovoIscrizioneFruitore(numFruitore);
-					break;
-			}
-		}while(scelta!=0);
-		assert invariante() ;
-		return;
-	}
-
-
-	
-			
-	//inizio metodi relativi  operatori------------------------------------------------------------------------------------------------------
-			
-	
-	
-	/**
-	 *  metodo principale per la gestione delle operazioni degli operatori
-	 * @param username dell'operatore loggato
-	 * @pre true
-	 * @post fruitoriNoChange
-	 */
-	public  void usaOperatore(String username){
-		assert invariante() ;
-		
-		int numOperatore, scelta;
-		
-		numOperatore=posizioneOperatore(username);        
-		
-		if (numOperatore==-1) {                          
-		assert invariante() ;
-			return;
-		}
-				
-		do {
-			scelta = view.scelta(TITOLO_MENU_OPERATORE, VOCI_MENU_OPERATORE);
 			
 			switch (scelta) {
+				case 0:
+					break;
+					
 				case 1:
-					view.notify(elencoFruitori());
+					login();
 					break;
-					
+				
 				case 2:
-					view.notify(elencoFruitoriFull());
-					break;	
+					username = iscrizioneFruitore();
+					 if (username != "") {
+						 usaFruitore(username);
+					}
+					break;
 					
-				case 3:
-					if(model.ArchivioVuoto()) {view.notify("archivio vuoto");
+				default:
+					view.notify(MESSAGGIO_ERRORE);
 					break;
 			}
-						
-							boolean ricercaValida = false;
-							int ricercaScelta = 0;
-							
-							while(!ricercaValida) {
-							
-								 ricercaScelta = view.scelta("Scegli il metodo di ricerca delle risorse :", OPZIONI_MENU_RICERCA);
-								if(ricercaScelta>=0 && ricercaScelta<=OPZIONI_MENU_RICERCA.length) ricercaValida=true;
-									}
-							switch(ricercaScelta) {
-							
-							default : break;
-							
-							case 1:
-							
-						
-								boolean sceltaValida = false;
-							
-								while(!sceltaValida) {
-								
-									int categoriaScelta=view.scelta("Categorie",model.elencoCategorie());
-									
-									if(categoriaScelta>0 && categoriaScelta<=model.sizeArchivio()) {
-									
-										usaCategoria(categoriaScelta-1);
-									
-										sceltaValida=true;
-										}
-									if(categoriaScelta==0)break;
-									}
-									break;
-							
-							case 2:
-								
-							
-								int attributoScelto = view.scelta(TITOLO_SELEZIONA_ATTRIBUTO, vociMenuSelezionaAttributo);
-																	
-								if(attributoScelto!=0)
-									cercaPerAttributoOmode(attributoScelto);
-								
-								break;
-								
-							}
-							break;
-				case 4: 	
-					
-					int sceltaMenuStorico = view.scelta(TITOLO_MENU_STORICO, vociMenuStorico);
-					
-					switch(sceltaMenuStorico) {
-					
-					case 1: 
-						view.notify(model.getDescrizioneStorico());
-						break;
-					case 2:
-						view.notify(model.numEventoAnnoSolare(Model.NUOVO_PRESTITO,"prestiti"));
-						break;
-					case 3:
-						view.notify(model.numEventoAnnoSolare(Model.PROROGA_PRESTITO,"proroghe"));
-						break;
-					case 4:
-						view.notify(model.risorsaPiuPrestata());
-						break;
-					case 5:
-						view.notify(model.prestitiFruitoriAnnoSolare());
-						break;
-					default : break;					
-
-					}
-					
-					}
-					
-					
-				}while(scelta!=0);
+			
+		} while (scelta != 0);
 		
-			assert invariante() ;
-			return;
-			}
+		
+		
+		salvaFruitori();
+		salvaOperatori();//salvare fruitori e Operatori a fine sessione su file
+		salvaArchivio();        //salvaArchivio su file
+		
+		view.notify(BelleStringhe.incornicia(ARRIVEDERCI));
+	}
 	
+	private  void login() {
+		boolean finito = false;
+		boolean continua = true;
+		String username, password;
+		
+		do {
+			username = view.StringaNonVuota(INPUT_USERNAME);
+			password = view.StringaNonVuota(INPUT_PASSWORD);
+			
+			if (cercaFruitore(username, password)) {
+				usaFruitore(username);
+				finito = true;
+			}else {
+				if(cercaOperatore(username, password)) {
+					usaOperatore(username);
+					finito = true;
+				}else {
+					view.notify(BelleStringhe.rigaIsolata(ERRORE));
+					continua = view.yesOrNo(RIPROVA);
+					if (!continua)
+						return;
+				}
+			}
+		}while(!finito);		
+	}
+
 	private void usaCategoria(int categoria) {
 	
-		
-		
 		if (model.haRisorseEsottocategorie(categoria))
 			{
 			view.notify(("errore! questa categoria ha sia risorse che sottocategorie!")); 
@@ -440,10 +195,6 @@ public class Controller  implements Serializable{
 
 	private void gestioneRisorseSottocategoria(int categoria, int sottocategoria) {
 
-		
-
-
-		
 		boolean esciMenu = false;
 	
 		while(!esciMenu) {
@@ -487,7 +238,7 @@ public class Controller  implements Serializable{
 					if (risorsaDaEliminare==0) break;
 					
 					//risorsaDaEliminare -1 rappresenta l'attuale posizione nell'array della risorsa
-					model.rimuoviRisorsa(model.getId(risorsaDaEliminare-1,categoria,sottocategoria),categoria,sottocategoria);		
+					model.rimuoviRisorsa(model.getId(risorsaDaEliminare-1,categoria,sottocategoria),categoria);		
 					break;
 					
 				case 4:
@@ -563,7 +314,7 @@ public class Controller  implements Serializable{
 					if (risorsaDaEliminare==0) break;
 					
 					//risorsaDaEliminare -1 rappresenta l'attuale posizione nell'array della risorsa
-					model.rimuoviRisorsa(model.getId(risorsaDaEliminare-1,categoria,-1),categoria,-1);		
+					model.rimuoviRisorsa(model.getId(risorsaDaEliminare-1,categoria,-1),categoria);		
 					break;
 					
 				case 4:
@@ -586,169 +337,104 @@ public class Controller  implements Serializable{
 	}
 
 
-	private void aggiungiRisorsaCategoria(int categoria,int sottocategoria) {
+	/*private void aggiungiRisorsaCategoria(int categoria,int sottocategoria) {
 
 		String[] attributiStringa = acquisisciAttributiStringaCategoria(categoria);
-		int[] attributinumerici = acquisisciAttributiNumericiCategoria(categoria);
+		int[] attributiNumerici = acquisisciAttributiNumericiCategoria(categoria);
+		
+		model.aggiungiRisorsa(attributiStringa, attributiNumerici,categoria,sottocategoria);		
 		
 		
-		
-			model.aggiungiRisorsa(attributiStringa,attributinumerici,categoria,sottocategoria);		
-		
-		
-	}
-	private int[] acquisisciAttributiNumericiCategoria(int categoria) {
-
-
-				String[] attributiNumerici = model.getAttributiNumericiRisorse( categoria);
-
-				int[] attributiNumericiFinali = new int[attributiNumerici.length+1];
-
-				for(int i = 0 ; i<attributiNumerici.length; i++) {
-					attributiNumericiFinali[i] = view.InteroNonNegativo("inserire "+attributiNumerici[i]+" :");
-					
-				}
-				attributiNumericiFinali[attributiNumerici.length] = view.InteroNonNegativo("inserisci il numero di licenze");
-				
-				return attributiNumericiFinali;
-
-		
-	}
+	}*/
 	
-	private String[] acquisisciAttributiStringaCategoria(int categoria) {
+	private void aggiungiRisorsaCategoria(int categoria,int sottocategoria) {
 
-	
-			
-							
-
-				String[] attributiStringa = model.getAttributiStringaRisorse( categoria);
-
-				String[] attributiStringaFinali= new String[attributiStringa.length];
-
-				for(int i = 0 ; i<attributiStringa.length; i++) {
-					attributiStringaFinali[i] = view.StringaNonVuota("inserire "+attributiStringa[i]+" :");
-					
-			
-
+	//	String[] attributiStringa = acquisisciAttributiStringaCategoria(categoria);
+	//	int[] attributiNumerici = acquisisciAttributiNumericiCategoria(categoria);
+		
+		ArrayList<Object> attributi = acquisisciAttributiCategoria(categoria);
+		try {
+			model.aggiungiRisorsa(attributi,categoria,sottocategoria);		
+		}catch(ClassCastException e) {
+			view.notify(ERROREINPUT);
 		}
-				return attributiStringaFinali;
-
-	
+		
 		
 	}
+	
+	
+	private ArrayList<Object> acquisisciAttributiCategoria(int categoria) {
 
-
+		ArrayList<String> descrizioneCampiRisorsa= model.getDescrizioneCampi(categoria);
+	
+		ArrayList<Object> nuoviAttributi = new ArrayList<Object>();
+		
+		for(int i = 1 ; i<descrizioneCampiRisorsa.size(); i++) {
+			nuoviAttributi.add( view.leggiInput("inserire "+descrizioneCampiRisorsa.get(i)+" :"));
+			
+		}
+		
+		return nuoviAttributi;
+	}
+	
+	private String[] getDescrizioneCampiRisorsa(int categoriaScelta) {
+		ArrayList<String> campiRisorsaList =new ArrayList();
+		campiRisorsaList=model.getDescrizioneCampiRisorsa(categoriaScelta);
+		
+		String [] s = new String [campiRisorsaList.size()];
+		
+		for(int i=0; i<campiRisorsaList.size();i++)
+			s[i]=campiRisorsaList.get(i);
+		
+		return s;
+	}
 	/**
-	 * metodo per la ricerca di risorse tramite attributo , richiesta all'utente su ricerca da eseguire e su azione da compiere sulla risorsa	
-	 * @param attributoScelto attributo da confrontare col parametro di ricerca
-	 * @pre attributoScelto>=0
-	 * @post true
+	 * carica i dati dell'archivio  e dello storico da file
+	 * @pre true
+	 * @post fruritoriOperatoriNoChange()
 	 */
-		
-private  void cercaPerAttributoOmode(int attributoScelto) {
+		public  void importaArchivio() {
+			
+			
+			model.importaDati();
+			
+			view = new BibliotecaView();
 
-	
-	String chiaveDiRicerca = null;
-	int numDiRicerca = 0;
-	if(attributoScelto<6)  chiaveDiRicerca = view.StringaNonVuota("inserisci la stringa da cercare nell'attributo selezionato");
-	else numDiRicerca = view.InteroNonNegativo("inserisci il valore da cercare per l'attributo selezionato");
-
-    ArrayList<Integer> match = model.filtraRisorse(attributoScelto,chiaveDiRicerca,numDiRicerca);
-	
-	if(match.size()<1) return;
-	
-	String[] opzioniEsiti= new String[match.size()];
-	int i=0;
-	for(int r : match) { 
-		if(model.getNomeRisorsa(r)!=null) {	opzioniEsiti[i]= model.getNomeRisorsa(r); i++; } 
+			
 		}
-	
-	int risorsaScelta = view.scelta("ecco l'esito della ricerca :", opzioniEsiti);
-	
-	if(risorsaScelta!=0) {
-		int eliMod;
+	/** 
+	 * salva dati dell'archivio e dello storico su file
+	 * @pre true 
+	 * @post @nochange
+	 */
+		public  void salvaArchivio() {//e storico
+			
+			model.salvaArchivio();	
+			
+			
+		}
 		
-		do{	
-			 eliMod = view.scelta(TITOLO_ELI_O_MOD, OPZIONI_ELI_O_MOD);
-	
-			 if(eliMod==0) return;
-			 
-		int id = match.get(risorsaScelta-1) ;
-		
-		azioneDaRicerca(id,eliMod);
-		
-			 
-		}while (eliMod==1);
-	
-	}
-	}
-
-private void modifica(int id , int categoria) {
-	
-
-	String[]  attributiStringa = model.getAttributiStringaRisorse(categoria);
-	String[]  attributiNumerici = model.getAttributiNumericiRisorse(categoria);
-	
-	String[] nuoviAttributiStringa = new String[attributiStringa.length];
-	int[] nuoviAttributiNumerici = new int[+attributiNumerici.length];
-	
-	int i=0;
-	
-	for(String s : attributiStringa) {
-		
-		char modificaNome = view.Char("vuoi modificare "+s+" ? (s/n)");
-		
-		if(modificaNome=='s'||modificaNome=='S') {
-		
-			String nomeNuovo= view.StringaNonVuota("inserisci il nuovo valore");
-		
-			nuoviAttributiStringa[i]=nomeNuovo;
-		}	
-		
-		else nuoviAttributiStringa[i]= null;
-
-		i++;
-	}
-	
-	i=0;
-	
-for(String s : attributiNumerici) {
-		
-		char modificaNome = view.Char("vuoi modificare "+s+" ? (s/n)");
-		
-		if(modificaNome=='s'||modificaNome=='S') {
-		
-			int valoreNuovo= view.InteroNonNegativo("inserisci il nuovo valore");
-		
-			nuoviAttributiNumerici[i]=valoreNuovo;
-		}	
-		else 			nuoviAttributiNumerici[i]= -1;
-
-		i++;
-	}
-
-	model.modificaRisorsa(id,categoria,nuoviAttributiStringa,nuoviAttributiNumerici);
-	
-}
 
 
+		public  void idCorrente() {
+			model.idCorrente();
+		}
+		
 
-private void azioneDaRicerca(int id, int eliMod) {
+private void azioneDaRicerca(int id, int eliMod, int categoria) {
 
 
-	for(int c = 0; c<model.sizeArchivio();c++)  {
-
-		if(model.categoriaHaRisorse(c)) 
+		if(model.categoriaHaRisorse(categoria)) 
 		{
 			switch (eliMod) {
 			case 1:
-				view.notify(model.showRisorsa(id,c,-1));
+				view.notify(model.showRisorsa(id,categoria));
 				break;
 			case 2:
-				modifica(id,c);
+				modifica(id,categoria);
 				break;
 			case 3:
-				model.rimuoviRisorsa(id,c,-1);
+				model.rimuoviRisorsa(id,categoria);
 				break;
 			default:
 				break;
@@ -756,113 +442,261 @@ private void azioneDaRicerca(int id, int eliMod) {
 		}
 		else 
 		{
-			for(int s= 0; s< model.elencoSottoCategorie(c).length; s++) {
 				
 			switch (eliMod) {
 			case 1:
-				view.notify(model.showRisorsa(id,c,s));
-				break;
+				view.notify(model.showRisorsa(id,categoria));
+	     		break;
 			case 2:
-				modifica(id,c);
+				modifica(id,categoria);
 				break;
 			case 3:
-				model.rimuoviRisorsa(id,c,s);
+				model.rimuoviRisorsa(id,categoria);
 				break;
 			default:
 				break;
 		}	 
-
 			}
 	}
-	assert invariante() ;
-}
-	}
-
-
-/**
- * verifica se l'username e la password in ingresso corrispondono ad un operatore registrato
- * @param username dell'operatore
- * @param password dell'operatore
- * @return true se esiste un operatore corrispondente
- * @pre username!= null && password!= null && password != "" && username != ""
- * @post @nochange
- */
-	public  boolean cercaOperatore(String username, String password) {
-		assert invariante() && username!= null && password!= null && password != "" && username != "" ;
 	
-				
-		int numOperatore;
-		
-		if((numOperatore=posizioneOperatore(username)) != -1) { 												
+
+	private void modifica(int id , int categoria) {
+		try {
+			ArrayList<String> campiRisorsa = model.getDescrizioneCampi(categoria);
 			
-			if(model.verificaPasswordOperatore(numOperatore,password))
-			assert invariante()  ;
-			return true;
+			Object[] nuoviAttributi = new Object[campiRisorsa.size()];
+			
+			//id non modificabile
+			for(int i=1; i<campiRisorsa.size();i++) {
+				
+				char modificaNome = view.Char("vuoi modificare "+campiRisorsa.get(i)+" ? (s/n)");
+				
+				if(modificaNome=='s'||modificaNome=='S') {
+				
+					Object nomeNuovo= view.leggiInput("inserisci il nuovo valore");
+				
+					nuoviAttributi[i]=nomeNuovo;
+				}	
+				
+				else nuoviAttributi[i]= null;	
+			}
+		
+			model.modificaRisorsa(id,categoria,nuoviAttributi);
+		}catch(ClassCastException e) {
+			view.notify(ERROREINPUT);
 		}
-		assert invariante()  ;
-		return false;
 	}
-			
-	/**
-	 *  cerca l'operatore scelto e restituisco la sua posizione nell'array
-	 * @param username dell'operatore scelto
-	 * @return il valore della sua posizione nell'array
-	 * @pre username!= null && username!= ""
+
+    /**
+	 * verifica se il fruitore relativo a username e password ï¿½ iscritto
+	 * @param username del fruitore
+	 * @param password del fruitore
+	 * @return true se il fruitore ï¿½ iscritto
+	 * @pre username!=null && password!=null 
 	 * @post @nochange
-	 */
-	private  int posizioneOperatore(String username) {	
-		assert invariante() && username!= null && username!= "" ;
+	 */   
+	public  boolean cercaFruitore(String username, String password) {
+		return model.cercaFruitore(username,password);
+	}
 		
-		
-		for (int i=0; i<model.sizeOperatori(); i++) 
-			if(model.verificaUsernameOperatore(i,username)) {
+	public  String iscrizioneFruitore() {
 				
-				assert invariante()  ;
-				return i;
-			}
-		assert invariante()  ;
-		return -1;
-	}
-
-	public String elencoOperatori() {
-		return model.elencoOperatori();
-	}
-
+		String nome, cognome, password, username;
+		int eta;
+		Calendar data_iscrizione, data_scadenza;
+		boolean finito=false;
+		
+		nome=view.StringaNonVuota("Inserisci nome\n");
+		cognome=view.StringaNonVuota("Inserisci cognome\n");
+		eta=view.InteroNonNegativo("inserisci la tua etï¿½\n");
+		
+		if(eta<18) {
+			view.notify("Servizio riservato ai soli cittadini maggiorenni\n");
+					
+			return "";
+		}	
+		
+		do {
+			username=view.StringaNonVuota("Inserisci username\n");
+			if (model.posizioneFruitore(username) != -1)
+				view.notify("username già presente \n");
+			else
+				finito=true;
+		}while(!finito);
+		
+		password=view.StringaNonVuota("Inserisci password\n");		
+		
+		data_iscrizione=Calendar.getInstance();
+		data_scadenza=Calendar.getInstance();
+		data_scadenza.add(Calendar.YEAR, 5);
+		
+		model.addFruitore(nome, cognome, eta, username, password, data_iscrizione, data_scadenza);
 			
-	public  void salvaFruitoriOperatori() {
-		model.salvaFruitoriOperatori();
+		return username;	
 	}
-			
 	
-			
-	public  void importaFruitoriOperatori() {
-				model.importaFruitoriOperatori();
-					  
-			 }
-/**
- * carica i dati dell'archivio  e dello storico da file
- * @pre true
- * @post fruritoriOperatoriNoChange()
- */
-	public  void importaArchivio() {
-		
-		
-		model.importaDati();
-		
-		view = new BibliotecaView();
-
-		assert invariante() ;
+	
+	public  void eliminaDecaduti() {
+		model.eliminaDecaduti();
 	}
-/** 
- * salva dati dell'archivio e dello storico su file
- * @pre true 
- * @post @nochange
- */
-	public  void salvaArchivio() {//e storico
-		assert invariante();
-		model.salvaArchivio();	
+
+	public  void eliminaPrestitiScaduti() {
+		model.eliminaPrestitiScaduti();
+	}
+	
+	/**
+	 * rinnova l'iscrizione del fruitore selezionato
+	 * @param numFruitore posizione del fruitore nell'array
+	 * @pre numFruitore>=0 && numFruitore<fruitori.size() 
+	 * @post operatoriNoChange()
+	 */
+	private  void rinnovoIscrizioneFruitore(int numFruitore) {
+		assert numFruitore>=0  ;
 		
-		assert invariante();
+		Calendar data_scadenza=model.getDataScadenzaFruitore(numFruitore);
+		Calendar data_odierna=Calendar.getInstance();
+		
+		//calcolo della differenza di giorni tra data scadenza e data odierna 
+		long diff=(data_scadenza.getTimeInMillis()-data_odierna.getTimeInMillis())/ 86400000;
+		
+		if (diff>10) {
+			view.notify("mancano ancora "+ diff+" giorni alla scadenza, impossibile soddisfare richiesta\n");
+
+		}else {
+			model.aggiornaDataScadenzaFruitore(numFruitore);
+			
+		}
+		 
+	}
+
+	private  String elencoFruitori() {
+		
+		if(model.hasFruitori()) view.notify("elenco fruitori vuoto");
+
+		return model.elencoFruitori();
+	}
+	
+
+	private  String elencoFruitoriFull() {
+		
+		if(model.hasFruitori()) view.notify("elenco fruitori vuoto");
+		
+		return model.elencoFruitoriFull();
+	}
+	
+	/**
+	 * Gestisce le operazioni del fruitore.
+	 * @param username del fruitore.
+	 * @pre username!=null
+	 * @post operatoriNoChange()
+	 */
+	public  void usaFruitore(String username) {
+		assert username!= null;
+		
+		int scelta, numFruitore;
+		
+		numFruitore = model.posizioneFruitore(username);//numero fruitore nell'array
+		
+		
+		//se non lo trovo esco
+		if (numFruitore==-1) {
+			
+			return;
+			}
+		
+		model.setIdPrestitoFruitore(numFruitore);
+				
+		do {
+			scelta = view.scelta(TITOLO_MENU_FRUITORE,  VOCIMENUFRUITORE);
+					
+			switch (scelta) {
+			
+				case 1:
+					view.notify(view.incornicia(model.visualizzaPrestitiFruitore(numFruitore)));
+					break;
+					
+				case 2:
+					int risorsaScelta = selezionaRisorsa();
+					if (risorsaScelta==-1) {
+						view.notify("Nessuna corrispondenza");
+						break;
+					}
+					
+					nuovoPrestito(numFruitore, risorsaScelta);
+					
+					break;
+					
+				case 3:
+					
+					ArrayList<Integer> inScadenza = model.getInScadenzafruitore(numFruitore);
+					String[] inScadenzaString = prestitiFruitoreInScadenza(numFruitore, inScadenza); 
+					
+					if(inScadenzaString!=null) {
+						rinnovoPrestitoFruitore(numFruitore, inScadenzaString, inScadenza);
+					} else {
+						view.notify(NO_IN_SCADENZA);
+					}						
+					
+					break;
+					
+				case 4:
+					rinnovoIscrizioneFruitore(numFruitore);
+					break;
+			}
+		}while(scelta!=0);
+		
+		
+		return;
+	}
+
+	private String[] prestitiFruitoreInScadenza(int numFruitore, ArrayList<Integer> inScadenza) {
+		
+		if (inScadenza != null) {
+			String[] inScadenzaString = new String[inScadenza.size()];
+			
+			for (int i = 0; i < inScadenzaString.length; i++) {
+				inScadenzaString[i] = model.getDescrizionePrestitoFruitore(numFruitore,inScadenza,i);
+			}
+			
+			return inScadenzaString;
+		} 
+		
+		return null;
+	}
+	
+	private void rinnovoPrestitoFruitore(int numFruitore, String[] inScadenzaString, ArrayList<Integer> inScadenza) {
+		int scegliDaRinnovare = view.scelta(TITOLO_IN_SCADENZA, inScadenzaString);
+		
+		switch (scegliDaRinnovare) {
+		case 0:
+			break;
+
+		default:
+			model.rinnovaPrestitoFruitore(numFruitore,inScadenza,scegliDaRinnovare);
+			break;
+		}
+	}
+	
+	private void nuovoPrestito(int numFruitore, int risorsaScelta) {
+		boolean rispettaPrerequisiti = model.verificaPrerequisitiPrestito(numFruitore, risorsaScelta);
+		
+		if (rispettaPrerequisiti) {
+			model.aggiornaLicenze(risorsaScelta, 0);// flag per diminuire numeroLicenze
+			String descrizioneRisorsa = model.getDescrizioneRisorsa(risorsaScelta);
+			
+			int durataPrestito = model.durataPrestitoDataUnaRisorsa(risorsaScelta);
+			int durataProroga = model.durataProrogaDataUnaRisorsa(risorsaScelta);
+			int termineProroga = model.termineProrogaDataUnaRisorsa(risorsaScelta);				
+			
+			Calendar inizio = Calendar.getInstance();
+			Calendar fine = Calendar.getInstance();
+			fine.add(Calendar.DAY_OF_YEAR, durataPrestito);
+			
+			model.richiediPrestitoFruitore(numFruitore,risorsaScelta, descrizioneRisorsa, inizio, fine, durataProroga, termineProroga);
+			view.notify(BelleStringhe.rigaIsolata(BUON_FINE));
+		} else {
+			Stampa.aVideo(MESSAGGIO_PRESTITO_NON_CONCESSO);
+		}
 	}
 	
 	/**
@@ -871,8 +705,8 @@ private void azioneDaRicerca(int id, int eliMod) {
 	 * @pre true 
 	 * @post @return>=-1 && @nochange
 	 */
-	public  int selezionaRisorsa() {
-		assert invariante() ;
+	private  int selezionaRisorsa() {
+		
 		
 		int risorsaScelta = -1;
 		
@@ -883,33 +717,32 @@ private void azioneDaRicerca(int id, int eliMod) {
 			
 			switch (scelta) {
 				case 1:
-					int attributoScelto = view.scelta(TITOLO_SELEZIONA_ATTRIBUTO, vociMenuSelezionaAttributo);
-				
-					if(attributoScelto!=0 ) {
-						String chiaveDiRicerca = "";
-						int numDiRicerca = 0;
-						if(attributoScelto<6)  chiaveDiRicerca = view.StringaNonVuota("inserisci la stringa da cercare nell'attributo selezionato");
-						else numDiRicerca = view.InteroNonNegativo("inserisci il valore da cercare per l'attributo selezionato");
-						
-						
-						ArrayList<Integer> match = model.filtraRisorse(attributoScelto,chiaveDiRicerca,numDiRicerca);
-						if(match.size()<1) 	{risorsaScelta =  -1; break;}
-						
-
-						String[] opzioniEsiti= new String[match.size()];
-						int i=0;
-						for(int r : match) { opzioniEsiti[i]= model.getNomeRisorsa(r); i++;}
-												
-						  risorsaScelta = view.scelta("ecco l'esito della ricerca :", opzioniEsiti);
-
-						if(risorsaScelta==0) 
-							return -1;
+					try {
+						int attributoScelto = view.scelta(TITOLO_SELEZIONA_ATTRIBUTO, vociMenuSelezionaAttributo);
+					
+						if(attributoScelto!=0 ) {
+							Object parametro;
+							parametro = view.leggiInput("inserisci il parametro da cercare per l'attributo selezionato");
+									
+							ArrayList<Integer> match = model.filtraRisorse(attributoScelto,parametro);
+							if(match.size()<1) 	{risorsaScelta =  -1; break;}
 							
-						else 
-							return match.get(risorsaScelta-1);
-					
-					
+	
+							String[] opzioniEsiti= new String[match.size()];
+							int i=0;
+							for(int r : match) { opzioniEsiti[i]= model.getNomeRisorsa(r); i++;}
+													
+						    risorsaScelta = view.scelta("ecco l'esito della ricerca :", opzioniEsiti);
+	
+							if(risorsaScelta==0) 
+								return -1;
+							else 
+								return match.get(risorsaScelta-1);
+						}
+					}catch(ClassCastException e) {
+						view.notify(ERROREINPUT);
 					}
+					
 				break;
 			
 				case 2:
@@ -951,83 +784,242 @@ private void azioneDaRicerca(int id, int eliMod) {
 				break;
 			}
 			
-			assert invariante()  && risorsaScelta>=-1;		
+			assert  risorsaScelta>=-1;		
 			return risorsaScelta;
 	}
-
-	public  void idCorrente() {
-		model.idCorrente();
+	
+	
+	public  void salvaFruitori() {
+		model.salvaFruitoriOperatori();
 	}
-	public void start() {
-
-		importaFruitoriOperatori();//caricare fruitori e operatori da file a inizio sessione
-		importaArchivio();//importa archivio da file 
-		eliminaDecaduti();//cerco decaduti a inizio di ogni sessione
-		eliminaPrestitiScaduti();
-		idCorrente();		
-		
-		view.notify("Benvenuto  ");
-		
-		int scelta;
-		String username;
-		
-		do {
-			scelta = view.scelta(TITOLO, voci);
 			
+	public  void importaFruitori() {
+		model.importaFruitoriOperatori();					  
+	}
+
+	public  void usaOperatore(String username){
+		
+		
+		int numOperatore, scelta;
+		
+		numOperatore=posizioneOperatore(username);        
+		
+		if (numOperatore==-1) {                          
+		
+			return;
+		}
+				
+		do {
+			scelta = view.scelta(TITOLO_MENU_OPERATORE, VOCI_MENU_OPERATORE);
 			
 			switch (scelta) {
-				case 0:
-					break;
-					
 				case 1:
-					login();
-					break;
-				
-				case 2:
-					username = iscrizioneFruitore();
-					 if (username != "") {
-						usaFruitore(username);
-					}
+					view.notify(elencoFruitori());
 					break;
 					
-				default:
-					view.notify(MESSAGGIO_ERRORE);
+				case 2:
+					view.notify(elencoFruitoriFull());
+					break;	
+					
+				case 3:
+					if(model.ArchivioVuoto()) {
+						view.notify("archivio vuoto");
+						break;
+					}
+						
+					boolean ricercaValida = false;
+					int ricercaScelta = 0;
+					
+					while(!ricercaValida) {
+					
+						ricercaScelta = view.scelta("Scegli il metodo di ricerca delle risorse :", OPZIONI_MENU_RICERCA);
+						if(ricercaScelta>=0 && ricercaScelta<=OPZIONI_MENU_RICERCA.length) ricercaValida=true;
+					}
+					
+					ricercaRisorsa(ricercaScelta);
+					
+					break;
+					
+				case 4: 	
+					
+					opzioniStorico();
 					break;
 			}
-			
-		} while (scelta != 0);
+					
+					
+		}while(scelta!=0);
 		
 		
-		
-		salvaFruitoriOperatori();//salvare fruitori e Operatori a fine sessione su file
-		salvaArchivio();        //salvaArchivio su file
-		
-		view.notify(BelleStringhe.incornicia(ARRIVEDERCI));
+		return;	
+	
 	}
 	
-	public  void login() {
-		boolean finito = false;
-		boolean continua = true;
-		String username, password;
+	private void ricercaRisorsa(int ricercaScelta) {
+		switch(ricercaScelta) {
 		
-		do {
-			username = view.StringaNonVuota(INPUT_USERNAME);
-			password = view.StringaNonVuota(INPUT_PASSWORD);
+			default : break;
 			
-			if (cercaFruitore(username, password)) {
-				usaFruitore(username);
-				finito = true;
-			}else {
-				if(cercaOperatore(username, password)) {
-					usaOperatore(username);
-					finito = true;
-				}else {
-					view.notify(BelleStringhe.rigaIsolata(ERRORE));
-					continua = view.yesOrNo(RIPROVA);
-					if (!continua)
-						return;
-				}
-			}
-		}while(!finito);		
+			case 1:
+				esploraArchivio();			
+				break;
+			
+			case 2:
+				ricercaPerAttributo();
+				break;				
+		}
 	}
+	
+	private void ricercaPerAttributo() {
+		int categoriaScelta=view.scelta("Categorie",model.elencoCategorie());
+		
+		int attributoScelto = view.scelta(TITOLO_SELEZIONA_ATTRIBUTO, getDescrizioneCampiRisorsa(categoriaScelta));
+											
+		if(attributoScelto!=0)
+			cercaPerAttributoOmode(attributoScelto);
+	}
+	
+	private void esploraArchivio() {
+		boolean sceltaValida = false;
+		
+		while(!sceltaValida) {
+		
+			int categoriaScelta=view.scelta("Categorie",model.elencoCategorie());
+			
+			if(categoriaScelta>0 && categoriaScelta<=model.sizeArchivio()) {
+			
+				usaCategoria(categoriaScelta-1);
+			
+				sceltaValida=true;
+				}
+			if(categoriaScelta==0)break;
+			}
+	}
+	
+	private void opzioniStorico() {
+		int sceltaMenuStorico = view.scelta(TITOLO_MENU_STORICO, vociMenuStorico);
+		
+		switch(sceltaMenuStorico) {
+		
+		case 1: 
+			view.notify(model.getDescrizioneStorico());
+			break;
+		case 2:
+			view.notify(model.numEventoAnnoSolare(Model.NUOVO_PRESTITO,"prestiti"));
+			break;
+		case 3:
+			view.notify(model.numEventoAnnoSolare(Model.PROROGA_PRESTITO,"proroghe"));
+			break;
+		case 4:
+			view.notify(model.risorsaPiuPrestata());
+			break;
+		case 5:
+			view.notify(model.prestitiFruitoriAnnoSolare());
+			break;
+		default : break;					
+
+		}
+	}
+	
+	/**
+	 * verifica se l'username e la password in ingresso corrispondono ad un operatore registrato
+	 * @param username dell'operatore
+	 * @param password dell'operatore
+	 * @return true se esiste un operatore corrispondente
+	 * @pre username!= null && password!= null && password != "" && username != ""
+	 * @post @nochange
+	 */
+		public  boolean cercaOperatore(String username, String password) {
+			assert  username!= null && password!= null && password != "" && username != "" ;
+		
+					
+			int numOperatore;
+			
+			if((numOperatore=posizioneOperatore(username)) != -1) { 												
+				
+				if(model.verificaPasswordOperatore(numOperatore,password))
+				
+				return true;
+			}
+			
+			return false;
+		}
+				
+		/**
+		 *  cerca l'operatore scelto e restituisco la sua posizione nell'array
+		 * @param username dell'operatore scelto
+		 * @return il valore della sua posizione nell'array
+		 * @pre username!= null && username!= ""
+		 * @post @nochange
+		 */
+		private  int posizioneOperatore(String username) {	
+			assert  username!= null && username!= "" ;
+			
+			
+			for (int i=0; i<model.sizeOperatori(); i++) 
+				if(model.verificaUsernameOperatore(i,username)) {
+					
+					
+					return i;
+				}
+			
+			return -1;
+		}
+
+	public String elencoOperatori() {
+		return model.elencoOperatori();
+	}
+				
+	public  void salvaOperatori() {
+		model.salvaFruitoriOperatori();
+	}	
+			
+	public  void importaOperatori() {
+		model.importaFruitoriOperatori();					  
+	 }
+
+	/**
+	 * metodo per la ricerca di risorse tramite attributo , richiesta all'utente su ricerca da eseguire e su azione da compiere sulla risorsa	
+	 * @param attributoScelto attributo da confrontare col parametro di ricerca
+	 * @pre attributoScelto>=0
+	 * @post true
+	 */
+		
+	private  void cercaPerAttributoOmode(int attributoScelto) {
+		try {
+			Object parametro;
+			parametro = view.leggiInput("inserisci il parametro da cercare per l'attributo selezionato");
+			ArrayList<Integer> match = model.filtraRisorse(attributoScelto,parametro);
+			
+			if(match.size()<1) return;
+		
+			String[] opzioniEsiti= new String[match.size()];
+			int i=0;
+			for(int r : match) { 
+				if(model.getNomeRisorsa(r)!=null) {	opzioniEsiti[i]= model.getNomeRisorsa(r); i++; } 
+			}	
+			int risorsaScelta = view.scelta("ecco l'esito della ricerca :", opzioniEsiti);
+			
+			if(risorsaScelta!=0) {
+				int eliMod;
+				
+				do{	
+					 eliMod = view.scelta(TITOLO_ELI_O_MOD, OPZIONI_ELI_O_MOD);
+			
+					 if(eliMod==0) return;
+					 
+				int id = match.get(risorsaScelta-1) ;
+				 int categoria = model.trovaPosizioneCategoria(id);
+				azioneDaRicerca(id,eliMod, categoria);
+				
+					 
+				}while (eliMod==1);
+			
+			}
+		}catch(ClassCastException e) {
+			view.notify(ERROREINPUT);
+		}
+	}
+
+
+
 }
