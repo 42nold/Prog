@@ -9,6 +9,8 @@ import it.unibs.ing.mylib.BelleStringhe;
 import it.unibs.ing.mylib.MyMenu;
 import it.unibs.ing.mylib.Stampa;
 import model.Model;
+import utility.Load;
+import utility.Save;
 import view.MyView;
 
 public class ControllerFruitore {
@@ -21,10 +23,12 @@ public class ControllerFruitore {
 	private static final String TITOLO_MENU_FRUITORE = "Menu Fruitore";
 	private static final String[] VOCIMENUFRUITORE = {"Visualizza Prestiti", "Richiedi prestito", "Rinnova prestito", "Rinnovo iscrizione"};
 	private static final String MESSAGGIO_ERRORE = "Scelta non valida";
-	private static final String TITOLO_RISORSE = "Scegli la risorsa da selezionare";
+	private static final String ERROREINPUT="\n\nErrore nell'input";
+	private static final String[] OPZIONI_MENU_RICERCA = {"Esplora archivio", "Ricerca per attributo"};
 	private Model model;
 	private MyView view;
 	private ControllerArchivio controllerArchivio;
+	
 	
 	public ControllerFruitore(Model model , MyView view, ControllerArchivio controllerArchivio) {
 		this.model = model ;
@@ -114,20 +118,6 @@ public class ControllerFruitore {
 		 
 	}
 
-	private  String elencoFruitori() {
-		
-		if(model.hasFruitori()) view.notify("elenco fruitori vuoto");
-
-		return model.elencoFruitori();
-	}
-	
-
-	private  String elencoFruitoriFull() {
-		
-		if(model.hasFruitori()) view.notify("elenco fruitori vuoto");
-		
-		return model.elencoFruitoriFull();
-	}
 	
 	/**
 	 * Gestisce le operazioni del fruitore.
@@ -253,92 +243,41 @@ public class ControllerFruitore {
 	private  int selezionaRisorsa() {
 		
 		
-		int risorsaScelta = -1;
-		
-		MyMenu menuPrestito = new MyMenu(TITOLO_MENU_PRESTITO, opzioniDiricerca);
+		MyMenu menuPrestito = new MyMenu(TITOLO_MENU_PRESTITO, OPZIONI_MENU_RICERCA);
 		int scelta;
 		
 				scelta = menuPrestito.scegli();
 			
 			switch (scelta) {
-				case 1:
+				case 2:
 					try {
-						int attributoScelto = view.scelta(TITOLO_SELEZIONA_ATTRIBUTO, vociMenuSelezionaAttributo);
-					
-						if(attributoScelto!=0 ) {
-							Object parametro;
-							parametro = view.leggiInput("inserisci il parametro da cercare per l'attributo selezionato");
-									
-							ArrayList<Integer> match = model.filtraRisorse(attributoScelto,parametro);
-							if(match.size()<1) 	{risorsaScelta =  -1; break;}
-							
-	
-							String[] opzioniEsiti= new String[match.size()];
-							int i=0;
-							for(int r : match) { opzioniEsiti[i]= model.getNomeRisorsa(r); i++;}
-													
-						    risorsaScelta = view.scelta("ecco l'esito della ricerca :", opzioniEsiti);
-	
-							if(risorsaScelta==0) 
-								return -1;
-							else 
-								return match.get(risorsaScelta-1);
-						}
+						
+						return  controllerArchivio.ricercaPerAttributo();
+						
 					}catch(ClassCastException e) {
 						view.notify(ERROREINPUT);
 					}
 					
 				break;
 			
-				case 2:
-					
-					int categoriaScelta =view.scelta(TITOLO_CATEGORIA, model.elencoCategorie())-1;
-
-					if(categoriaScelta==-1) {risorsaScelta=-1;  break;}
-					
-					if (model.categoriaHaSottoCategoria(categoriaScelta)) {
-						
-						int sottoCategoriaScelta =view.scelta(TITOLO_SOTTOCATEGORIA, model.elencoSottoCategorie(categoriaScelta))-1;
-						if(sottoCategoriaScelta==-1) {risorsaScelta = -1; break;}
-						
-					int	risorsaSelezionata = view.scelta(TITOLO_RISORSE,model.elencoRisorse(categoriaScelta,sottoCategoriaScelta))-1;
-
-					if(risorsaSelezionata==-1) { risorsaScelta=-1 ; break;}
-						
-					risorsaScelta =model.scegliRisorsa(categoriaScelta,sottoCategoriaScelta,risorsaSelezionata);
-												
-						
-					} 
-					else {
-						if(model.categoriaHaRisorse(categoriaScelta)) {
-						
-							int risultato = view.scelta(TITOLO_RISORSE,model.elencoRisorse(categoriaScelta,-1))-1;
-							if(risultato==-1) { risorsaScelta=-1 ; break;}
-
-							risorsaScelta =  model.scegliRisorsa(categoriaScelta,-1,risultato);
-						}
-						assert false;
-						risorsaScelta = -1;
-						break;
-					}
+				case 1:
+					return  controllerArchivio.esploraArchivio();
 				
-					break;
 
 			default:
 				view.incornicia(MESSAGGIO_ERRORE);
 				break;
 			}
-			
-			assert  risorsaScelta>=-1;		
-			return risorsaScelta;
+				
+			return -1;
 	}
 	
 	
-	public  void salvaFruitori() {
-		model.salvaFruitoriOperatori();
+	public  void salvaFruitori(Save save) {
+		model.salvaFruitori(save);
 	}
 			
-	public  void importaFruitori() {
-		model.importaFruitoriOperatori();					  
+	public  void importaFruitori(Load load) {
+		model.importaFruitori(load);					  
 	}
 }

@@ -166,12 +166,10 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 		/*assert invarianteC();
 		Categoria<T> thisPre = this;*/
 		
-				if(risorse.size()>0)
-					for(Risorsa r : risorse) 
-						if((Integer)r.getValue(ID)==id) return r.toString();
-			
-					
-		
+		if(risorse.size()>0)
+			for(Risorsa r : risorse) 
+				if((Integer)r.getValue(ID)==id) return r.toString();
+	
 		//assert invarianteC() && thisPre==this;
 		return "";
 	}
@@ -398,7 +396,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
  * @pre (idCategoria()==0 && posArray>=0 && posArray<=librisize() )|| (idCategoria()==1 && posArray>=0 && posArray<=filmsize() )
  * @post @nochange
  */
-	public int getIdRisorsa(int posArray) {
+	public int getId(int posArray) {
 		//assert invarianteC() && (idCategoria==0 && posArray>=0 && posArray<=risorse.size()) || (idCategoria==1 && posArray>=0 )  ;
 		//Categoria<T> thisPre = this;
 		

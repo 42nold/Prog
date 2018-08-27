@@ -5,6 +5,8 @@ package controller;
 import java.io.Serializable;
 
 import model.Model;
+import utility.Load;
+import utility.Save;
 import view.BibliotecaView;
 
 
@@ -21,7 +23,10 @@ public class AppController implements Serializable{
 		
 		Model model = new Model() ;
 		
-		Controller controller = new Controller(model,view);
+		Save save =new Save();
+		Load load = new Load();
+		
+		Controller controller = new Controller(model,view,save,load);
 		
 		controller.start();
 		

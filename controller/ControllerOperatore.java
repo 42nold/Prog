@@ -3,10 +3,20 @@ package controller;
 import java.util.ArrayList;
 
 import model.Model;
+import utility.Load;
+import utility.Save;
 import view.MyView;
 
 public class ControllerOperatore {
 	private static final String NOMEFILEOPERATORI = "Operatori.dat";
+	private static final String TITOLO_MENU_STORICO = "scegli l'opzione desiderata";
+	private static final String[] VOCIMENUSTORICO = {"visualizza storico completo","visualizza numero prestiti per anno solare","visualizza numero proroghe per anno solare","visualizza risorsa prestata pi� volte per anno solare","visualizza i prestiti per fruitore per anno solare"};
+	private static final String TITOLO_MENU_OPERATORE = "Menu Operatore.";
+	private static final String[] VOCI_MENU_OPERATORE = {"Visualizza dati fruitori", "Visualizza dati e prestiti dei fruitori", "Apri archivio","visualizza storico"};
+	private static final String[] OPZIONI_MENU_RICERCA = {"Esplora archivio", "Ricerca per attributo"};
+	private static final String ERROREINPUT="\n\nErrore nell'input";
+	private static final String TITOLO_ELI_O_MOD = "seleziona l'azione desiderata";
+	private static final String[] OPZIONI_ELI_O_MOD = {"visualizza", "modifica", "elimina"};
 	
 	/**
 	 *  metodo principale per la gestione delle operazioni degli operatori
@@ -75,11 +85,9 @@ public class ControllerOperatore {
 			}
 					
 					
-		}while(scelta!=0);
+		}while(scelta!=0);		
 		
-		
-		return;	
-	
+		return;		
 	}
 	
 	private void ricercaRisorsa(int ricercaScelta) {
@@ -92,18 +100,9 @@ public class ControllerOperatore {
 				break;
 			
 			case 2:
-				ricercaPerAttributo();
+				cercaPerAttributoOmode();
 				break;				
 		}
-	}
-	
-	private void ricercaPerAttributo() {
-		int categoriaScelta=view.scelta("Categorie",model.elencoCategorie());
-		
-		int attributoScelto = view.scelta(TITOLO_SELEZIONA_ATTRIBUTO, getDescrizioneCampiRisorsa(categoriaScelta));
-											
-		if(attributoScelto!=0)
-			cercaPerAttributoOmode(attributoScelto);
 	}
 	
 	private void esploraArchivio() {
@@ -115,16 +114,42 @@ public class ControllerOperatore {
 			
 			if(categoriaScelta>0 && categoriaScelta<=model.sizeArchivio()) {
 			
-				usaCategoria(categoriaScelta-1);
+				controllerArchivio.usaCategoria(categoriaScelta-1);
 			
 				sceltaValida=true;
-				}
-			if(categoriaScelta==0)break;
 			}
+			if(categoriaScelta==0)break;
+		}
+	}
+	
+	
+	private  void cercaPerAttributoOmode() {
+		try {
+				
+			int idRisorsaScelta = controllerArchivio.ricercaPerAttributo();
+			
+			if(idRisorsaScelta!=-1) {
+				int eliMod;
+				
+				do{	
+					 eliMod = view.scelta(TITOLO_ELI_O_MOD, OPZIONI_ELI_O_MOD);
+			
+					 if(eliMod==0) 
+						 return;
+					 
+					int categoria = controllerArchivio.trovaPosCategoriaInArray(idRisorsaScelta);
+					int sottocategoria = controllerArchivio.trovaPosSottoCategoriaInArray(categoria);
+					controllerArchivio.azioneDaRicerca(idRisorsaScelta, eliMod, categoria, sottocategoria);
+					 
+				}while (eliMod==1);			
+			}
+		}catch(ClassCastException e) {
+			view.notify(ERROREINPUT);
+		}
 	}
 	
 	private void opzioniStorico() {
-		int sceltaMenuStorico = view.scelta(TITOLO_MENU_STORICO, vociMenuStorico);
+		int sceltaMenuStorico = view.scelta(TITOLO_MENU_STORICO, VOCIMENUSTORICO);
 		
 		switch(sceltaMenuStorico) {
 		
@@ -156,98 +181,67 @@ public class ControllerOperatore {
 	 * @pre username!= null && password!= null && password != "" && username != ""
 	 * @post @nochange
 	 */
-		public  boolean cercaOperatore(String username, String password) {
-			assert  username!= null && password!= null && password != "" && username != "" ;
+	public  boolean cercaOperatore(String username, String password) {
+		assert  username!= null && password!= null && password != "" && username != "" ;
+	
+				
+		int numOperatore;
 		
-					
-			int numOperatore;
+		if((numOperatore=posizioneOperatore(username)) != -1) { 												
 			
-			if((numOperatore=posizioneOperatore(username)) != -1) { 												
+			if(model.verificaPasswordOperatore(numOperatore,password))
+			
+			return true;
+		}
+		
+		return false;
+	}
 				
-				if(model.verificaPasswordOperatore(numOperatore,password))
+	/**
+	 *  cerca l'operatore scelto e restituisco la sua posizione nell'array
+	 * @param username dell'operatore scelto
+	 * @return il valore della sua posizione nell'array
+	 * @pre username!= null && username!= ""
+	 * @post @nochange
+	 */
+	private  int posizioneOperatore(String username) {	
+		assert  username!= null && username!= "" ;
+		
+		
+		for (int i=0; i<model.sizeOperatori(); i++) 
+			if(model.verificaUsernameOperatore(i,username)) {
 				
-				return true;
+				
+				return i;
 			}
-			
-			return false;
-		}
-				
-		/**
-		 *  cerca l'operatore scelto e restituisco la sua posizione nell'array
-		 * @param username dell'operatore scelto
-		 * @return il valore della sua posizione nell'array
-		 * @pre username!= null && username!= ""
-		 * @post @nochange
-		 */
-		private  int posizioneOperatore(String username) {	
-			assert  username!= null && username!= "" ;
-			
-			
-			for (int i=0; i<model.sizeOperatori(); i++) 
-				if(model.verificaUsernameOperatore(i,username)) {
-					
-					
-					return i;
-				}
-			
-			return -1;
-		}
+		
+		return -1;
+	}
 
 	public String elencoOperatori() {
 		return model.elencoOperatori();
 	}
 				
-	public  void salvaOperatori() {
-		model.salvaFruitoriOperatori();
+	public  void salvaOperatori(Save save) {
+		model.salvaOperatori(save);
 	}	
 			
-	public  void importaOperatori() {
-		model.importaFruitoriOperatori();					  
+	public  void importaOperatori(Load load) {
+		model.importaOperatori(load);					  
 	 }
 
-	/**
-	 * metodo per la ricerca di risorse tramite attributo , richiesta all'utente su ricerca da eseguire e su azione da compiere sulla risorsa	
-	 * @param attributoScelto attributo da confrontare col parametro di ricerca
-	 * @pre attributoScelto>=0
-	 * @post true
-	 */
+	private  String elencoFruitori() {
 		
-	private  void cercaPerAttributoOmode(int attributoScelto) {
-		try {
-			Object parametro;
-			parametro = view.leggiInput("inserisci il parametro da cercare per l'attributo selezionato");
-			ArrayList<Integer> match = model.filtraRisorse(attributoScelto,parametro);
-			
-			if(match.size()<1) return;
-		
-			String[] opzioniEsiti= new String[match.size()];
-			int i=0;
-			for(int r : match) { 
-				if(model.getNomeRisorsa(r)!=null) {	opzioniEsiti[i]= model.getNomeRisorsa(r); i++; } 
-			}	
-			int risorsaScelta = view.scelta("ecco l'esito della ricerca :", opzioniEsiti);
-			
-			if(risorsaScelta!=0) {
-				int eliMod;
-				
-				do{	
-					 eliMod = view.scelta(TITOLO_ELI_O_MOD, OPZIONI_ELI_O_MOD);
-			
-					 if(eliMod==0) return;
-					 
-				int id = match.get(risorsaScelta-1) ;
-				 int categoria = model.trovaCategoria(id);
-				azioneDaRicerca(id,eliMod, categoria);
-				
-					 
-				}while (eliMod==1);
-			
-			}
-		}catch(ClassCastException e) {
-			view.notify(ERROREINPUT);
-		}
+		if(model.hasFruitori()) view.notify("elenco fruitori vuoto");
+
+		return model.elencoFruitori();
 	}
-
-
+	
+	private  String elencoFruitoriFull() {
+		
+		if(model.hasFruitori()) view.notify("elenco fruitori vuoto");
+		
+		return model.elencoFruitoriFull();
+	}
 
 }

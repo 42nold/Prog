@@ -7,6 +7,8 @@ import storico.Evento;
 import storico.Storico;
 import utenti.Fruitore;
 import utenti.Operatore;
+import utility.Load;
+import utility.Save;
 
 public class Model extends Observable {
 	
@@ -247,72 +249,76 @@ public class Model extends Observable {
 								return 	risultato ;	
 							}
 					
-					/**
-					 * salvare fruitori e operatori a fine sessione su file 
-					 * @pre true
-					 * @post @nochange
-					 */
-						public  void salvaFruitoriOperatori() {
-								assert	invariante() ;	
-								ArrayList<Operatore> operatoriPre = operatori ;
-								ArrayList<Fruitore> fruitoriPre = fruitori ;
-								Archivio archivioPre = archivio ;
-								
-								
-									File g = new File(NOMEFILEOPERATORI);
-									ServizioFile.salvaSingoloOggetto(g, operatori);
-										
-									File f = new File(NOMEFILEFRUITORI);
-									ServizioFile.salvaSingoloOggetto(f, fruitori);
-								
-									
-									assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
-								}
+	/**
+	 * salvare fruitori  a fine sessione su file 
+	 * @pre true
+	 * @post @nochange
+	 */
+		public  void salvaFruitori(Save save) {
+			assert	invariante() ;	
+			ArrayList<Fruitore> fruitoriPre = fruitori ;
+			Archivio archivioPre = archivio ;
+			
+			save.salvaDatiSuFile(NOMEFILEFRUITORI, fruitori);		
+			
+			assert invariante() && fruitoriPre == fruitori && archivioPre == archivio ;
+		}
 						
-						/**
-						 *  carica da file i fruitori e operatori
-						 *  @pre true
-						 *  @post true
-						 */
-							public  void importaFruitoriOperatori() {
-										
-										File f = new File(NOMEFILEFRUITORI);
-										@SuppressWarnings("unchecked")
-										 ArrayList<Fruitore> a = ( ArrayList<Fruitore>)ServizioFile.caricaSingoloOggetto(f);
-										if(a==null) {fruitori = new ArrayList<Fruitore>();}
-										else {fruitori=a; }
-										
-										File g = new File(NOMEFILEOPERATORI);
-										@SuppressWarnings("unchecked")
-										 ArrayList<Operatore> b = ( ArrayList<Operatore>)ServizioFile.caricaSingoloOggetto(g);
-									
-										if(b==null) {operatori  = new ArrayList<Operatore>();}
-										
-										else {operatori=b; }
-										
-										if(operatori.size()==0) {operatori.add(new Operatore("admin", "admin", 18, "admin", "admin")) ; }     //inizializzazione di default 
-										
-										
-										
-										assert invariante() ;				  
-									 }
+	/**
+	 * salvare operatori a fine sessione su file 
+	 * @pre true
+	 * @post @nochange
+	 */
+		public  void salvaOperatori(Save save) {
+			assert	invariante() ;	
+			ArrayList<Operatore> operatoriPre = operatori ;
+			Archivio archivioPre = archivio ;
+			
+			save.salvaDatiSuFile(NOMEFILEOPERATORI, operatori);
+		
+			assert invariante() && operatoriPre == operatori && archivioPre == archivio ;
+		}
+		
+/**
+ *  carica da file i fruitori e operatori
+ *  @pre true
+ *  @post true
+ */
+	public  void importaFruitori(Load load) {
+				
+		 ArrayList<Fruitore> f = ( ArrayList<Fruitore>)load.importaDatiDaFile(NOMEFILEFRUITORI);
+	
+		if(f==null) {fruitori = new ArrayList<Fruitore>();}
+		else {fruitori=f; }
+					  
+	 }
+	
+	public  void importaOperatori(Load load) {
+
+		 ArrayList<Operatore> b = ( ArrayList<Operatore>)load.importaDatiDaFile(NOMEFILEOPERATORI);
+		if(b==null) {operatori  = new ArrayList<Operatore>();}
+		
+		else {operatori=b; }
+		
+		if(operatori.size()==0) {operatori.add(new Operatore("admin", "admin", 18, "admin", "admin")) ; }     //inizializzazione di default
+	}
 							
-							/** 
-							 * salva dati dell'archivio e dello storico su file
-							 * @pre true 
-							 * @post @nochange
-							 */
-								public  void salvaArchivio() {//e storico
-									assert invariante();
-									ArrayList<Operatore> operatoriPre = operatori ;
-									ArrayList<Fruitore> fruitoriPre = fruitori ;
-									Archivio archivioPre = archivio ;
-									
-									archivio.salvaDati();	
-									storico.salvaDati();
-									
-									assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
-								}
+/** 
+ * salva dati dell'archivio e dello storico su file
+ * @pre true 
+ * @post @nochange
+ */
+	public  void salvaArchivio(Save save) {//e storico
+		assert invariante();
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
+		Archivio archivioPre = archivio ;
+		
+		archivio.salvaDati(save);	
+		storico.salvaDati(save);
+		
+		assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
+	}
 				
 								
 								/**
@@ -513,22 +519,19 @@ public class Model extends Observable {
 
 				public String[] elencoRisorse(int categoria, int sottocategoria) {
 
-					if(sottocategoria==-1) return archivio.elencoRisorse(categoria);
-				
-					else  return archivio.elencoRisorse(categoria,sottocategoria);
+					return archivio.elencoRisorse(categoria, sottocategoria);
 				}
 				
 				public int getId(int risorsaDaEliminare, int categoria, int sottocategoria) {
-					if(sottocategoria == -1) return archivio.getId(risorsaDaEliminare,categoria);
-					return archivio.getId(risorsaDaEliminare,categoria,sottocategoria);
+					if(sottocategoria==-1)
+						return archivio.getId(risorsaDaEliminare,categoria, sottocategoria);
+					
+					return archivio.getId(risorsaDaEliminare,categoria, sottocategoria);
 				}
 
 				public void rimuoviRisorsa(int id, int categoria, int sottocategoria) {
 
-
-					if(sottocategoria == -1)	archivio.rimuoviRisorsa(id,categoria);		
-
-					else archivio.rimuoviRisorsa(id,categoria,sottocategoria);		
+					archivio.rimuoviRisorsa(id,categoria, sottocategoria);		
 
 					setChanged();
 					notifyObservers(new Evento(RISORSA_ELIMINATA, id));
@@ -536,11 +539,7 @@ public class Model extends Observable {
 
 				public void aggiungiRisorsa(ArrayList<Object> nuoviAttributi, int categoria, int sottocategoria) throws ClassCastException{
 
-
-					if(sottocategoria==-1)
-						archivio.aggiungiRisorsa(nuoviAttributi, categoria);
-					
-					else archivio.aggiungiRisorsa(nuoviAttributi, categoria , sottocategoria);
+					archivio.aggiungiRisorsa(nuoviAttributi, categoria , sottocategoria);
 
 					setChanged();
 					notifyObservers(new Evento(RISORSA_AGGIUNTA,archivio.getIdCorrente()));
@@ -562,16 +561,15 @@ public class Model extends Observable {
 					return archivio.getNomeRisorsa(r);
 				}
 
-				public void modificaRisorsa(int id, int categoria, Object[] nuoviAttributi) throws ClassCastException {
+				public void modificaRisorsa(int id, int categoria, int sottocategoria, Object[] nuoviAttributi) throws ClassCastException {
 
-
-					archivio.modificaRisorsa(id,categoria,nuoviAttributi);
+					archivio.modificaRisorsa(id,categoria,sottocategoria,nuoviAttributi);
 
 				}
 
-				public String showRisorsa(int id, int c, int s) {
-					if(s == -1) return archivio.showRisorsa(id,c);
-					else return archivio.showRisorsa(id,c,s);
+				public String showRisorsa(int id, int c) {
+					return archivio.showRisorsa(id,c);
+					
 				}
 
 				public boolean verificaPasswordOperatore(int numOperatore, String password) {
@@ -589,19 +587,20 @@ public class Model extends Observable {
 					return operatori.get(i).getUsername().equals(username);
 				}
 
-	public void importaDati() {
+	public void importaDati(Load load) {
 
-		archivio.importaDati();
-		storico.importaDati();
+		archivio.importaDati(load);
+		storico.importaDati(load);
 			
 	}
+	
 
-		public int scegliRisorsa(int categoriaScelta, int sottoCategoriaScelta, int risorsaSelezionata) {
+	public int scegliRisorsa(int categoriaScelta, int sottoCategoriaScelta, int risorsaSelezionata) {
 
-			if(sottoCategoriaScelta == -1) return archivio.scegliRisorsa(categoriaScelta,risorsaSelezionata);
-			return 	archivio.scegliRisorsa(categoriaScelta,sottoCategoriaScelta,risorsaSelezionata);
+		if(sottoCategoriaScelta == -1) return archivio.scegliRisorsa(categoriaScelta,risorsaSelezionata);
+		return 	archivio.scegliRisorsa(categoriaScelta,sottoCategoriaScelta,risorsaSelezionata);
 
-		}
+	}
 		/**
 		 * triggera il metodo che aggiorna il contatore di id prestiti dell'archivio
 		 * @pre true
@@ -644,5 +643,13 @@ public class Model extends Observable {
 		public String getDescrizioneStorico() {
 			// TODO Auto-generated method stub
 			return storico.getDescrizione();
+		}
+	
+		public int trovaPosCategoriaInArray(int idRisorsaScelta) {
+			return archivio.trovaPosCategoriaInArray(idRisorsaScelta);
+		}
+		
+		public int trovaPosSottoCategoriaInArray(int posCategoria) {
+			return archivio.trovaPosCategoriaInArray(posCategoria);
 		}
 }

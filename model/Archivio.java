@@ -40,8 +40,6 @@ public class Archivio implements Serializable {
 	
 	private int attributoScelto;
 	private ArrayList<Integer> match;
-	private Save save;
-	private Load load;
 	
 	/**
 	 * istanzia la classe archivio con due categorie e due sottocategorie
@@ -263,7 +261,7 @@ public class Archivio implements Serializable {
 	 * @pre true
 	 * @post true
 	 */
-	public void importaDati() {
+	public void importaDati(Load load) {
 		assert invariante();
 		
 		ArrayList<CategoriaPrimoLivello<?>> a = (ArrayList<CategoriaPrimoLivello<?>>) load.importaDatiDaFile(NOMEFILECATEGORIE);
@@ -283,7 +281,7 @@ public class Archivio implements Serializable {
 	 * @pre true
 	 * @post @nochange
 	 */
-	public void salvaDati() {
+	public void salvaDati(Save save) {
 		assert invariante();
 		Archivio archivioPre = this;
 		
@@ -576,9 +574,11 @@ public class Archivio implements Serializable {
 		return categorie.get(c).showRisorsa(id);
 	}
 
-	public void rimuoviRisorsa(int id, int c) {
-
-		categorie.get(c).rimuoviRisorsa(id);
+	public void rimuoviRisorsa(int id, int c, int s) {
+		if (s==-1)
+			categorie.get(c).rimuoviRisorsa(id);
+		else
+			categorie.get(c).rimuoviRisorsa(id, s);
 			
 	}
 	public int numeroSottocategorie(int c) {
@@ -586,50 +586,34 @@ public class Archivio implements Serializable {
 		return categorie.get(c).numeroSottoCategorie();
 	}
 	
-	public String showRisorsa(int id, int c, int s) {
-		return categorie.get(c).showRisorsa(id,s);
-	}
-	
-	public void rimuoviRisorsa(int id, int c, int s) {
-
-		categorie.get(c).rimuoviRisorsa(id,s);		
-	}
 	public String[] elencoRisorse(int c, int s) {
-
+		if (s==-1)
+			return categorie.get(c).elencoRisorse();
+		
 		return categorie.get(c).elencoRisorse(s);
 	}
 	public int scegliRisorsa(int c, int s, int risorsaSelezionata) {
 		return categorie.get(c).scegliRisorsa(s,risorsaSelezionata);
-	}
-	public String[] elencoRisorse(int c) {
-
-		return categorie.get(c).elencoRisorse();
-	}
-	
-	protected void aggiungiRisorsa(ArrayList<Object> nuoviAttributi, int categoria) throws ClassCastException {
-
-
-		//assert attributiStringaFinali!=null && attributiNumericiFinali != null && categoria >= 0;
-		
-		categorie.get(categoria).aggiungiRisorsaEAggiornaStorico(nuoviAttributi);
-	}
-	
+	}	
 	
 	public int getId( int pos, int categoria) {
 
-		return categorie.get(categoria).getIdRisorsa(pos);
+		return categorie.get(categoria).getId(pos);
 	}
 	
 	
-	public void modificaRisorsa(int id, int categoria, Object[] nuoviAttributi) throws ClassCastException{
-
-
-		categorie.get(categoria).modifica(id, nuoviAttributi);
+	public void modificaRisorsa(int id, int categoria, int sottocategoria, Object[] nuoviAttributi) throws ClassCastException{
+		if (sottocategoria==-1)
+			categorie.get(categoria).modifica(id, nuoviAttributi);
+		else
+			categorie.get(categoria).modifica(id, sottocategoria, nuoviAttributi);
 	}
 
 	
 	
 	public int getId(int pos, int categoria, int sottocategoria) {
+		if (sottocategoria == -1)
+			return categorie.get(categoria).getId(pos);
 
 		return categorie.get(categoria).getId(pos,sottocategoria);
 		
@@ -640,8 +624,10 @@ public class Archivio implements Serializable {
 	}
 	
 	public void aggiungiRisorsa(ArrayList<Object> nuoviAttributi, int categoria, int sottocategoria) throws ClassCastException{
-
-		categorie.get(categoria).aggiungiRisorsaEAggiornaStorico(nuoviAttributi,sottocategoria);
+		if (sottocategoria==-1)
+			categorie.get(categoria).aggiungiRisorsaEAggiornaStorico(nuoviAttributi);
+		else
+			categorie.get(categoria).aggiungiRisorsaEAggiornaStorico(nuoviAttributi,sottocategoria);
 	}
 
 
@@ -649,5 +635,17 @@ public class Archivio implements Serializable {
 		return categorie.get(categoriaScelta-1).getDescrizioneCampi();
 	}
 
+	public int trovaPosCategoriaInArray(int idRisorsaScelta) {
+		for(int i=0; i<categorie.size();i++)
+			if( categorie.get(i).cercaRisorsa(idRisorsaScelta))
+				return i;
+		return -1;
+	}
 	
+	public int trovaPosSottoCategoriaInArray(int posCategoria , int idRisorsaScelta) {
+		if (categorie.get(posCategoria).hasSottoCategoria())
+			return categorie.get(posCategoria).trovaPosSottoCategoriaInArray(idRisorsaScelta);
+		
+		return -1;
+	}
 }

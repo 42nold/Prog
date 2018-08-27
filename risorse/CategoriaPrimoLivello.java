@@ -306,28 +306,22 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 		return sottocategorie;
 	}
 
-	public String showRisorsa(int id , int sottocategoria) {
-	
-		return sottocategorie.get(sottocategoria).showRisorsa(id);
-	}
-
-	public void modifica(int id, Object[] nuoviAttributi) throws ClassCastException{
-	
+	public String showRisorsa(int id) {
 		if(hasSottoCategoria()) {
-			Categoria <T> c = trovaSottoCategoria(id);
+			Categoria c = trovaSottoCategoria(id);
 			if (c!=null)
-				c.modifica(id,nuoviAttributi);
+				return c.showRisorsa(id);
 		}
-	}
-
-
-	public void rimuoviRisorsa(int id) {
 		
-		if(hasSottoCategoria()) {
-			Categoria <T> c = trovaSottoCategoria(id);
-			if (c!=null)
-			c.rimuoviRisorsa(id);
-		}
+		return null;
+	}
+
+	public void modifica(int id,int s, Object[] nuoviAttributi) throws ClassCastException{
+		sottocategorie.get(s).modifica(id,nuoviAttributi);
+	}
+
+	public void rimuoviRisorsa(int id, int s) {
+		sottocategorie.get(s).rimuoviRisorsa(id);
 	}
 	
 	public String[] elencoRisorse(int s) {
@@ -341,8 +335,8 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 	}
 	
 	public int getId(int pos, int sottocategoria) {
-
-		return sottocategorie.get(sottocategoria).getIdRisorsa(pos);
+		
+		return sottocategorie.get(sottocategoria).getId(pos);
 	}
 		
 	public void aggiungiRisorsaEAggiornaStorico(ArrayList<Object> nuoviAttributi, int sottocategoria) throws ClassCastException {
@@ -368,11 +362,17 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 	
 	public int getIdCategoria(int idRisorsa) {
 		if(hasSottoCategoria()) 
-			for (Categoria c: sottocategorie) {
-				int id=c.getIdCategoria(idRisorsa);
-				if (id!=-1) 
-					return id;
-			}	
+			return idCategoria;
+		
 		return -1;
 	}
+	
+	public int trovaPosSottoCategoriaInArray(int idRisorsaScelta) {
+		for(int i=0; i<sottocategorie.size();i++)
+			if (sottocategorie.get(i).cercaRisorsa(idRisorsaScelta))
+				return i;
+		
+		return -1;
+	}
+	
 }
