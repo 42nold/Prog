@@ -418,9 +418,6 @@ public class Controller  implements Serializable{
 
 private void azioneDaRicerca(int id, int eliMod, int categoria) {
 
-
-		if(model.categoriaHaRisorse(categoria)) 
-		{
 			switch (eliMod) {
 			case 1:
 				view.notify(model.showRisorsa(id,categoria));
@@ -434,24 +431,6 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 			default:
 				break;
 		}	
-		}
-		else 
-		{
-				
-			switch (eliMod) {
-			case 1:
-				view.notify(model.showRisorsa(id,categoria));
-	     		break;
-			case 2:
-				modifica(id,categoria);
-				break;
-			case 3:
-				model.rimuoviRisorsa(id,categoria);
-				break;
-			default:
-				break;
-		}	 
-			}
 	}
 	
 

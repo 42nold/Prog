@@ -1,13 +1,11 @@
 package storico;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
-
-import it.unibs.ing.mylib.ServizioFile;
+import utility.Load;
 import utility.Save;
 
 @SuppressWarnings("serial")
@@ -22,8 +20,7 @@ public class Storico implements Serializable, Observer{
 	public static final String NOMEFILESTORICO = "storico.dat";
 	
 	private static ArrayList<Evento> storia;
-	private Save save;
-	
+
 
 	 /**
 	  * inizializza l'array storia con un array vuoto
@@ -64,7 +61,7 @@ public class Storico implements Serializable, Observer{
 		assert invariante() ;
 		ArrayList<Evento> storiaPre = storia;
 		
-		save.salvaDatiSuFile(NOMEFILESTORICO, storia);
+		Save.salvaDatiSuFile(NOMEFILESTORICO, storia);
 	
 		assert storiaPre==storia;
 		assert invariante() ;
@@ -77,11 +74,9 @@ public class Storico implements Serializable, Observer{
 	 */
 	public void importaDati() {
 		assert invariante() ;
-
-		@SuppressWarnings("unchecked")
-        File f = new File(NOMEFILESTORICO);
-		ArrayList<Evento> b =(ArrayList<Evento>) ServizioFile.caricaSingoloOggetto(f);
 		
+		ArrayList<Evento> b =(ArrayList<Evento>) Load.importaDatiDaFile(NOMEFILESTORICO);
+				
 		if(b==null) 
 			storia = new ArrayList<Evento>();
 		else 

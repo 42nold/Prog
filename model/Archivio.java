@@ -5,6 +5,15 @@ import java.util.*;
 import it.unibs.ing.mylib.*;
 import utility.*;
 import risorse.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import utility.Load;
+import utility.Save;
+import risorse.CategoriaPrimoLivello;
+import risorse.Categoria;
+import risorse.FactoryCategoria;
+import risorse.FactoryLibreria;
+import risorse.FactoryVideoteca;
 
 @SuppressWarnings("serial")
 public class Archivio implements Serializable {

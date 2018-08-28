@@ -1,12 +1,12 @@
 package model;
 
-import java.io.*;
 import java.util.*;
-import it.unibs.ing.mylib.*;
 import storico.Evento;
 import storico.Storico;
 import utenti.Fruitore;
 import utenti.Operatore;
+import utility.Load;
+import utility.Save;
 
 public class Model extends Observable {
 	
@@ -38,6 +38,7 @@ public class Model extends Observable {
 	private Storico storico;
 	private static ArrayList<Operatore> operatori;
 	private static ArrayList<Fruitore> fruitori; 
+
 	
 	public Model() {
 		archivio = new Archivio();
@@ -257,14 +258,9 @@ public class Model extends Observable {
 								ArrayList<Operatore> operatoriPre = operatori ;
 								ArrayList<Fruitore> fruitoriPre = fruitori ;
 								Archivio archivioPre = archivio ;
-								
-								
-									File g = new File(NOMEFILEOPERATORI);
-									ServizioFile.salvaSingoloOggetto(g, operatori);
-										
-									File f = new File(NOMEFILEFRUITORI);
-									ServizioFile.salvaSingoloOggetto(f, fruitori);
-								
+							
+								Save.salvaDatiSuFile(NOMEFILEFRUITORI, fruitori);
+								Save.salvaDatiSuFile(NOMEFILEOPERATORI, operatori);
 									
 									assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
 								}
@@ -276,24 +272,19 @@ public class Model extends Observable {
 						 */
 							public  void importaFruitoriOperatori() {
 										
-										File f = new File(NOMEFILEFRUITORI);
-										@SuppressWarnings("unchecked")
-										 ArrayList<Fruitore> a = ( ArrayList<Fruitore>)ServizioFile.caricaSingoloOggetto(f);
+										 @SuppressWarnings("unchecked")
+										ArrayList<Fruitore> a = ( ArrayList<Fruitore>) Load.importaDatiDaFile(NOMEFILEFRUITORI);
 										if(a==null) {fruitori = new ArrayList<Fruitore>();}
 										else {fruitori=a; }
 										
-										File g = new File(NOMEFILEOPERATORI);
-										@SuppressWarnings("unchecked")
-										 ArrayList<Operatore> b = ( ArrayList<Operatore>)ServizioFile.caricaSingoloOggetto(g);
+										 @SuppressWarnings("unchecked")
+										ArrayList<Operatore> b = ( ArrayList<Operatore>)Load.importaDatiDaFile(NOMEFILEOPERATORI);
 									
 										if(b==null) {operatori  = new ArrayList<Operatore>();}
-										
 										else {operatori=b; }
 										
 										if(operatori.size()==0) {operatori.add(new Operatore("admin", "admin", 18, "admin", "admin")) ; }     //inizializzazione di default 
-										
-										
-										
+																				
 										assert invariante() ;				  
 									 }
 							
