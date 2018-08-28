@@ -31,10 +31,10 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 		assert invariante();
 	}
  		/**
- 		 * verifica che le proprietà invarianti della classe siano verificate
+ 		 * verifica che le proprietï¿½ invarianti della classe siano verificate
  		 * @pre true
  		 * @post @nochange
- 		 * @return true se gli attributi assumono valori validi e l'invariante della superclasse è verificata e i getters ritornano i giusti valori
+ 		 * @return true se gli attributi assumono valori validi e l'invariante della superclasse ï¿½ verificata e i getters ritornano i giusti valori
  		 */
  	protected boolean invariante() {
  		CategoriaPrimoLivello<T> thisPre =	this;
@@ -98,7 +98,7 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 	
 	/**
 	 * verifica se ci sono risorse nelle sottocategorie, se esistono
-	 * @return true se c'è almeno una risorsa
+	 * @return true se c'ï¿½ almeno una risorsa
 	 * @pre true
 	 * @post @nochange
 	 */
@@ -128,7 +128,7 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 	
 	/**
 	 * verifica se ci sono sottoactegorie i questa categoria
-	 * @return true se c'è almeno una sottocategoria
+	 * @return true se c'ï¿½ almeno una sottocategoria
 	 * @pre true
 	 * @post @nochange
 	 */
@@ -212,7 +212,7 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 /**
  * cerca la risorsa voluta all'interno della categoria
  * @param risorsaScelta 
- * @return true se la risorsa è presente nella categoria
+ * @return true se la risorsa ï¿½ presente nella categoria
  * @pre	true
  * @post @nochange
  */
@@ -381,7 +381,7 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 		return super.getNomeRisorsa(risorsaScelta);
 	}
 /**
- * cerca in quale sottocategoria è contenuta la risorsa voluta	
+ * cerca in quale sottocategoria ï¿½ contenuta la risorsa voluta	
  * @param risorsaScelta id della risorsa voluta
  * @return sottocategoria contenente oppure null
  * @pre true
@@ -455,7 +455,7 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 	 * ritorna l'indice massimo di risorsa presente nella categoria
 	 * @pre true
 	 * @post @nochange && @return>=-1
-	 * @return risultato il valore dell'id più alto presente
+	 * @return risultato il valore dell'id piï¿½ alto presente
 	 */
 	public int idMax() {
 		assert invariante();

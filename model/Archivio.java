@@ -2,24 +2,14 @@ package model;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Observer;
-import java.util.Vector;
-
-import javax.swing.text.View;
-
-import it.unibs.ing.mylib.InputDati;
-import it.unibs.ing.mylib.MyMenu;
-import it.unibs.ing.mylib.ServizioFile;
-import it.unibs.ing.mylib.Stampa;
-
+import java.util.*;
+import it.unibs.ing.mylib.*;
 
 @SuppressWarnings("serial")
 public class Archivio implements Serializable {
 	/**
 	 * @invariant invariante()
 	 */
-	
 	private static final String NOMEFILECATEGORIE = "Categorie.dat";
 	private static final int DURATA_PRESTITO_LIBRI = 30;
 	private static final int DURATA_PROROGA_LIBRI = 30;
@@ -54,18 +44,18 @@ public class Archivio implements Serializable {
 		categorie.get(0).aggiungiSottoCategoria("Romanzo");
 		assert invariante();
 	}
+	
 	/**
 	 * verifica che le invarianti di classe siano mantenute
 	 * @pre true
-	 *@post @nochange
+	 * @post @nochange
 	 * @return true se sono verificate tutte le condizioni contemporaneamente
 	 */
 	protected boolean invariante() {
-	
-	if(	categorie!=null && categorie.size()>0 && storico!=null ) return true;
-		
-	return false;
+		if(	categorie!=null && categorie.size()>0 && storico!=null ) return true;
+		return false;
 	}
+	
 	/**
 	 * ritorna un  vettore di stringhe con i nomi delle categorie
 	 * @pre true
@@ -197,7 +187,7 @@ public class Archivio implements Serializable {
 	}
 
 	/**
-	 * filtra tutte le risorse che rispecchiano i parametri immessi in un unico array : può ritornare null!
+	 * filtra tutte le risorse che rispecchiano i parametri immessi in un unico array : puï¿½ ritornare null!
 	 * @param attributoScelto attributo da confrontare
 	 * @param chiaveDiRicerca stringa da confrontare
 	 * @param numDiRicerca intero da confrontare
@@ -275,8 +265,8 @@ public class Archivio implements Serializable {
 	}
 	
 	/**
-	 * verifica se l'archivio è vuoto
-	 * @return true se è vuoto
+	 * verifica se l'archivio ï¿½ vuoto
+	 * @return true se ï¿½ vuoto
 	 * @pre true
 	 * @post @nochange
 	 */
@@ -509,7 +499,7 @@ public class Archivio implements Serializable {
 /**
  * 	cerca in archivio la risorsa scelta e ne restituisce il numero di licenze
  * @param risorsaScelta id della risorsa
- * @return numero di licenze oppure -1 se la risorsa non è trovata
+ * @return numero di licenze oppure -1 se la risorsa non ï¿½ trovata
  * @pre risorsaScelta>=0 
  * @post @nochange 
  */
@@ -707,7 +697,7 @@ public class Archivio implements Serializable {
 		
 	}
 	/**
-	 * stampa a video il risultato della statistica riguardo alla risorsa più prestata
+	 * stampa a video il risultato della statistica riguardo alla risorsa piï¿½ prestata
 	 * @pre true
 	 * @post @nochange
 	 */
