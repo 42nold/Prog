@@ -1,57 +1,38 @@
 package test;
 
 import static org.junit.Assert.*;
-
+import java.util.*;
 import org.junit.Test;
-
 import model.Archivio;
+import risorse.*;
 
 public class ArchivioTest {
-
+	
 	Archivio archivio = new Archivio();
+	
 	@Test
 	public void testElencoCategorie() {
-		String[] expected = {"Libri","Film"};
+		assertEquals("libri", archivio.elencoCategorie()[0].toString());
+		assertEquals("film", archivio.elencoCategorie()[1].toString());
+	}
+	
+	@Test
+	public void testCategoriaHaRisorse() {
+		assertFalse(archivio.categoriaHaRisorse(0));
+	}
+	
+	@Test
+	public void testCategoriaHaRisorse1() {
 		
-		System.out.println(archivio.elencoCategorie());
-     assert     archivio.elencoCategorie()==expected ;
+		Libro libro = new Libro(0, null, null, null, 0, null, 0, null, null, null, null, null, null, null, null, null, 0, null);
 		
+		int categoria = 0;
+		int sottocategoria = 0;
+		ArrayList<Object> nuoviAttributi = new ArrayList<>();
+		nuoviAttributi.add(libro);
+		archivio.aggiungiRisorsa(nuoviAttributi, categoria, sottocategoria);
 		
+		assertTrue(archivio.categoriaHaRisorse(0));
 	}
-
-	@Test
-	public void testCercaPerAttributoOmode() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testAggiungiCategoria() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testEliminaCategoria() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCercaPerAttributoFmode() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testDurataPrestitoDataUnaRisorsa() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testDurataProrogaDataUnaRisorsa() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testTermineProrogaDataUnaRisorsa() {
-
-}
 
 }
