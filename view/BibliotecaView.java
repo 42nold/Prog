@@ -9,10 +9,6 @@ import it.unibs.ing.mylib.Stampa;
 
 public class BibliotecaView implements MyView{
 
-	@Override
-	public void update(Observable o, Object arg) {
-		
-	}
 
 	@Override
 	public String StringaNonVuota(String string) {

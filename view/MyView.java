@@ -1,6 +1,5 @@
 package view;
 
-import java.util.Observable;
 
 public interface MyView {
 
@@ -8,7 +7,6 @@ public interface MyView {
 	
 	
 	
-	public void update(Observable o, Object arg) ;
 
 	public String StringaNonVuota(String string);
 
