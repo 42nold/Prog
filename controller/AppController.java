@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 import model.Model;
 import view.BibliotecaView;
+import view.MyView;
 
 
 
@@ -17,7 +18,7 @@ public class AppController implements Serializable{
 		
 		
 
-		BibliotecaView view = new BibliotecaView();
+		MyView view = new BibliotecaView();
 		
 		Model model = new Model() ;
 		

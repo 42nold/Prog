@@ -3,84 +3,57 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <package id="1" language="java" name="controller" project="ProgMaster" file="/ProgMaster/controller" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="143" y="295"/>    
+    <position height="-1" width="-1" x="195" y="307"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
   <package id="2" language="java" name="view" project="ProgMaster" file="/ProgMaster/view" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="352" y="177"/>    
+    <position height="-1" width="-1" x="353" y="208"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <package id="3" language="java" name="it.unibs.ing.mylib" project="ProgMaster" file="/ProgMaster/it/unibs/ing/mylib" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="620" y="88"/>    
-    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
-  </package>  
-  <package id="4" language="java" name="model" project="ProgMaster" file="/ProgMaster/model" binary="false" 
+  <package id="3" language="java" name="model" project="ProgMaster" file="/ProgMaster/model" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="353" y="342"/>    
+    <position height="-1" width="-1" x="354" y="373"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <package id="5" language="java" name="utenti" project="ProgMaster" file="/ProgMaster/utenti" binary="false" 
+  <package id="4" language="java" name="utenti" project="ProgMaster" file="/ProgMaster/utenti" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="600" y="451"/>    
+    <position height="-1" width="-1" x="540" y="460"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <package id="6" language="java" name="risorse" project="ProgMaster" file="/ProgMaster/risorse" binary="false" 
+  <package id="5" language="java" name="risorse" project="ProgMaster" file="/ProgMaster/risorse" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="603" y="370"/>    
+    <position height="-1" width="-1" x="559" y="380"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <package id="7" language="java" name="storico" project="ProgMaster" file="/ProgMaster/storico" binary="false" 
+  <package id="6" language="java" name="storico" project="ProgMaster" file="/ProgMaster/storico" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="605" y="259"/>    
+    <position height="-1" width="-1" x="530" y="257"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <dependency id="8">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="4"/>  
-  </dependency>  
-  <dependency id="9">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
-  <dependency id="10">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
-  <dependency id="11">    
-    <end type="SOURCE" refId="4"/>    
+  <dependency id="7">    
+    <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="6"/>  
   </dependency>  
-  <dependency id="12">    
+  <dependency id="8">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="9">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="10">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="11">    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="2"/>  
   </dependency>  
-  <dependency id="13">    
-    <bendpoint x="396" y="225"/>    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
-  <dependency id="14">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="7"/>  
-  </dependency>  
-  <dependency id="15">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
-  <dependency id="16">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="5"/>  
-  </dependency>  
-  <dependency id="17">    
-    <bendpoint x="711" y="231"/>    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
-  <dependency id="18">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="7"/>  
+  <dependency id="12">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="6"/>  
   </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    

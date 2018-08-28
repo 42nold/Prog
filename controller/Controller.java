@@ -1,18 +1,13 @@
 package controller;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-
+import view.*;
 import it.unibs.ing.mylib.BelleStringhe;
-import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
-import it.unibs.ing.mylib.ServizioFile;
 import it.unibs.ing.mylib.Stampa;
 import model.Model;
-import storico.Storico;
-import view.BibliotecaView;
 import view.MyView;
 
 @SuppressWarnings("serial")
@@ -82,7 +77,7 @@ public class Controller  implements Serializable{
 	}
 	
 	
-	public void start() {
+	protected void start() {
 
 		importaFruitori();
 		importaOperatori();//caricare fruitori e operatori da file a inizio sessione
@@ -495,11 +490,11 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 	 * @pre username!=null && password!=null 
 	 * @post @nochange
 	 */   
-	public  boolean cercaFruitore(String username, String password) {
+	private  boolean cercaFruitore(String username, String password) {
 		return model.cercaFruitore(username,password);
 	}
 		
-	public  String iscrizioneFruitore() {
+	private  String iscrizioneFruitore() {
 				
 		String nome, cognome, password, username;
 		int eta;
@@ -536,11 +531,11 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 	}
 	
 	
-	public  void eliminaDecaduti() {
+	private  void eliminaDecaduti() {
 		model.eliminaDecaduti();
 	}
 
-	public  void eliminaPrestitiScaduti() {
+	private  void eliminaPrestitiScaduti() {
 		model.eliminaPrestitiScaduti();
 	}
 	
@@ -590,7 +585,7 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 	 * @pre username!=null
 	 * @post operatoriNoChange()
 	 */
-	public  void usaFruitore(String username) {
+	private  void usaFruitore(String username) {
 		assert username!= null;
 		
 		int scelta, numFruitore;
@@ -789,15 +784,15 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 	}
 	
 	
-	public  void salvaFruitori() {
+	private  void salvaFruitori() {
 		model.salvaFruitoriOperatori();
 	}
 			
-	public  void importaFruitori() {
+	private  void importaFruitori() {
 		model.importaFruitoriOperatori();					  
 	}
 
-	public  void usaOperatore(String username){
+	private  void usaOperatore(String username){
 		
 		
 		int numOperatore, scelta;
@@ -928,7 +923,7 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 	 * @pre username!= null && password!= null && password != "" && username != ""
 	 * @post @nochange
 	 */
-		public  boolean cercaOperatore(String username, String password) {
+	private  boolean cercaOperatore(String username, String password) {
 			assert  username!= null && password!= null && password != "" && username != "" ;
 		
 					
@@ -965,15 +960,15 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 			return -1;
 		}
 
-	public String elencoOperatori() {
+		private String elencoOperatori() {
 		return model.elencoOperatori();
 	}
 				
-	public  void salvaOperatori() {
+		private  void salvaOperatori() {
 		model.salvaFruitoriOperatori();
 	}	
 			
-	public  void importaOperatori() {
+		private  void importaOperatori() {
 		model.importaFruitoriOperatori();					  
 	 }
 

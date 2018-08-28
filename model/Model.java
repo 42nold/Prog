@@ -67,7 +67,7 @@ public class Model extends Observable {
 	 * @pre username!=null && password!=null 
 	 * @post @nochange
 	 */
-	public  boolean cercaFruitore(String username, String password) {
+	  public boolean cercaFruitore(String username, String password) {
 		assert invariante() && username!=null && password!=null  ;
 		ArrayList<Operatore> operatoriPre = operatori ;
 		ArrayList<Fruitore> fruitoriPre = fruitori ;

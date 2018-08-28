@@ -12,16 +12,10 @@ import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
 import it.unibs.ing.mylib.ServizioFile;
 import it.unibs.ing.mylib.Stampa;
-import risorse.Categoria;
-import risorse.CategoriaPrimoLivello;
-import risorse.Libreria;
-import risorse.LibreriaContenitore;
-
-import risorse.VideotecaContenitore;
 import storico.Storico;
 import utility.Load;
 import utility.Save;
-
+import risorse.*;
 
 @SuppressWarnings("serial")
 public class Archivio implements Serializable {
@@ -38,7 +32,6 @@ public class Archivio implements Serializable {
 	
 	
 	private static ArrayList<CategoriaPrimoLivello> categorie;
-	
 	private int attributoScelto;
 	private ArrayList<Integer> match;
 	private Save save;
@@ -50,11 +43,15 @@ public class Archivio implements Serializable {
 	 */
 	public Archivio(){
 		categorie = new ArrayList<CategoriaPrimoLivello>();
-		categorie.add(new LibreriaContenitore("libreria", ID_LIBRI));//inizializzazione di default
-		categorie.add(new VideotecaContenitore("videoteca", ID_FILM)); 
+	
+		aggiungiCategoriaPrimoLivello("libri",new FactoryLibreria(),ID_LIBRI);
+		aggiungiCategoriaPrimoLivello("film",new FactoryVideoteca(),ID_FILM); 
 
 		//idCorrente();
 		assert invariante();
+	}
+	private void aggiungiCategoriaPrimoLivello(String nome,FactoryCategoria factory,int idCategoria) {
+		categorie.add(factory.creaCategoriaPrimoLivello(nome,idCategoria));
 	}
 	/**
 	 * verifica che le invarianti di classe siano mantenute
@@ -62,7 +59,7 @@ public class Archivio implements Serializable {
 	 *@post @nochange
 	 * @return true se sono verificate tutte le condizioni contemporaneamente
 	 */
-	protected boolean invariante() {
+	private boolean invariante() {
 	
 	if(	categorie!=null && categorie.size()>0 ) return true;
 		
@@ -101,7 +98,7 @@ public class Archivio implements Serializable {
 	 * @pre scelta>=0 && scelta<categorieSize()
 	 * @post categorieSize()@pre==categorieSize()
 	 */
-	 boolean haRisorseEsottocategorie(int scelta) {
+	protected boolean haRisorseEsottocategorie(int scelta) {
 		assert invariante() && scelta>=0 && scelta<categorie.size();
 		
 		int categoriePre = size();
@@ -191,34 +188,7 @@ public class Archivio implements Serializable {
 		assert invariante() && archivioPre==this;
 		return risultato;
 	}
-/**
- * invoca il costruttore di CategoriaPrimoLivello usando i parametri in ingresso e la aggiunge all'archivio
- * @param nome
- * @param durataMassimaPrestito
- * @param durataProrogaLibri
- * @param termineProroga
- * @param maxRisorsePerLibri
- * @param id
- * @pre nome!= null && durataMassimaPrestito>=0 && durataProrogaLibri>=0 && termineProroga>=0 && maxiRisorseLibri>0 && id>=0
- * @post categorieSize() == categorieSize()@pre+1
- */
-	public void aggiungiCategoriaPrimoLivello(String tipo,String nome, int id) {
-		assert  nome!= null &&  id>=0;
-		int categoriePre = categorie.size();
-	
-		
-		CategoriaPrimoLivello<?> nuovo = null;
-		
-		if(tipo.equals("libreria"))
-			 nuovo = new LibreriaContenitore(nome, id);
-		
-		if(tipo.equals("videoteca"))
-			nuovo = new VideotecaContenitore(nome, id);
 
-		if(nuovo!=null)	categorie.add(nuovo);
-		
-		assert invariante() && categoriePre==categorie.size()-1;
-	}
 /**
  * rimuovi dall'archivio la categoria selezionata	
  * @param indice della categoria da rimuovere
