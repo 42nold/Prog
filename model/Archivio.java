@@ -1,9 +1,7 @@
 package model;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import it.unibs.ing.mylib.ServizioFile;
 import utility.Load;
 import utility.Save;
 import risorse.CategoriaPrimoLivello;
@@ -27,10 +25,8 @@ public class Archivio implements Serializable {
 	
 	
 	private static ArrayList<CategoriaPrimoLivello> categorie;
-	private int attributoScelto;
 	private ArrayList<Integer> match;
-	private Save save;
-	private Load load;
+
 	
 	/**
 	 * istanzia la classe archivio con due categorie e due sottocategorie
@@ -232,12 +228,9 @@ public class Archivio implements Serializable {
 	 */
 	public void importaDati() {
 		assert invariante();
-		
-		File f = new File(NOMEFILECATEGORIE);
-		@SuppressWarnings("unchecked")
-		 ArrayList<CategoriaPrimoLivello> a = ( ArrayList<CategoriaPrimoLivello>)ServizioFile.caricaSingoloOggetto(f);
+	
+		 ArrayList<CategoriaPrimoLivello> a = ( ArrayList<CategoriaPrimoLivello>)Load.importaDatiDaFile(NOMEFILECATEGORIE);
 
-		
 		if( a==null ) {
 			assert invariante();
 			return;
@@ -257,7 +250,7 @@ public class Archivio implements Serializable {
 		assert invariante();
 		Archivio archivioPre = this;
 		
-		save.salvaDatiSuFile(NOMEFILECATEGORIE, categorie);
+		Save.salvaDatiSuFile(NOMEFILECATEGORIE, categorie);
 		
 		
 		assert invariante() && archivioPre == this;
@@ -476,7 +469,7 @@ public class Archivio implements Serializable {
 	 * cerca il massimo valore id tra le risorse dell'archivio e aggiorna il contatore di id
 	 * @pre true
 	 */
-	/*public void setIdCorrente() {
+	public void setIdCorrente() {
 		assert invariante() ;
 		
 		int maxIdCorrente;
@@ -493,12 +486,10 @@ public class Archivio implements Serializable {
 			
 			Categoria.setId(maxIdCorrente+1);  
 		}
-
-		assert invariante() && storicoPre == storico;
-	}*/
-	public void setIdCorrente() {
-		Categoria.setId(0);
 	}
+/*	public void setIdCorrente() {
+		Categoria.setId(0);
+	}*/
 	
 	public int getIdCorrente() {
 		return Categoria.getIdRisorsaCorrente();

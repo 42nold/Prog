@@ -20,16 +20,13 @@ public class Storico implements Serializable, Observer{
 	public static final String NOMEFILESTORICO = "storico.dat";
 	
 	private static ArrayList<Evento> storia;
-	private Save save;
-	private Load load;
+
 
 	 /**
 	  * inizializza l'array storia con un array vuoto
 	  */
 	public Storico () {
 		storia  = new ArrayList<Evento>() ;
-		save= new Save();
-		load = new Load();
 		assert invariante();
 	}
 
@@ -64,7 +61,7 @@ public class Storico implements Serializable, Observer{
 		assert invariante() ;
 		ArrayList<Evento> storiaPre = storia;
 		
-		save.salvaDatiSuFile(NOMEFILESTORICO, storia);
+		Save.salvaDatiSuFile(NOMEFILESTORICO, storia);
 	
 		assert storiaPre==storia;
 		assert invariante() ;
@@ -77,7 +74,8 @@ public class Storico implements Serializable, Observer{
 	 */
 	public void importaDati() {
 		assert invariante() ;
-		ArrayList<Evento> b =(ArrayList<Evento>) load.importaDatiDaFile(NOMEFILESTORICO);
+		
+		ArrayList<Evento> b =(ArrayList<Evento>) Load.importaDatiDaFile(NOMEFILESTORICO);
 				
 		if(b==null) 
 			storia = new ArrayList<Evento>();

@@ -13,7 +13,7 @@ public class Save {
 	 * @pre true
 	 * @post @nochange
 	 */
-	public void salvaDatiSuFile(String nomeFile, Object o) {
+	public static void salvaDatiSuFile(String nomeFile, Object o) {
 		
 		File f = new File(nomeFile);
 		ServizioFile.salvaSingoloOggetto(f, o);

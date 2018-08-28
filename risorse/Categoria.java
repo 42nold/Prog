@@ -61,12 +61,8 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 	 * @post @nochange
 	 * @return il valore dell'id risorsa pi� alto trovato oppure -1
 	 */
-	protected int idMax() {	
-
-	/*	assert invarianteC();
-		Categoria categoriaPre = this;*/
+	public int idMax() {	
 		
-	/*	
 		if (risorse.size() > 0) {
 			int max=((Integer)risorse.get(0).getValue(ID));
 			
@@ -76,11 +72,9 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 					max=((Integer)risorse.get(i).getValue(ID));
 				}
 			
-			//assert invarianteC() && categoriaPre==this;
 			return max;
-		}*/
+		}
 		
-		//assert invarianteC() && categoriaPre==this;
 		return -1;			
 	}
 	

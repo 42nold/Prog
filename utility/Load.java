@@ -11,7 +11,7 @@ public class Load {
 	 * @pre true
 	 * @post true
 	 */
-	public Object importaDatiDaFile(String nomeFile) {
+	public static Object importaDatiDaFile(String nomeFile) {
 		
 		File f = new File(nomeFile);
 		
