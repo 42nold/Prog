@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
-  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+<class-diagram version="1.2.2" icons="true" automaticImage="JPEG" always-add-relationships="false" 
+  generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true" 
+  router="FAN">  
   <class id="1" language="java" name="view.BibliotecaView" project="ProgMaster" 
     file="/ProgMaster/view/BibliotecaView.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="108" x="565" y="-1902"/>    
+    <position height="57" width="156" x="117" y="-1897"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +13,7 @@
   </class>  
   <class id="2" language="java" name="risorse.CategoriaPrimoLivello" project="ProgMaster" 
     file="/ProgMaster/risorse/CategoriaPrimoLivello.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="172" x="997" y="-1625"/>    
+    <position height="53" width="172" x="637" y="-1634"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +22,7 @@
   </class>  
   <class id="3" language="java" name="risorse.Categoria" project="ProgMaster" file="/ProgMaster/risorse/Categoria.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="101" x="1043" y="-1485"/>    
+    <position height="53" width="101" x="678" y="-1488"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +31,7 @@
   </class>  
   <class id="4" language="java" name="model.Archivio" project="ProgMaster" file="/ProgMaster/model/Archivio.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="92" x="933" y="-1835"/>    
+    <position height="53" width="92" x="626" y="-1849"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +40,7 @@
   </class>  
   <class id="5" language="java" name="risorse.Risorsa" project="ProgMaster" file="/ProgMaster/risorse/Risorsa.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="1054" y="-1394"/>    
+    <position height="53" width="87" x="686" y="-1400"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -48,7 +49,7 @@
   </class>  
   <interface id="6" language="java" name="view.MyView" project="ProgMaster" file="/ProgMaster/view/MyView.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="108" x="571" y="-2028"/>    
+    <position height="53" width="148" x="123" y="-2025"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -57,7 +58,7 @@
   </interface>  
   <class id="7" language="java" name="risorse.Libro" project="ProgMaster" file="/ProgMaster/risorse/Libro.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="1237" y="-1287"/>    
+    <position height="53" width="87" x="850" y="-1293"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -66,7 +67,7 @@
   </class>  
   <class id="8" language="java" name="storico.Storico" project="ProgMaster" file="/ProgMaster/storico/Storico.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="800" y="-1811"/>    
+    <position height="53" width="87" x="416" y="-1853"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -75,7 +76,7 @@
   </class>  
   <class id="9" language="java" name="model.Model" project="ProgMaster" file="/ProgMaster/model/Model.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="914" y="-1984"/>    
+    <position height="55" width="117" x="527" y="-1990"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -84,7 +85,7 @@
   </class>  
   <class id="10" language="java" name="risorse.Videoteca" project="ProgMaster" file="/ProgMaster/risorse/Videoteca.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="810" y="-1370"/>    
+    <position height="53" width="87" x="437" y="-1398"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -93,7 +94,7 @@
   </class>  
   <class id="11" language="java" name="storico.Evento" project="ProgMaster" file="/ProgMaster/storico/Evento.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="662" y="-1709"/>    
+    <position height="53" width="87" x="250" y="-1806"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -102,7 +103,7 @@
   </class>  
   <class id="12" language="java" name="risorse.LibreriaContenitore" project="ProgMaster" 
     file="/ProgMaster/risorse/LibreriaContenitore.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="134" x="1235" y="-1504"/>    
+    <position height="53" width="134" x="877" y="-1494"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -111,7 +112,7 @@
   </class>  
   <class id="13" language="java" name="utenti.Operatore" project="ProgMaster" file="/ProgMaster/utenti/Operatore.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="1106" y="-1955"/>    
+    <position height="53" width="87" x="743" y="-1959"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -120,7 +121,7 @@
   </class>  
   <class id="14" language="java" name="utenti.Utente" project="ProgMaster" file="/ProgMaster/utenti/Utente.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="1308" y="-1965"/>    
+    <position height="53" width="87" x="927" y="-1934"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -129,7 +130,7 @@
   </class>  
   <class id="15" language="java" name="utenti.Prestito" project="ProgMaster" file="/ProgMaster/utenti/Prestito.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="1307" y="-1884"/>    
+    <position height="53" width="87" x="929" y="-1845"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -138,7 +139,7 @@
   </class>  
   <class id="16" language="java" name="risorse.Libreria" project="ProgMaster" file="/ProgMaster/risorse/Libreria.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="1297" y="-1413"/>    
+    <position height="53" width="87" x="917" y="-1389"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -147,7 +148,7 @@
   </class>  
   <class id="17" language="java" name="risorse.Film" project="ProgMaster" file="/ProgMaster/risorse/Film.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="901" y="-1290"/>    
+    <position height="53" width="87" x="514" y="-1296"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -156,7 +157,7 @@
   </class>  
   <class id="18" language="java" name="utenti.Fruitore" project="ProgMaster" file="/ProgMaster/utenti/Fruitore.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="87" x="1102" y="-1881"/>    
+    <position height="53" width="87" x="743" y="-1893"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -165,7 +166,7 @@
   </class>  
   <class id="19" language="java" name="risorse.VideotecaContenitore" project="ProgMaster" 
     file="/ProgMaster/risorse/VideotecaContenitore.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="147" x="785" y="-1494"/>    
+    <position height="53" width="147" x="398" y="-1500"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -174,7 +175,7 @@
   </class>  
   <class id="20" language="java" name="controller.Controller" project="ProgMaster" 
     file="/ProgMaster/controller/Controller.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="144" x="736" y="-2054"/>    
+    <position height="53" width="144" x="349" y="-2060"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -183,7 +184,7 @@
   </class>  
   <class id="21" language="java" name="risorse.AttributoStringa" project="ProgMaster" 
     file="/ProgMaster/risorse/AttributoStringa.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="114" x="1166" y="-1194"/>    
+    <position height="53" width="114" x="779" y="-1200"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -192,7 +193,7 @@
   </class>  
   <class id="22" language="java" name="risorse.AttributoIntero" project="ProgMaster" 
     file="/ProgMaster/risorse/AttributoIntero.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="106" x="985" y="-1195"/>    
+    <position height="53" width="106" x="598" y="-1201"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -201,7 +202,7 @@
   </class>  
   <interface id="23" language="java" name="risorse.Attributo" project="ProgMaster" 
     file="/ProgMaster/risorse/Attributo.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="103" x="1073" y="-1300"/>    
+    <position height="53" width="103" x="686" y="-1306"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -210,7 +211,7 @@
   </interface>  
   <class id="24" language="java" name="risorse.FactoryLibreria" project="ProgMaster" 
     file="/ProgMaster/risorse/FactoryLibreria.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="115" x="1258" y="-1609"/>    
+    <position height="53" width="115" x="882" y="-1617"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -219,7 +220,7 @@
   </class>  
   <class id="25" language="java" name="risorse.FactoryVideoteca" project="ProgMaster" 
     file="/ProgMaster/risorse/FactoryVideoteca.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="128" x="798" y="-1606"/>    
+    <position height="53" width="128" x="412" y="-1620"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -228,277 +229,324 @@
   </class>  
   <class id="26" language="java" name="risorse.FactoryCategoria" project="ProgMaster" 
     file="/ProgMaster/risorse/FactoryCategoria.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="53" width="129" x="1055" y="-1798"/>    
+    <position height="53" width="129" x="758" y="-1740"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <dependency id="27">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="22"/>  
-  </dependency>  
-  <dependency id="28">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="17"/>  
-  </dependency>  
-  <dependency id="29">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="26"/>  
-  </dependency>  
-  <association id="30">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="31" name="campiRisorsa">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="32" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="33">    
-    <end type="SOURCE" refId="12"/>    
-    <end type="TARGET" refId="16"/>  
-  </dependency>  
-  <realization id="34">    
-    <end type="SOURCE" refId="21"/>    
-    <end type="TARGET" refId="23"/>  
-  </realization>  
-  <realization id="35">    
-    <end type="SOURCE" refId="22"/>    
-    <end type="TARGET" refId="23"/>  
-  </realization>  
-  <generalization id="36">    
+  <class id="27" language="java" name="utility.Save" project="ProgMaster" file="/ProgMaster/utility/Save.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="355" y="-1751"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" name="utility.Load" project="ProgMaster" file="/ProgMaster/utility/Load.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="155" x="497" y="-1752"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <generalization id="29">    
     <end type="SOURCE" refId="16"/>    
     <end type="TARGET" refId="3"/>  
   </generalization>  
-  <generalization id="37">    
-    <end type="SOURCE" refId="19"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
-  <association id="38">    
-    <end type="SOURCE" refId="20" navigable="false">      
-      <attribute id="39" name="view">        
-        <position height="0" width="0" x="185" y="36"/>      
-      </attribute>      
-      <multiplicity id="40" minimum="0" maximum="1">        
-        <position height="0" width="0" x="185" y="36"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="41">    
-    <end type="SOURCE" refId="26"/>    
-    <end type="TARGET" refId="2"/>  
-  </dependency>  
-  <association id="42">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="43" name="risorse">        
-        <position height="0" width="0" x="-258" y="356"/>      
-      </attribute>      
-      <multiplicity id="44" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="-258" y="356"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="45">    
-    <end type="SOURCE" refId="19"/>    
-    <end type="TARGET" refId="10"/>  
-  </dependency>  
-  <generalization id="46">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="14"/>  
-  </generalization>  
-  <generalization id="47">    
+  <generalization id="30">    
     <end type="SOURCE" refId="18"/>    
     <end type="TARGET" refId="14"/>  
   </generalization>  
-  <association id="48">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="49" name="categorie">        
-        <position height="0" width="0" x="332" y="-43"/>      
-      </attribute>      
-      <multiplicity id="50" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="332" y="-43"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="51">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="52" name="fruitori">        
-        <position height="0" width="0" x="113" y="109"/>      
-      </attribute>      
-      <multiplicity id="53" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="113" y="109"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="18" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="54">    
+  <generalization id="31">    
     <end type="SOURCE" refId="24"/>    
-    <end type="TARGET" refId="12"/>  
-  </dependency>  
-  <dependency id="55">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="11"/>  
-  </dependency>  
-  <generalization id="56">    
-    <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="5"/>  
+    <end type="TARGET" refId="26"/>  
   </generalization>  
-  <dependency id="57">    
+  <association id="32">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="33" name="save"/>      
+      <multiplicity id="34" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="35">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <dependency id="36">    
     <end type="SOURCE" refId="20"/>    
     <end type="TARGET" refId="1"/>  
   </dependency>  
-  <association id="58">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="59" name="sottocategorie">        
-        <position height="0" width="0" x="346" y="270"/>      
-      </attribute>      
-      <multiplicity id="60" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="346" y="270"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="61">    
-    <end type="SOURCE" refId="24"/>    
+  <dependency id="37">    
+    <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <generalization id="62">    
-    <end type="SOURCE" refId="25"/>    
-    <end type="TARGET" refId="26"/>  
-  </generalization>  
-  <dependency id="63">    
-    <end type="SOURCE" refId="25"/>    
-    <end type="TARGET" refId="19"/>  
   </dependency>  
-  <dependency id="64">    
+  <generalization id="38">    
     <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="22"/>  
-  </dependency>  
-  <generalization id="65">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="3"/>  
-  </generalization>  
-  <generalization id="66">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="3"/>  
-  </generalization>  
-  <association id="67">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="68" name="archivio">        
-        <position height="0" width="0" x="207" y="92"/>      
-      </attribute>      
-      <multiplicity id="69" minimum="0" maximum="1">        
-        <position height="0" width="0" x="207" y="92"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="70">    
-    <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="21"/>  
-  </dependency>  
-  <generalization id="71">    
-    <end type="SOURCE" refId="7"/>    
     <end type="TARGET" refId="5"/>  
   </generalization>  
-  <association id="72">    
+  <association id="39">    
     <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="73" name="storico">        
-        <position height="0" width="0" x="138" y="57"/>      
+      <attribute id="40" name="operatori">        
+        <position height="0" width="0" x="-268" y="120"/>      
       </attribute>      
-      <multiplicity id="74" minimum="0" maximum="1">        
-        <position height="0" width="0" x="138" y="57"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="75">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="6"/>  
-  </realization>  
-  <dependency id="76">    
-    <end type="SOURCE" refId="12"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
-  <association id="77">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="78" name="storia">        
-        <position height="0" width="0" x="481" y="-131"/>      
-      </attribute>      
-      <multiplicity id="79" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="481" y="-131"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="80">    
-    <end type="SOURCE" refId="19"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
-  <association id="81">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="82" name="prestiti">        
-        <position height="0" width="0" x="58" y="100"/>      
-      </attribute>      
-      <multiplicity id="83" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="58" y="100"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="15" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="84">    
-    <end type="SOURCE" refId="12"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
-  <dependency id="85">    
-    <end type="SOURCE" refId="16"/>    
-    <end type="TARGET" refId="7"/>  
-  </dependency>  
-  <dependency id="86">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="21"/>  
-  </dependency>  
-  <association id="87">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="88" name="operatori">        
-        <position height="0" width="0" x="95" y="124"/>      
-      </attribute>      
-      <multiplicity id="89" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="95" y="124"/>      
+      <multiplicity id="41" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-268" y="120"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="13" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="90">    
-    <end type="SOURCE" refId="20" navigable="false">      
-      <attribute id="91" name="model">        
-        <position height="0" width="0" x="166" y="91"/>      
+  <association id="42">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="43" name="campiRisorsa">        
+        <position height="0" width="0" x="-387" y="-6"/>      
       </attribute>      
-      <multiplicity id="92" minimum="0" maximum="1">        
-        <position height="0" width="0" x="166" y="91"/>      
+      <multiplicity id="44" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-387" y="-6"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="23" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="45">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="46">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="47">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="21"/>  
+  </dependency>  
+  <association id="48">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="49" name="fruitori">        
+        <position height="0" width="0" x="-246" y="97"/>      
+      </attribute>      
+      <multiplicity id="50" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-246" y="97"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="51">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="52">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <dependency id="53">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="21"/>  
+  </dependency>  
+  <dependency id="54">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="19"/>  
+  </dependency>  
+  <realization id="55">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
+  <association id="56">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="57" name="categorie">        
+        <position height="0" width="0" x="-28" y="-52"/>      
+      </attribute>      
+      <multiplicity id="58" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-28" y="-52"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="59">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="60" name="load"/>      
+      <multiplicity id="61" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="62">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="17"/>  
+  </dependency>  
+  <generalization id="63">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="64">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="26"/>  
+  </generalization>  
+  <dependency id="65">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="66">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <realization id="67">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="23"/>  
+  </realization>  
+  <association id="68">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="69" name="storia">        
+        <position height="0" width="0" x="69" y="-228"/>      
+      </attribute>      
+      <multiplicity id="70" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="69" y="-228"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="71">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <association id="72">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="73" name="load"/>      
+      <multiplicity id="74" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="75">    
+    <bendpoint x="704" y="-1529"/>    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="76">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="14"/>  
+  </generalization>  
+  <generalization id="77">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="5"/>  
+  </generalization>  
+  <association id="78">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="79" name="save"/>      
+      <multiplicity id="80" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="81">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="82" name="model">        
+        <position height="0" width="0" x="-221" y="85"/>      
+      </attribute>      
+      <multiplicity id="83" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-221" y="85"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <association id="84">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="85" name="prestiti">        
+        <position height="0" width="0" x="-320" y="139"/>      
+      </attribute>      
+      <multiplicity id="86" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-320" y="139"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="87">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="88" name="archivio">        
+        <position height="0" width="0" x="-100" y="78"/>      
+      </attribute>      
+      <multiplicity id="89" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-100" y="78"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="90">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="91" name="view">        
+        <position height="0" width="0" x="-263" y="39"/>      
+      </attribute>      
+      <multiplicity id="92" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-263" y="39"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="93">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <association id="94">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="95" name="sottocategorie"/>      
+      <multiplicity id="96" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="97">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="98">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="99" name="risorse">        
+        <position height="0" width="0" x="-626" y="350"/>      
+      </attribute>      
+      <multiplicity id="100" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-626" y="350"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="101">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <association id="102">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="103" name="storico">        
+        <position height="0" width="0" x="-246" y="15"/>      
+      </attribute>      
+      <multiplicity id="104" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-246" y="15"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="105">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="106">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="16"/>  
+  </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    
