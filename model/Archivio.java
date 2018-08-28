@@ -3,19 +3,14 @@ package model;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Observer;
-import java.util.Vector;
-
-import javax.swing.text.View;
-
-import it.unibs.ing.mylib.InputDati;
-import it.unibs.ing.mylib.MyMenu;
 import it.unibs.ing.mylib.ServizioFile;
-import it.unibs.ing.mylib.Stampa;
-import storico.Storico;
 import utility.Load;
 import utility.Save;
-import risorse.*;
+import risorse.CategoriaPrimoLivello;
+import risorse.Categoria;
+import risorse.FactoryCategoria;
+import risorse.FactoryLibreria;
+import risorse.FactoryVideoteca;
 
 @SuppressWarnings("serial")
 public class Archivio implements Serializable {

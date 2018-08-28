@@ -3,57 +3,66 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <package id="1" language="java" name="controller" project="ProgMaster" file="/ProgMaster/controller" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="195" y="307"/>    
+    <position height="-1" width="-1" x="347" y="98"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
   <package id="2" language="java" name="view" project="ProgMaster" file="/ProgMaster/view" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="353" y="208"/>    
+    <position height="-1" width="-1" x="229" y="206"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
   <package id="3" language="java" name="model" project="ProgMaster" file="/ProgMaster/model" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="354" y="373"/>    
+    <position height="-1" width="-1" x="449" y="203"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
   <package id="4" language="java" name="utenti" project="ProgMaster" file="/ProgMaster/utenti" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="540" y="460"/>    
+    <position height="-1" width="-1" x="473" y="327"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
   <package id="5" language="java" name="risorse" project="ProgMaster" file="/ProgMaster/risorse" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="559" y="380"/>    
+    <position height="-1" width="-1" x="311" y="314"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
   <package id="6" language="java" name="storico" project="ProgMaster" file="/ProgMaster/storico" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="530" y="257"/>    
+    <position height="-1" width="-1" x="639" y="339"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <dependency id="7">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="6"/>  
-  </dependency>  
+  <package id="7" language="java" name="utility" project="ProgMaster" file="/ProgMaster/utility" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="789" y="210"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
   <dependency id="8">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
-  <dependency id="9">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="5"/>  
-  </dependency>  
-  <dependency id="10">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="4"/>  
   </dependency>  
-  <dependency id="11">    
+  <dependency id="9">    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="2"/>  
   </dependency>  
+  <dependency id="10">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="11">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
   <dependency id="12">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="13">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="14">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="3"/>  
   </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    

@@ -3,9 +3,6 @@ package risorse;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import it.unibs.ing.mylib.InputDati;
-import it.unibs.ing.mylib.MyMenu;
-import storico.Storico;
 
 @SuppressWarnings("serial")
 public abstract class Categoria<T extends Risorsa> implements Serializable {

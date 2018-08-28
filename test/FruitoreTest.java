@@ -6,7 +6,6 @@ package test;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import java.util.*;
-import model.*;
 import utenti.Fruitore;
 import utenti.Prestito;
 /**

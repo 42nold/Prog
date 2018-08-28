@@ -1,10 +1,9 @@
 package utility;
 
 import java.io.File;
-import java.util.ArrayList;
+
 
 import it.unibs.ing.mylib.ServizioFile;
-import risorse.CategoriaPrimoLivello;
 
 public class Load {
 	/**

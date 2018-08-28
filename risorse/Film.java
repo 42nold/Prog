@@ -1,8 +1,7 @@
 package risorse;
 
-import java.util.ArrayList;
 
-import it.unibs.ing.mylib.InputDati;
+
 
 @SuppressWarnings("serial")
 public class Film extends Risorsa {

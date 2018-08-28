@@ -2,9 +2,6 @@ package risorse;
 
 import java.util.ArrayList;
 
-import it.unibs.ing.mylib.InputDati;
-import storico.Storico;
-
 
 public class LibreriaContenitore extends CategoriaPrimoLivello<Libro> {
 

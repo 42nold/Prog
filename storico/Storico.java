@@ -8,8 +8,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import it.unibs.ing.mylib.ServizioFile;
-import risorse.Categoria;
-import utility.Load;
 import utility.Save;
 
 @SuppressWarnings("serial")
@@ -25,7 +23,6 @@ public class Storico implements Serializable, Observer{
 	
 	private static ArrayList<Evento> storia;
 	private Save save;
-	private Load load;
 	
 
 	 /**

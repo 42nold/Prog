@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import risorse.Film;
-import risorse.Libro;
+
 
 public class FilmTest {
 	protected static final String ID="Id";

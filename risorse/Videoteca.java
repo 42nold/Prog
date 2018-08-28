@@ -2,7 +2,7 @@ package risorse;
 
 import java.util.ArrayList;
 
-import storico.Storico;
+
 
 @SuppressWarnings("serial")
 public class Videoteca extends Categoria<Film>{

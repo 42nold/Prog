@@ -1,6 +1,5 @@
 package risorse;
 
-import it.unibs.ing.mylib.InputDati;
 
 @SuppressWarnings("serial")
 public class Libro extends Risorsa {

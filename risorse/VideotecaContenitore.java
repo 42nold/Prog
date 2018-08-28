@@ -2,8 +2,6 @@ package risorse;
 
 import java.util.ArrayList;
 
-import it.unibs.ing.mylib.InputDati;
-import storico.Storico;
 
 public class VideotecaContenitore extends CategoriaPrimoLivello<Film>{
 

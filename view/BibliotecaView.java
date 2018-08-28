@@ -1,7 +1,6 @@
 package view;
 
 import java.util.Observable;
-import java.util.Scanner;
 
 import it.unibs.ing.mylib.BelleStringhe;
 import it.unibs.ing.mylib.InputDati;
