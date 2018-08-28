@@ -469,7 +469,7 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 	 * @pre username!=null && password!=null 
 	 * @post @nochange
 	 */   
-	private  boolean cercaFruitore(String username, String password) {
+	public  boolean cercaFruitore(String username, String password) {
 		return model.cercaFruitore(username,password);
 	}
 		
@@ -564,7 +564,7 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 	 * @pre username!=null
 	 * @post operatoriNoChange()
 	 */
-	private  void usaFruitore(String username) {
+	public  void usaFruitore(String username) {
 		assert username!= null;
 		
 		int scelta, numFruitore;

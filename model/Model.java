@@ -43,6 +43,7 @@ public class Model extends Observable {
 	public Model() {
 		archivio = new Archivio();
 		operatori = new ArrayList<Operatore>();
+		operatori.add(new Operatore("admin", "admin", 18, "admin", "admin"));
 		fruitori = new ArrayList<Fruitore>();
 		storico = new Storico();
 		addObserver(storico);
@@ -398,7 +399,7 @@ public class Model extends Observable {
 					return archivio.getDescrizioneRisorsa(risorsaScelta);
 				}
 
-				private Fruitore getFruitore(int numFruitore) {
+				public Fruitore getFruitore(int numFruitore) {
 
 					return fruitori.get(numFruitore);
 				}
@@ -634,5 +635,10 @@ public class Model extends Observable {
 
 		public int trovaPosizioneCategoria(int id) {
 			return archivio.trovaPosizioneCategoria(id);
+		}
+		//metodi usati per i test
+		
+		public int fruitoriSize() {
+			return fruitori.size();
 		}
 }

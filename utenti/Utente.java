@@ -61,6 +61,15 @@ public abstract class Utente implements Serializable {
 	public String getPassword() {
 		return password;
 	}
+	public String getNome() {
+		return nome;
+	}
+	public String getCognome() {
+		return cognome;
+	}
+	public int getEta() {
+		return eta;
+	}
 	/**
 	 * ritorna una stringa con la descrizione completa dell'utente
 	 * @pre true
