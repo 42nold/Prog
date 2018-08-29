@@ -556,4 +556,8 @@ public class Archivio implements Serializable {
 	public ArrayList<String> getDescrizioneCampiRisorsa(int categoriaScelta){
 		return categorie.get(categoriaScelta-1).getDescrizioneCampi();
 	}
+	//metodi per i test
+	public ArrayList<CategoriaPrimoLivello> getCategorie(){
+		return categorie;
+	}
 }

@@ -641,4 +641,8 @@ public class Model extends Observable {
 		public int fruitoriSize() {
 			return fruitori.size();
 		}
+		public Archivio getArchivio() {
+			return archivio;
+		}
 }
+

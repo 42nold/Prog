@@ -6,12 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import controller.Controller;
-import it.unibs.ing.mylib.BelleStringhe;
-import junit.framework.Assert;
+
 import model.Model;
 import utenti.Fruitore;
 import view.BibliotecaView;
-import view.MyView;
 
 public class IscrizioneTest {
 
@@ -24,7 +22,9 @@ public class IscrizioneTest {
 	 controller = new Controller(model,new BibliotecaView());
 	
 	}
-	
+	/**
+	 * simula l'iscrizione di tre utenti di cui una non valida e verifica man mano che tutto sia regolare
+	 */
 	@Test
 	public void testaIscrizione() {
 		iscrivi("a","b","c","d",30);
@@ -36,7 +36,7 @@ public class IscrizioneTest {
 		assert utente.getCognome().equals("b");
 		assert utente.getPassword().equals("c");
 		assert utente.getEta()==30;
-
+        assert utente.getNumeroPrestiti()==0;
 //iscrivo un'utente con stesso username
 		
 		iscrivi("z","z","z","d",18);
@@ -50,11 +50,12 @@ public class IscrizioneTest {
 	    Fruitore utente2 = model.getFruitore(0);
 		
 		assert model.getFruitoreUsername(1).equals("e");
-		assert utente.getNome().equals("a");
-		assert utente.getCognome().equals("b");
-		assert utente.getPassword().equals("c");
-		assert utente.getEta()==30;
-		
+		assert utente2.getNome().equals("a");
+		assert utente2.getCognome().equals("b");
+		assert utente2.getPassword().equals("c");
+		assert utente2.getEta()==30;
+        assert utente2.getNumeroPrestiti()==0;
+
 		
 	}
 	
