@@ -146,13 +146,13 @@ public class Fruitore extends Utente implements Serializable{
 	 * @post
 	 */
 	public void aggiornaDataScadenza(){
-		assert invariante();
+		//assert invariante();
 		
 		Calendar d=Calendar.getInstance();
 		d.add(Calendar.YEAR, 5);
 		data_scadenza=d;
 		
-		assert invariante() ;
+		//assert invariante() ;
 	}
 	
 	/**
@@ -293,10 +293,11 @@ public class Fruitore extends Utente implements Serializable{
 		
 		ArrayList<Integer> prestitiScaduti = new ArrayList<Integer>();
 		
-		for (Prestito prestito : prestiti) {
-			if (prestito.scaduto()) {
-				prestitiScaduti.add(prestito.getIdRisorsa());
-				prestiti.remove(prestito);
+		for (int i=0 ; i< prestiti.size() ;i++) {
+			if (prestiti.get(i).scaduto()) {
+				prestitiScaduti.add(prestiti.get(i).getIdRisorsa());
+				prestiti.remove(i);
+				i--;
 			}
 		}
 		assert invariante() && prestitiScaduti!=null ;
@@ -310,15 +311,16 @@ public class Fruitore extends Utente implements Serializable{
 	 * @post @return != null  
 	 */
 		public ArrayList <Integer> restituisciRisorseInPrestito() {
-			assert invariante() ;
+			//assert invariante() ;
 			
 			ArrayList<Integer> prestitiDaRestituire= new ArrayList<Integer>();
 			
-			for (Prestito prestito : prestiti) {
-					prestitiDaRestituire.add(prestito.getIdRisorsa());
-					prestiti.remove(prestito);
+			for (int i= 0 ;i < prestiti.size();i++) {
+					prestitiDaRestituire.add(prestiti.get(i).getIdRisorsa());
+					prestiti.remove(i);
+					i--;
 				}
-			assert invariante() && prestitiDaRestituire!=null ;
+			//assert invariante() && prestitiDaRestituire!=null ;
 			return prestitiDaRestituire;
 		}
 /**
@@ -383,6 +385,9 @@ public class Fruitore extends Utente implements Serializable{
 		}
 		assert invariante() && listaId != null && fruitorePre == this;
 		return listaId;
+	}
+	public Prestito getPrestito(int i ) {
+		return prestiti.get(i);
 	}
 	
 }

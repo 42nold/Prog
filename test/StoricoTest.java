@@ -1,21 +1,27 @@
 package test;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import controller.Controller;
+import model.Model;
 import storico.Storico;
+import view.BibliotecaView;
 
 public class StoricoTest {
 
-	Storico storico = new Storico();
-
-	//String[] eventi = storico.getEventi();
-	
+	Model model;
+	Controller controller;
 	Calendar oggi,annoScorso,annoProssimo;
 	
 	@Before
-	public void inizia() {
+	public void inizializza() {
+		 model = new Model();
+		 controller = new Controller(model,new BibliotecaView());
+	
 		 oggi = Calendar.getInstance();
 			
 		 annoScorso = Calendar.getInstance();
@@ -26,43 +32,83 @@ public class StoricoTest {
 	}
 	
 	
-	/*@Test
-	public void testNumEventoAnnoSolare() {
+	@Test
+	public void Consistenza() {
+    	
+    	ArrayList<Object> attributi = new ArrayList<Object>();
+		attributi.add("5");
+		attributi.add(1);
+		attributi.add(1);
+		attributi.add("5");
+		attributi.add("5");
+		attributi.add("5");
+		attributi.add("5");
+		attributi.add(1);
 		
-		assert 	storico.numEventoAnnoSolare(eventi[0]," ").equals("");
+		model.aggiungiRisorsa(attributi, 0, 0);
+		
+		assert  model.getStorico().size()==1;    //aggiunta risorsa
+		
+		Calendar data = Calendar.getInstance();
+		data.add(Calendar.DAY_OF_YEAR,100);
+		
+		model.addFruitore("a", "a", 18, "a", "a", Calendar.getInstance(), data);
+		
+		assert model.getStorico().size()==2;   //iscrizione fruitore
+		
+		nuovoPrestito(0,0);
+		
+		assert model.getStorico().size()==4; //nuovo prestito e disponibilità esaurita per la risorsa
+		
+		model.aggiungiRisorsa(attributi, 0, 0);
+		model.rimuoviRisorsa(1, 0);
+		
+		assert model.getStorico().size()==6; // aggiunta e rimossa risorsa
+		
+		data.add(Calendar.DAY_OF_YEAR,-200);
+		model.addFruitore("a", "a", 18, "b", "a", Calendar.getInstance(), data);
+		
+		model.eliminaDecaduti();
+		
+		assert model.getStorico().size()==8;  //iscrizione fruitore e fruitore decaduto
 
+		ArrayList<Integer> inScadenza = new ArrayList<Integer>();
+		inScadenza.add(0);
+		
+		model.rinnovaPrestitoFruitore(0, inScadenza, 1);
+		
+		assert model.getStorico().size()==9 ;  // rinnovo prestito
+		
+		model.aggiornaDataScadenzaFruitore(0);
+		
+		assert model.getStorico().size()==10 ;    //rinnovoiscrizione fruitore
+				
+	}
 
-		for(String evento : eventi) {
-			Evento e = new Evento(evento,1);
-			e.setData(annoScorso);
-			storico.addEvento(e);
+	/**
+	 * metodo che crea prestiti già scaduti 
+	 * @param numFruitore posizione del fruitore 
+	 * @param risorsaScelta iddella risorsa
+	 */
+	public void nuovoPrestito(int numFruitore,int risorsaScelta) {
+
+		boolean rispettaPrerequisiti = model.verificaPrerequisitiPrestito(numFruitore, risorsaScelta);
+		
+		if (rispettaPrerequisiti) {
+			model.aggiornaLicenze(risorsaScelta, 0);// flag per diminuire numeroLicenze
+			String descrizioneRisorsa = model.getDescrizioneRisorsa(risorsaScelta);
 			
-			assert 	storico.numEventoAnnoSolare(evento," ").equals("2017 : 1  \n");
-
-		}
-		
-		for(String evento : eventi) {
-			storico.addEvento(new Evento(evento,1));
-
-			System.out.println(storico.numEventoAnnoSolare(evento," "));
-		assert 	storico.numEventoAnnoSolare(evento," ").equals("2017 : 1  \n2018 : 1  \n");
-
-		}
-		
-		for(String evento : eventi) {
-			Evento e = new Evento(evento,1);
-			e.setData(annoProssimo);
-			storico.addEvento(e);
+			int durataPrestito = model.durataPrestitoDataUnaRisorsa(risorsaScelta);
+			int durataProroga = model.durataProrogaDataUnaRisorsa(risorsaScelta);
+			int termineProroga = model.termineProrogaDataUnaRisorsa(risorsaScelta);				
 			
+			Calendar inizio = Calendar.getInstance();
+			Calendar fine = Calendar.getInstance();
+			fine.add(Calendar.DAY_OF_YEAR, -100);
 			
-		assert storico.numEventoAnnoSolare(evento," ").equals("2017 : 1  \n2018 : 1  \n2019 : 1  \n");
-
-		}
-	
-		
-	}*/
-
-
+			model.richiediPrestitoFruitore(numFruitore,risorsaScelta, descrizioneRisorsa, inizio, fine, durataProroga, termineProroga);
+		} 
+	}
 	@Test
 	public void testRisorsaPiuPrestata() {
 

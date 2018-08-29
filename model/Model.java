@@ -119,7 +119,7 @@ public class Model extends Observable {
 	 * @post operatoriNoChange()
 	 */
 	public  void eliminaDecaduti() {
-		assert invariante();
+		//assert invariante();
 		ArrayList<Operatore> operatoriPre = operatori ;
 		
 		if(fruitori!=null) {
@@ -145,7 +145,7 @@ public class Model extends Observable {
 					setChanged();
 					notifyObservers(new Evento(FRUITORE_DECADUTO+utenteEliminato, VALORE_NULLO_EVENTI));
 				}
-			assert invariante() && operatoriPre == operatori ;
+			//assert invariante() && operatoriPre == operatori ;
 		}
 	}
 
@@ -155,7 +155,7 @@ public class Model extends Observable {
 	 * @post operatoriNoChange()	
 	 */
 		public  void eliminaPrestitiScaduti() {
-			assert invariante();
+			//assert invariante();
 			ArrayList<Operatore> operatoriPre = operatori ;
 			
 			if(fruitori!=null) {
@@ -168,7 +168,7 @@ public class Model extends Observable {
 					
 					if(prestitiScaduti!=null)
 						for (int j=0; j<prestitiScaduti.size(); j++) {
-							catRisorsa=archivio.trovaIdCategoria(prestitiScaduti.get(i));
+							catRisorsa=archivio.trovaIdCategoria(prestitiScaduti.get(j));
 							if(catRisorsa==0 || catRisorsa==1)
 								archivio.aggiornaLicenze(prestitiScaduti.get(j), 1); //1 � il mio flag per incrementare numeroLicenze
 							
@@ -178,7 +178,7 @@ public class Model extends Observable {
 							}
 						}
 				}
-				assert invariante() && operatoriPre == operatori ; 
+				//assert invariante() && operatoriPre == operatori ; 
 			}
 		}
 		
@@ -643,6 +643,9 @@ public class Model extends Observable {
 		}
 		public Archivio getArchivio() {
 			return archivio;
+		}
+		public Storico getStorico() {
+			return storico;
 		}
 }
 

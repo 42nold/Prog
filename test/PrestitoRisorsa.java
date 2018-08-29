@@ -21,6 +21,7 @@ public class PrestitoRisorsa {
 	}
 	@Test
 	public void testaPrestito() {
+		inizializza();
 		Calendar scadenza = Calendar.getInstance();
 		scadenza.add(Calendar.DAY_OF_YEAR,100);
 		
@@ -34,24 +35,24 @@ public class PrestitoRisorsa {
 		aggiungiRisorsaCasuale(1,1);
 		
 		nuovoPrestito(0,0);
-		nuovoPrestito(0,3);
+		nuovoPrestito(0,1);
 		nuovoPrestito(1,2);
-		nuovoPrestito(1,1);
+		nuovoPrestito(1,3);
  
 		//verifica che il fruitore 1 abbia in prestito le risorse 0 e 1
 		ArrayList<Integer> prestitiPrevisti = new ArrayList<Integer>();
 		prestitiPrevisti.add(0);	
-		prestitiPrevisti.add(3);
+		prestitiPrevisti.add(1);
 		
         assert model.getFruitore(0).getPrestiti().containsAll(prestitiPrevisti) && prestitiPrevisti.containsAll(model.getFruitore(0).getPrestiti())  ;
 
         //verifica che il fruitore2 abbia in prestito le risorse 2 e 3
 		ArrayList<Integer> prestitiPrevisti2 = new ArrayList<Integer>();
-	    prestitiPrevisti2.add(1);  
-	    prestitiPrevisti2.add(2);
+	    prestitiPrevisti2.add(2);  
+	    prestitiPrevisti2.add(3);
 		
         assert model.getFruitore(1).getPrestiti().containsAll(prestitiPrevisti2) && prestitiPrevisti2.containsAll(model.getFruitore(1).getPrestiti())  ;
-        
+
      
 	}
 	/**
