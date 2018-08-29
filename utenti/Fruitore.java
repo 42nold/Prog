@@ -384,4 +384,5 @@ public class Fruitore extends Utente implements Serializable{
 		assert invariante() && listaId != null && fruitorePre == this;
 		return listaId;
 	}
+	
 }

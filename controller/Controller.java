@@ -160,13 +160,13 @@ public class Controller  implements Serializable{
 			return ;
 			}
 
-		if(model.categoriaHaRisorse(categoria)) gestioneRisorseCategoria(categoria);
+		if(model.categoriaHaRisorse(categoria)) gestioneRisorse(categoria,-1);
 		
 		else {
 			
 			if( !model.categoriaHaSottoCategoria(categoria) ) { 
 				view.notify("non ci sono sottocategorie n� risorse in questa categoria"); 
-				gestioneRisorseCategoria(categoria); 
+				gestioneRisorse(categoria,-1); 
 			}
 			else {
 				
@@ -175,10 +175,10 @@ public class Controller  implements Serializable{
 				
 				while (!sceltaValida) {
 					int sottoCategoriaScelta=view.scelta("Sottocategorie", model.elencoSottoCategorie(categoria));
-;
+
 					
 					if(sottoCategoriaScelta>0 ) {
-						gestioneRisorseSottocategoria(categoria,sottoCategoriaScelta-1);
+						gestioneRisorse(categoria,sottoCategoriaScelta-1);
 											
 					}
 
@@ -188,7 +188,7 @@ public class Controller  implements Serializable{
 		}		
 	}
 
-	private void gestioneRisorseSottocategoria(int categoria, int sottocategoria) {
+	private void gestioneRisorse(int categoria, int sottocategoria) {
 
 		boolean esciMenu = false;
 	
@@ -254,83 +254,6 @@ public class Controller  implements Serializable{
 			}
 		}
 	}
-
-
-	/**
-	 * chiede all'utente e attua le opzioni disponibili per le risorse
-	 * @pre true 
-	 * @post true
-	 */
-
-	private void gestioneRisorseCategoria(int categoria) {
-
-
-		
-		boolean esciMenu = false;
-	
-		while(!esciMenu) {
-	
-			int scelta =view.scelta(TITOLO_MENU_GESTIONERISORSA, OPZIONI);
-
-		
-			if (scelta == 0 ) esciMenu=true;		
-			
-			String[] elenco = model.elencoRisorse(categoria, -1);
-			if(elenco==null && scelta!=2) {
-				view.notify("Nessuna risorsa presente"); 
-				
-				return; 			
-			}
-			
-			switch(scelta) {
-			
-				case 1:
-					
-					view.notify("Risorse contenute in " + model.elencoCategorie()[categoria] + " :" );				
-					
-					for (int i=0; i<elenco.length; i++) {
-						
-						view.notify( (i+1) + ") " +elenco[i]);
-					}
-					
-					view.notify("\n");		
-					break;
-					
-				case 2:
-					
-					aggiungiRisorsaCategoria(categoria,-1);
-					break;
-				
-				case 3:
-					
-				    int risorsaDaEliminare = view.scelta("Scegli la risorsa da eliminare", elenco);
-
-					
-					if (risorsaDaEliminare==0) break;
-					
-					//risorsaDaEliminare -1 rappresenta l'attuale posizione nell'array della risorsa
-					model.rimuoviRisorsa(model.getId(risorsaDaEliminare-1,categoria,-1),categoria);		
-					break;
-					
-				case 4:
-					
-				
-					int risorsaDaModificare = view.scelta("Scegli la risorsa da modificare", elenco);
-
-						
-					if (risorsaDaModificare==0) break;
-					
-					//risorsaDaModificare -1 rappresenta l'attuale posizione nell'array della risorsa
-					modifica(model.getId(risorsaDaModificare-1,categoria,-1),categoria);
-					
-					break;
-					
-				default:
-					break;				
-			}
-		}
-	}
-
 
 	/*private void aggiungiRisorsaCategoria(int categoria,int sottocategoria) {
 
@@ -405,12 +328,8 @@ public class Controller  implements Serializable{
 		public  void salvaArchivio() {//e storico
 			
 			model.salvaArchivio();	
-			
-			
 		}
 		
-
-
 		public  void idCorrente() {
 			model.idCorrente();
 		}

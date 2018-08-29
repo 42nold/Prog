@@ -18,7 +18,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 	
 	protected ArrayList<String> descrizioneCampi;
 	protected String nome;
-	protected ArrayList<T> risorse;
+	protected ArrayList<Risorsa> risorse;
 	protected static int idRisorsa=0;														
 	protected int idCategoria;
 	private int durataMassimaPrestito;
@@ -35,7 +35,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 	 */
 	public  Categoria(String nome, int durataMassimaPrestito, int durataMassimaProroga, int termineProroga, int maxRisorse, int id) {		
 		
-		risorse = new ArrayList<T>();
+		risorse = new ArrayList<Risorsa>();
 		
 		descrizioneCampi=new ArrayList<String>();
 		
@@ -53,7 +53,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 	public Categoria (String nome) {
 		this.nome=nome;
 		descrizioneCampi=new ArrayList<String>();
-		risorse = new ArrayList<T>();
+		risorse = new ArrayList<Risorsa>();
 	}
 	/**
 	 * cerca nelle risorse libro l'indice di risorsa massimo
@@ -419,8 +419,9 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 			for(Risorsa r : risorse) 
 				if ((r.getValue(ID)).equals(idRisorsa)) 
 					return idCategoria;
-				
+
 		return -1;
+		
 	}
 /**
  * verifica che le propriet� invarianti della classe siano mantenute 
