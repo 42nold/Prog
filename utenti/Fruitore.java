@@ -36,7 +36,7 @@ public class Fruitore extends Utente implements Serializable{
 		} else {
 			prestitoAttuale = 0;
 		}
-		assert invariante();
+		//assert invariante();
 	}
 	
 	/**
@@ -384,4 +384,5 @@ public class Fruitore extends Utente implements Serializable{
 		assert invariante() && listaId != null && fruitorePre == this;
 		return listaId;
 	}
+	
 }

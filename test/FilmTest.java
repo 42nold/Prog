@@ -30,12 +30,16 @@ public class FilmTest {
 	public void matchs() {
 
 		assert film.match("reg", REGISTA) ;
-		assert !film.match("r", REGISTA) ;
-		assert !film.match("", REGISTA) ;
+		assert film.match("r", REGISTA) ;
+		assert film.match("", REGISTA) ;
 		
+		assert !film.match("f", REGISTA) ;
+		assert !film.match("1", REGISTA) ;
+		assert !film.match("i", REGISTA) ;
+
 		assert film.match("casa", CASAPRODUZIONE) ;
 		assert !film.match("casas", CASAPRODUZIONE) ;
-		assert !film.match("", CASAPRODUZIONE) ;
+		assert !film.match("cassa", CASAPRODUZIONE) ;
 		
 		assert film.match(5, DURATA) ;
 		assert !film.match(4, DURATA) ;

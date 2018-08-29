@@ -144,15 +144,14 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 		//assert invariante();
 		//CategoriaPrimoLivello<T> thisPre = this;
 		
-		boolean trovato = false;
 		if(hasSottoCategoria())
 			for (int i = 0; i < sottocategorie.size(); i++) {
 				if (sottocategorie.get(i).cercaRisorsa(risorsaScelta)) 
-					trovato = true;
+					return true;
 			}
-		
 		//assert invariante() && thisPre==this;
-		return trovato;
+		return super.cercaRisorsa(risorsaScelta);
+	
 	}
 
 
@@ -373,7 +372,7 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 				if (id!=-1) 
 					return id;
 			}	
-		return -1;
+		return super.getIdCategoria(idRisorsa);
 	}
 
 

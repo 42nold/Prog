@@ -108,7 +108,7 @@ public class Prestito implements Serializable{
 	 * @return true se il prestito � in scadenza
 	 */
 	public boolean inScadenza() {
-		assert invariante();
+	//	assert invariante();
 		Prestito prestitoPre = this;
 		
 		Calendar ceiling = Calendar.getInstance();
