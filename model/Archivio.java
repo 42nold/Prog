@@ -553,10 +553,7 @@ public class Archivio implements Serializable {
 		categorie.get(categoria).aggiungiRisorsaEAggiornaStorico(nuoviAttributi,sottocategoria);
 	}
 
-
 	public ArrayList<String> getDescrizioneCampiRisorsa(int categoriaScelta){
 		return categorie.get(categoriaScelta-1).getDescrizioneCampi();
 	}
-
-	
 }

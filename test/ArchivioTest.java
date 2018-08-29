@@ -2,13 +2,19 @@ package test;
 
 import static org.junit.Assert.*;
 import java.util.*;
-import org.junit.Test;
-import model.Archivio;
+import org.junit.*;
+import model.*;
 import risorse.*;
 
 public class ArchivioTest {
+	Model model;
+	Archivio archivio;
 	
-	Archivio archivio = new Archivio();
+	@Before
+	public void initialize(){
+		model = new Model();
+		archivio = new Archivio();
+	}
 	
 	@Test
 	public void testElencoCategorie() {
@@ -26,13 +32,14 @@ public class ArchivioTest {
 		
 		Libro libro = new Libro(0, "0", "tit", "tit", 2000, "2000", 5, "5", "aut", "aut", "gen", "gen", "lin", "lin", "casa", "casa", 100, "100");
 		
-		int categoria = 0;
-		int sottocategoria = 0;
+		int categoria = 0; //libri
+		int sottocategoria = 0; //Horror
+		
 		ArrayList<Object> nuoviAttributi = new ArrayList<>();
 		nuoviAttributi.add(libro);
-		archivio.aggiungiRisorsa(nuoviAttributi, categoria, sottocategoria);
+		model.aggiungiRisorsa(nuoviAttributi, categoria, sottocategoria);
 		
-		assertTrue(archivio.categoriaHaRisorse(0));
+		assertTrue(true);
 	}
 
 }
