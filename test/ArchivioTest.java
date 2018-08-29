@@ -7,14 +7,35 @@ import model.*;
 import risorse.*;
 
 public class ArchivioTest {
-	Model model;
 	Archivio archivio;
 	
 	@Before
 	public void initialize(){
-		model = new Model();
 		archivio = new Archivio();
+		
+		int categoria = 0; //libri
+		int sottocategoria = 0; //Horror
+		
+		ArrayList<Object> nuoviAttributi = new ArrayList<>();
+		
+		nuoviAttributi.add("5");
+		nuoviAttributi.add(5);
+		nuoviAttributi.add(5);
+		nuoviAttributi.add("5");
+		nuoviAttributi.add("5");
+		nuoviAttributi.add("5");
+		nuoviAttributi.add("5");
+		nuoviAttributi.add(5);
+		
+		nuoviAttributi.add("5");
+		nuoviAttributi.add(5);
+		nuoviAttributi.add(5);
+		nuoviAttributi.add("5");
+		
+		archivio.aggiungiRisorsa(nuoviAttributi, categoria, sottocategoria);
 	}
+	
+	
 	
 	@Test
 	public void testElencoCategorie() {
@@ -27,29 +48,24 @@ public class ArchivioTest {
 		assertFalse(archivio.categoriaHaRisorse(0));
 	}
 	
+	@Test
+	public void categoriaHaSottoCategoria() {
+		assertTrue(archivio.categoriaHaSottoCategoria(0));
+	}
 	
-	
+	@Test
+	public void elencoSottoCategorie() {
+		assertTrue(archivio.categoriaHaSottoCategoria(0));
+	}
 	
 	@Test
 	public void testCategoriaHaRisorse1() {
+		//System.out.println(archivio.getDescrizioneRisorsa(0));
+		assertFalse(archivio.categoriaHaRisorse(0));
+		assert archivio.getDescrizioneRisorsa(0) != null;
 		
-		Libro libro = new Libro(10, "0", "tit", "tit", 2000, "2000", 5, "5", "aut", "aut", "gen", "gen", "lin", "lin", "casa", "casa", 100, "100");
-		
-		int categoria = 0; //libri
-		int sottocategoria = 0; //Horror
-		
-		ArrayList<Object> nuoviAttributi = new ArrayList<>();
-		nuoviAttributi.add("5");
-		nuoviAttributi.add(5);
-		nuoviAttributi.add(5);
-		nuoviAttributi.add("5");
-		nuoviAttributi.add("5");
-		nuoviAttributi.add("5");
-		nuoviAttributi.add("5");
-		nuoviAttributi.add(5);
-		
-		model.aggiungiRisorsa(nuoviAttributi, categoria, sottocategoria);
-		assertTrue(true);
 	}
-
+	
+	
+	
 }
