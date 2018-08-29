@@ -24,7 +24,7 @@ public class ArchivioTest {
 	@Test
 	public void testCategoriaHaRisorse1() {
 		
-		Libro libro = new Libro(0, null, null, null, 0, null, 0, null, null, null, null, null, null, null, null, null, 0, null);
+		Libro libro = new Libro(0, "0", "tit", "tit", 2000, "2000", 5, "5", "aut", "aut", "gen", "gen", "lin", "lin", "casa", "casa", 100, "100");
 		
 		int categoria = 0;
 		int sottocategoria = 0;

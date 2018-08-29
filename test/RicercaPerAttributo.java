@@ -1,13 +1,9 @@
 package test;
 
 import static org.junit.Assert.*;
-
-import java.util.Calendar;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import controller.Controller;
+import java.util.*;
+import org.junit.*;
+import controller.*;
 import model.*;
 import view.*;
 
@@ -25,8 +21,6 @@ public class RicercaPerAttributo {
 		data_scadenza.add(Calendar.YEAR, 5);
 		
 		model.addFruitore("a", "a", 33, "a", "a", data_iscrizione, data_scadenza);
-		
-		
 	}
 	
 
