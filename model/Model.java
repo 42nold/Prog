@@ -255,7 +255,7 @@ public class Model extends Observable {
 					 * @post @nochange
 					 */
 						public  void salvaFruitoriOperatori() {
-								assert	invariante() ;	
+								//assert	invariante() ;	
 								ArrayList<Operatore> operatoriPre = operatori ;
 								ArrayList<Fruitore> fruitoriPre = fruitori ;
 								Archivio archivioPre = archivio ;
@@ -263,7 +263,7 @@ public class Model extends Observable {
 								Save.salvaDatiSuFile(NOMEFILEFRUITORI, fruitori);
 								Save.salvaDatiSuFile(NOMEFILEOPERATORI, operatori);
 									
-									assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
+								//assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
 								}
 						
 						/**
@@ -286,7 +286,7 @@ public class Model extends Observable {
 										
 										if(operatori.size()==0) {operatori.add(new Operatore("admin", "admin", 18, "admin", "admin")) ; }     //inizializzazione di default 
 																				
-										assert invariante() ;				  
+										//assert invariante() ;				  
 									 }
 							
 							/** 
@@ -294,8 +294,8 @@ public class Model extends Observable {
 							 * @pre true 
 							 * @post @nochange
 							 */
-								public  void salvaArchivio() {//e storico
-									assert invariante();
+								public  void salvaArchivio() {
+									//assert invariante();
 									ArrayList<Operatore> operatoriPre = operatori ;
 									ArrayList<Fruitore> fruitoriPre = fruitori ;
 									Archivio archivioPre = archivio ;
@@ -303,7 +303,7 @@ public class Model extends Observable {
 									archivio.salvaDati();	
 									storico.salvaDati();
 									
-									assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
+									//assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
 								}
 				
 								

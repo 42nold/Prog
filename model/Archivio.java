@@ -218,9 +218,8 @@ public class Archivio implements Serializable {
 	 * @post @nochange
 	 */
 	public void salvaDati() {
-		Archivio archivioPre = this;
 		
-		save.salvaDatiSuFile(NOMEFILECATEGORIE, categorie);
+		Save.salvaDatiSuFile(NOMEFILECATEGORIE, categorie);
 	}
 	
 		
