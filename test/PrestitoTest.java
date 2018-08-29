@@ -13,14 +13,14 @@ public class PrestitoTest {
 	@Before
 	public void inizia() {
 		Calendar scadenza = Calendar.getInstance();
-		scadenza.add(Calendar.DAY_OF_YEAR, 1);
+		scadenza.add(Calendar.DAY_OF_YEAR, 0);
 		prestito =new Prestito(5,5,"des",Calendar.getInstance(),scadenza,5,5);
 	}
 	
 	@Test
 	public void testInScadenza() {
 		
-		assert !prestito.inScadenza();
+		assert prestito.inScadenza();
 		
 		aggiungiFine(prestito.getTermineProroga()-1);
 		

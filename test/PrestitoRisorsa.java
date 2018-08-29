@@ -7,8 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import controller.Controller;
-import it.unibs.ing.mylib.BelleStringhe;
-import it.unibs.ing.mylib.Stampa;
 import model.Model;
 import view.BibliotecaView;
 
