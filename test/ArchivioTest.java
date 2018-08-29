@@ -55,7 +55,7 @@ public class ArchivioTest {
 	
 	@Test
 	public void elencoSottoCategorie() {
-		assertTrue(archivio.categoriaHaSottoCategoria(0));
+		assertTrue(archivio.categoriaHaSottoCategoria(1));
 	}
 	
 	@Test
