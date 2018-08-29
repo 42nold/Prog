@@ -1,6 +1,8 @@
 package risorse;
 
-public class AttributoIntero implements Attributo{
+import java.io.Serializable;
+
+public class AttributoIntero implements Attributo,Serializable{
 	
 	String descrizione;
 	int value;
