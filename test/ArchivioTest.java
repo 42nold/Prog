@@ -30,7 +30,6 @@ public class ArchivioTest {
 	
 	
 	
-	/////////////////////////////////////////////////////
 	@Test
 	public void testCategoriaHaRisorse1() {
 		
@@ -40,9 +39,16 @@ public class ArchivioTest {
 		int sottocategoria = 0; //Horror
 		
 		ArrayList<Object> nuoviAttributi = new ArrayList<>();
-		nuoviAttributi.add(libro);
-		//model.aggiungiRisorsa(nuoviAttributi, categoria, sottocategoria);
-		archivio.aggiungiRisorsa(nuoviAttributi, categoria, sottocategoria);
+		nuoviAttributi.add("5");
+		nuoviAttributi.add(5);
+		nuoviAttributi.add(5);
+		nuoviAttributi.add("5");
+		nuoviAttributi.add("5");
+		nuoviAttributi.add("5");
+		nuoviAttributi.add("5");
+		nuoviAttributi.add(5);
+		
+		model.aggiungiRisorsa(nuoviAttributi, categoria, sottocategoria);
 		assertTrue(true);
 	}
 
