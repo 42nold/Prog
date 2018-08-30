@@ -1,46 +1,26 @@
 package controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
 import view.*;
-import it.unibs.ing.mylib.BelleStringhe;
-import it.unibs.ing.mylib.MyMenu;
-import it.unibs.ing.mylib.Stampa;
-import model.Model;
-import view.MyView;
+import it.unibs.ing.mylib.*;
+import model.*;
 
 @SuppressWarnings("serial")
-
 public class Controller  implements Serializable{
-	/**
-	 * @invariant invariante() 
-	 */
-	
-	
-	
-	
 	
 	private static final String TITOLO_SELEZIONA_ATTRIBUTO = "Scegli attributo con cui filtrare la ricerca";
 	private static final String[] vociMenuSelezionaAttributo = {"Nome","Autore/Regista","Casa editrice/Casa Di produzione","Genere","Lingua","Anno di pubblicazione","Numero di pagine", "Durata"};
-	
-	
 	private static final String[] opzioniDiricerca = {"Ricerca per attributo", "Ricerca navigando l'archivio"};
 	private static final String TITOLO_CATEGORIA = "Scegli la categoria";
 	private static final String TITOLO_SOTTOCATEGORIA = "Scegli la sottocategoria";
-	
-
 	private static final String MESSAGGIO_ERRORE = "Scelta non valida";
 	private static final String TITOLO_MENU_OPERATORE = "Menu Operatore.";
 	private static final String[] VOCI_MENU_OPERATORE = {"Visualizza dati fruitori", "Visualizza dati e prestiti dei fruitori", "Apri archivio","visualizza storico"};
 	private static final String[] OPZIONI_MENU_RICERCA = {"Esplora archivio", "Ricerca per attributo"};
-	
-	
 	private static final String ERROREINPUT="\n\nErrore nell'input";
 	private static final String TITOLO_MENU_GESTIONERISORSA= "Opzioni disponibili";
-	private static final String[] OPZIONI = {"visualizza risorse","aggiungi risorsa","elimina risorsa","modifica risorsa"} ;
-	
-	
+	private static final String[] OPZIONI = {"visualizza risorse","aggiungi risorsa","elimina risorsa","modifica risorsa"};
 	private static final String TITOLO_MENU_STORICO = "scegli l'opzione desiderata";
 	private static final String[] vociMenuStorico = {"visualizza storico completo","visualizza numero prestiti per anno solare","visualizza numero proroghe per anno solare","visualizza risorsa prestata piï¿½ volte per anno solare","visualizza i prestiti per fruitore per anno solare"};
 	private static final String TITOLO_ELI_O_MOD = "seleziona l'azione desiderata";
@@ -52,40 +32,45 @@ public class Controller  implements Serializable{
 	private static final String TITOLO = "Scegli tra le seguenti opzioni";
 	private static final String[] VOCI = {"Login","Registrati"};
 	private static final String ARRIVEDERCI = "Arrivederci";
-	
 	private static final String NOMEFILEFRUITORI = "Fruitori.dat";
 	private static final String TITOLO_MENU_PRESTITO = "Scegli come desideri cercare la risorsa da aggiungere.";
 	private static final String BUON_FINE = "Operazione eseguita correttamente";
-	private static final String MESSAGGIO_PRESTITO_NON_CONCESSO = "Non si può ottenere questa risorsa in prestito";
+	private static final String MESSAGGIO_PRESTITO_NON_CONCESSO = "Non si puï¿½ ottenere questa risorsa in prestito";
 	private static final String TITOLO_IN_SCADENZA = "Ecco i prestiti in scadenza";
 	private static final String NO_IN_SCADENZA = "Non ci sono prestiti in scadenza";
 	private static final String TITOLO_MENU_FRUITORE = "Menu Fruitore";
 	private static final String[] VOCIMENUFRUITORE = {"Visualizza Prestiti", "Richiedi prestito", "Rinnova prestito", "Rinnovo iscrizione"};
 	private static final String TITOLO_RISORSE = "Scegli la risorsa da selezionare";
-
 	private static final String NOMEFILEOPERATORI = "Operatori.dat";
-
+	
 	private Model model;
 	private MyView view ;
-
 	
 	public Controller(Model model , MyView view) {
-		this.model = model ;
-		this.view = view ;
-	
 		
+		this.model = model ;
+		this.view = view ;	
 	}
 	
-	
 	protected void start() {
-
 		importaFruitori();
-		importaOperatori();//caricare fruitori e operatori da file a inizio sessione
-		importaArchivio();//importa archivio da file 
-		eliminaDecaduti();//cerco decaduti a inizio di ogni sessione
+		importaOperatori();   //caricare fruitori e operatori da file a inizio sessione
+		importaArchivio();    //importa archivio da file 
+		eliminaDecaduti();    //cerco decaduti a inizio di ogni sessione
 		eliminaPrestitiScaduti();
 		idCorrente();		
 		
+		interact();
+		
+		salvaFruitori();
+		salvaOperatori();   //salvare fruitori e Operatori a fine sessione su file
+		salvaArchivio();   //salvaArchivio su file
+	}
+
+	/**
+	 * Gestisce l'interazione con l'utente.
+	 */
+	private void interact() {
 		view.notify("Benvenuto  ");
 		
 		int scelta;
@@ -94,8 +79,7 @@ public class Controller  implements Serializable{
 		do {
 			scelta = view.scelta(TITOLO, VOCI);
 			
-			
-			switch (scelta) {
+			switch (scelta){
 				case 0:
 					break;
 					
@@ -114,14 +98,7 @@ public class Controller  implements Serializable{
 					view.notify(MESSAGGIO_ERRORE);
 					break;
 			}
-			
 		} while (scelta != 0);
-		
-		
-		
-		salvaFruitori();
-		salvaOperatori();//salvare fruitori e Operatori a fine sessione su file
-		salvaArchivio();        //salvaArchivio su file
 		
 		view.notify(BelleStringhe.incornicia(ARRIVEDERCI));
 	}
@@ -296,6 +273,7 @@ public class Controller  implements Serializable{
 	}
 	
 	private String[] getDescrizioneCampiRisorsa(int categoriaScelta) {
+		
 		ArrayList<String> campiRisorsaList =new ArrayList();
 		campiRisorsaList=model.getDescrizioneCampiRisorsa(categoriaScelta);
 		
@@ -306,38 +284,34 @@ public class Controller  implements Serializable{
 		
 		return s;
 	}
+	
 	/**
 	 * carica i dati dell'archivio  e dello storico da file
 	 * @pre true
 	 * @post fruritoriOperatoriNoChange()
 	 */
-		public  void importaArchivio() {
-			
-			
-			model.importaDati();
-			
-			view = new BibliotecaView();
-
-			
-		}
+	public  void importaArchivio() {
+		
+		model.importaDati();
+		view = new BibliotecaView();		
+	}
+	
 	/** 
 	 * salva dati dell'archivio e dello storico su file
 	 * @pre true 
 	 * @post @nochange
 	 */
-		public  void salvaArchivio() {//e storico
-			
-			model.salvaArchivio();	
-		}
+	public  void salvaArchivio() {//e storico
+		model.salvaArchivio();	
+	}
 		
-		public  void idCorrente() {
-			model.idCorrente();
-		}
+	public  void idCorrente() {
+		model.idCorrente();
+	}
+	
+	private void azioneDaRicerca(int id, int eliMod, int categoria) {
 		
-
-private void azioneDaRicerca(int id, int eliMod, int categoria) {
-
-			switch (eliMod) {
+		switch (eliMod) {
 			case 1:
 				view.notify(model.showRisorsa(id,categoria));
 				break;
@@ -352,8 +326,8 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 		}	
 	}
 	
-
 	private void modifica(int id , int categoria) {
+		
 		try {
 			ArrayList<String> campiRisorsa = model.getDescrizioneCampi(categoria);
 			
@@ -393,7 +367,7 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 	}
 		
 	private  String iscrizioneFruitore() {
-				
+		
 		String nome, cognome, password, username;
 		int eta;
 		Calendar data_iscrizione, data_scadenza;
@@ -412,7 +386,7 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 		do {
 			username=view.StringaNonVuota("Inserisci username\n");
 			if (model.posizioneFruitore(username) != -1)
-				view.notify("username già presente \n");
+				view.notify("username giï¿½ presente \n");
 			else
 				finito=true;
 		}while(!finito);
@@ -427,7 +401,6 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 			
 		return username;	
 	}
-	
 	
 	private  void eliminaDecaduti() {
 		model.eliminaDecaduti();
@@ -469,7 +442,6 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 		return model.elencoFruitori();
 	}
 	
-
 	private  String elencoFruitoriFull() {
 		
 		if(model.hasFruitori()) view.notify("elenco fruitori vuoto");
@@ -600,7 +572,6 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 	 */
 	private  int selezionaRisorsa() {
 		
-		
 		int risorsaScelta = -1;
 		
 		MyMenu menuPrestito = new MyMenu(TITOLO_MENU_PRESTITO, opzioniDiricerca);
@@ -680,7 +651,6 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 			assert  risorsaScelta>=-1;		
 			return risorsaScelta;
 	}
-	
 	
 	private  void salvaFruitori() {
 		model.salvaFruitoriOperatori();
@@ -835,40 +805,38 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 			}
 			
 			return false;
-		}
+	}
 				
-		/**
-		 *  cerca l'operatore scelto e restituisco la sua posizione nell'array
-		 * @param username dell'operatore scelto
-		 * @return il valore della sua posizione nell'array
-		 * @pre username!= null && username!= ""
-		 * @post @nochange
-		 */
-		private  int posizioneOperatore(String username) {	
-			assert  username!= null && username!= "" ;
+	/**
+	 *  cerca l'operatore scelto e restituisco la sua posizione nell'array
+	 * @param username dell'operatore scelto
+	 * @return il valore della sua posizione nell'array
+	 * @pre username!= null && username!= ""
+	 * @post @nochange
+	 */
+	private  int posizioneOperatore(String username) {	
+		assert  username!= null && username!= "" ;
 			
-			
-			for (int i=0; i<model.sizeOperatori(); i++) 
-				if(model.verificaUsernameOperatore(i,username)) {
+		for (int i=0; i<model.sizeOperatori(); i++) 
+			if(model.verificaUsernameOperatore(i,username)) {
 					
-					
-					return i;
-				}
-			
-			return -1;
+				return i;
 		}
+			
+		return -1;
+	}
 
-		private String elencoOperatori() {
+	private String elencoOperatori() {
 		return model.elencoOperatori();
 	}
 				
-		private  void salvaOperatori() {
+	private  void salvaOperatori() {
 		model.salvaFruitoriOperatori();
 	}	
 			
-		private  void importaOperatori() {
+	private  void importaOperatori() {
 		model.importaFruitoriOperatori();					  
-	 }
+	}
 
 	/**
 	 * metodo per la ricerca di risorse tramite attributo , richiesta all'utente su ricerca da eseguire e su azione da compiere sulla risorsa	
@@ -876,7 +844,6 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 	 * @pre attributoScelto>=0
 	 * @post true
 	 */
-		
 	private  void cercaPerAttributoOmode(int attributoScelto) {
 		try {
 			Object parametro;
@@ -912,7 +879,4 @@ private void azioneDaRicerca(int id, int eliMod, int categoria) {
 			view.notify(ERROREINPUT);
 		}
 	}
-
-
-
 }
