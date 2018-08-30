@@ -1,6 +1,8 @@
 package storico;
 
-public interface StoricoInterface {
+import java.util.Observer;
+
+public interface StoricoInterface extends Observer{
 
 	public String getDescrizione();
 	
@@ -13,4 +15,6 @@ public interface StoricoInterface {
 	public void salvaDati();
 	
 	public void importaDati();
+
+	public int size();
 }

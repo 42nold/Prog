@@ -3,6 +3,7 @@ package model;
 import java.util.*;
 import storico.Evento;
 import storico.Storico;
+import storico.StoricoInterface;
 import utenti.Fruitore;
 import utenti.Operatore;
 import utility.Load;
@@ -35,7 +36,7 @@ public class Model extends Observable {
 	private static final int VALORE_NULLO_EVENTI = -1;
 	
 	private Archivio archivio;
-	private Storico storico;
+	private StoricoInterface storico;
 	private static ArrayList<Operatore> operatori;
 	private static ArrayList<Fruitore> fruitori; 
 
@@ -170,7 +171,7 @@ public class Model extends Observable {
 						for (int j=0; j<prestitiScaduti.size(); j++) {
 							catRisorsa=archivio.trovaIdCategoria(prestitiScaduti.get(j));
 							if(catRisorsa==0 || catRisorsa==1)
-								archivio.aggiornaLicenze(prestitiScaduti.get(j), 1); //1 � il mio flag per incrementare numeroLicenze
+								archivio.aggiornaLicenze(prestitiScaduti.get(j), 1);      //1 � il mio flag per incrementare numeroLicenze
 							
 							if(archivio.numeroLicenzeRisorsa(prestitiScaduti.get(j))==1) {
 								setChanged();
@@ -646,7 +647,7 @@ public class Model extends Observable {
 		public Archivio getArchivio() {
 			return archivio;
 		}
-		public Storico getStorico() {
+		public StoricoInterface getStorico() {
 			return storico;
 		}
 }

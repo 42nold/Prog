@@ -244,7 +244,7 @@ public class Storico implements StoricoInterface, Serializable, Observer{
 	 * @post @nochange
 	 * @return lunghezza dell'array
 	 */
-	public static int size() {
+	public int size() {
 		assert invariante() ;
 		ArrayList<Evento> storiaPre = storia;
 
