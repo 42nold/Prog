@@ -346,6 +346,8 @@ public class Model extends Observable {
 										assert invariante() ;
 										return false;
 									}
+			
+									
 				public void addFruitore(String nome,String cognome,int eta,String username,String password,Calendar data_iscrizione,Calendar data_scadenza) {
 
 

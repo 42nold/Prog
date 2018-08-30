@@ -1,120 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence-diagram version="1.2.2" icons="true" generate-combined-fragments="true">  
-  <object id="1" language="java" name="view.MyView" project="ProgMaster" file="/ProgMaster/view/MyView.java" 
-    binary="false" label="view" type="interface" autoSize="false">    
-    <position height="609" width="212" x="0" y="0"/>    
+  <object id="1" language="java" name="model.Model" project="ProgMaster" file="/ProgMaster/model/Model.java" 
+    binary="false" label="model" type="class" autoSize="false">    
+    <position height="310" width="139" x="0" y="0"/>    
     <execution id="2">      
-      <position height="21" width="0" x="0" y="172"/>    
-    </execution>    
-    <execution id="3">      
-      <position height="21" width="0" x="0" y="214"/>    
+      <position height="343" width="57" x="5" y="164"/>    
     </execution>    
     <execution id="4">      
-      <position height="21" width="0" x="0" y="256"/>    
-    </execution>    
-    <execution id="5">      
-      <position height="21" width="0" x="0" y="336"/>    
-    </execution>    
-    <execution id="6">      
-      <position height="21" width="0" x="0" y="426"/>    
-    </execution>    
-    <execution id="7">      
-      <position height="21" width="0" x="0" y="506"/>    
+      <position height="280" width="57" x="5" y="206"/>    
     </execution>    
     <execution id="8">      
-      <position height="21" width="0" x="0" y="568"/>    
+      <position height="21" width="7" x="72" y="284"/>    
     </execution>    
-    <execution id="9">      
-      <position height="21" width="67" x="88" y="99"/>    
+    <execution id="12">      
+      <position height="86" width="7" x="72" y="379"/>    
     </execution>  
   </object>  
-  <object id="10" language="java" name="controller.Controller" project="ProgMaster" 
-    file="/ProgMaster/controller/Controller.java" binary="false" label="controller" type="class" autoSize="false">    
-    <position height="861" width="240" x="279" y="0"/>    
-    <execution id="11">      
-      <position height="763" width="79" x="5" y="78"/>    
-    </execution>    
-    <execution id="14">      
-      <position height="679" width="79" x="5" y="141"/>    
-    </execution>  
-  </object>  
-  <object id="24" language="java" name="model.Model" project="ProgMaster" file="/ProgMaster/model/Model.java" 
-    binary="false" label="model" type="class" autoSize="false">    
-    <position height="819" width="190" x="452" y="0"/>    
-    <execution id="23">      
-      <position height="63" width="0" x="0" y="736"/>    
-    </execution>  
-  </object>  
-  <object id="27" language="java" name="utenti.Fruitore" project="ProgMaster" file="/ProgMaster/utenti/Fruitore.java" 
+  <object id="15" language="java" name="utenti.Fruitore" project="ProgMaster" file="/ProgMaster/utenti/Fruitore.java" 
     binary="false" label="fruitore" type="class" autoSize="false">    
-    <position height="798" width="206" x="642" y="0"/>    
-    <execution id="26">      
-      <position height="21" width="67" x="220" y="757"/>    
+    <position height="268" width="152" x="139" y="0"/>    
+    <execution id="6">      
+      <position height="21" width="67" x="66" y="236"/>    
     </execution>  
   </object>  
-  <combined-fragment id="28" interaction-operator="OPT">    
-    <interaction-operand id="29" constraint="eta&lt;18">      
-      <fragment refId="18"/>    
+  <object id="16" language="java" name="storico.Evento" project="ProgMaster" file="/ProgMaster/storico/Evento.java" 
+    binary="false" label="evento" type="class" autoSize="false">    
+    <position height="99" width="88" x="371" y="0"/>    
+    <execution id="10">      
+      <position height="21" width="84" x="376" y="315"/>    
+    </execution>  
+  </object>  
+  <object id="17" language="java" name="java.util.Observer" project="ProgMaster" 
+    file="C:/Program Files/Java/jdk1.7.0_75/jre/lib/rt.jar" binary="true" label="observer" type="interface" 
+    autoSize="true">    
+    <position height="-1" width="-1" x="765" y="0"/>    
+    <execution id="14">      
+      <position height="21" width="76" x="296" y="423"/>    
+    </execution>  
+  </object>  
+  <object id="18" language="java" name="model.Model" project="ProgMaster" file="/ProgMaster/model/Model.java" 
+    binary="false" label="model1" type="class" autoSize="false">    
+    <position height="275" width="162" x="459" y="0"/>    
+    <execution id="19">      
+      <position height="105" width="142" x="464" y="150"/>    
+    </execution>  
+  </object>  
+  <object id="22" language="java" name="storico.Storico" project="ProgMaster" file="/ProgMaster/storico/Storico.java" 
+    binary="false" label="storico" type="class" autoSize="false">    
+    <position height="99" width="180" x="605" y="0"/>    
+    <execution id="21">      
+      <position height="63" width="176" x="610" y="171"/>    
+    </execution>  
+  </object>  
+  <object id="25" language="java" name="java.util.ArrayList" project="ProgMaster" 
+    file="C:/Program Files/Java/jdk1.7.0_75/jre/lib/rt.jar" binary="true" label="storia" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="24">      
+      <position height="21" width="0" x="0" y="192"/>    
+    </execution>  
+  </object>  
+  <combined-fragment id="26" interaction-operator="LOOP">    
+    <interaction-operand id="27" constraint="do !finito">      
+      <fragment refId="28"/>    
     </interaction-operand>  
   </combined-fragment>  
-  <combined-fragment id="30" interaction-operator="LOOP">    
-    <interaction-operand id="31" constraint="do !finito">      
-      <fragment refId="32"/>      
-      <fragment refId="19"/>    
-    </interaction-operand>    
-    <combined-fragment id="32" interaction-operator="ALT">      
-      <interaction-operand id="33" constraint="model.posizioneFruitore(username) != -1">        
-        <fragment refId="20"/>      
-      </interaction-operand>      
-      <interaction-operand id="34" constraint="else"/>    
-    </combined-fragment>  
+  <combined-fragment id="29" interaction-operator="CRITICAL">    
+    <interaction-operand id="30" constraint="?">      
+      <fragment refId="31"/>      
+      <fragment refId="32"/>    
+    </interaction-operand>  
   </combined-fragment>  
-  <message id="12" operation="scelta(java.lang.String,java.lang.String[]):int" asynchronous="true">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="9"/>  
-  </message>  
-  <message id="13" operation="iscrizioneFruitore():java.lang.String" asynchronous="false">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="14"/>  
-  </message>  
-  <message id="15" operation="StringaNonVuota(java.lang.String):java.lang.String" asynchronous="false">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="2"/>  
-  </message>  
-  <message id="16" operation="StringaNonVuota(java.lang.String):java.lang.String" asynchronous="false">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="3"/>  
-  </message>  
-  <message id="17" operation="InteroNonNegativo(java.lang.String):int" asynchronous="false">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="4"/>  
-  </message>  
-  <message id="18" operation="notify(java.lang.String):void" asynchronous="false">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="5"/>  
-  </message>  
-  <message id="19" operation="StringaNonVuota(java.lang.String):java.lang.String" asynchronous="false">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="6"/>  
-  </message>  
-  <message id="20" operation="notify(java.lang.String):void" asynchronous="false">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="7"/>  
-  </message>  
-  <message id="21" operation="StringaNonVuota(java.lang.String):java.lang.String" asynchronous="false">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="8"/>  
-  </message>  
-  <message id="22" 
+  <message id="3" 
     operation="addFruitore(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,java.util.Calendar,java.util.Calendar):void" 
     asynchronous="false">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="23"/>  
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
   </message>  
-  <message id="25" 
+  <message id="5" 
     operation="Fruitore(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,java.util.Calendar,java.util.Calendar)" 
     asynchronous="false">    
-    <end type="SOURCE" refId="23"/>    
-    <end type="TARGET" refId="26"/>  
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </message>  
+  <message id="7" operation="setChanged():void" asynchronous="true">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="8"/>  
+  </message>  
+  <message id="9" operation="Evento(java.lang.String,int)" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="10"/>  
+  </message>  
+  <message id="11" operation="notifyObservers(java.lang.Object):void" asynchronous="true" x="82" y="337">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="12"/>  
+  </message>  
+  <message id="13" operation="update(java.util.Observable,java.lang.Object):void" asynchronous="false" x="90" y="397">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="14"/>  
+  </message>  
+  <message id="20" operation="update(java.util.Observable,java.lang.Object):void" asynchronous="false">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="21"/>  
+  </message>  
+  <message id="23" operation="add(E):boolean" asynchronous="false">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="24"/>  
   </message>
 </sequence-diagram>

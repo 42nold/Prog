@@ -10,7 +10,7 @@ import utility.Save;
 
 @SuppressWarnings("serial")
 
-public class Storico implements Serializable, Observer{
+public class Storico implements StoricoInterface, Serializable, Observer{
 	
 
 	/**
@@ -36,7 +36,7 @@ public class Storico implements Serializable, Observer{
 	 * @post @nochange
 	 * @return stringa con elenco di eventi 
 	 */
-	public static  String getDescrizione() {
+	public String getDescrizione() {
 		assert invariante() ;
 		ArrayList<Evento> storiaPre = storia;
 		
@@ -101,7 +101,7 @@ public class Storico implements Serializable, Observer{
 		return invariante;
 	}
 
-	public static String numEventoAnnoSolare(String nomeEvento, String descrizione,String[] nomiEventi) {
+	public String numEventoAnnoSolare(String nomeEvento, String descrizione,String[] nomiEventi) {
 		assert invariante() ;
 		assert eventoValido(nomiEventi,nomeEvento);
 		ArrayList<Evento> storiaPre = storia;
@@ -139,7 +139,7 @@ public class Storico implements Serializable, Observer{
 	 * @post @nochange
 	 * @return stringa col risultato della statistica
 	 */
-	public static String maxOccorrenzeEvento(String nomeEvento) {
+	public String maxOccorrenzeEvento(String nomeEvento) {
 		assert invariante() ;
 		ArrayList<Evento> storiaPre = storia;
 		
@@ -199,7 +199,7 @@ public class Storico implements Serializable, Observer{
 	 * @post @nochange
 	 * @return stringa col risultato della statistica
 	 */
-	public static String prestitiFruitoriAnnoSolare(String eventoPrestito) {
+	public String prestitiFruitoriAnnoSolare(String eventoPrestito) {
 		assert invariante() ;
 		ArrayList<Evento> storiaPre = storia;
 		

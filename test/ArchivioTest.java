@@ -36,7 +36,7 @@ public class ArchivioTest {
 	
 	@Test
 	public void durataPrestitoDataUnaRisorsa() {
-		int actual = archivio.durataPrestitoDataUnaRisorsa(3);
+		int actual = archivio.durataPrestitoDataUnaRisorsa(0);
 		int expected = 30;
 		assertEquals(expected, actual);
 	}
