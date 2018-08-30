@@ -26,7 +26,6 @@ public class ArchivioTest {
 		nuoviAttributi.add("5");
 		nuoviAttributi.add("5");
 		nuoviAttributi.add(5);
-		
 		nuoviAttributi.add("5");
 		nuoviAttributi.add(5);
 		nuoviAttributi.add(5);
@@ -35,7 +34,19 @@ public class ArchivioTest {
 		archivio.aggiungiRisorsa(nuoviAttributi, categoria, sottocategoria);
 	}
 	
+	@Test
+	public void durataPrestitoDataUnaRisorsa() {
+		int actual = archivio.durataPrestitoDataUnaRisorsa(3);
+		int expected = 30;
+		assertEquals(expected, actual);
+	}
 	
+	@Test
+	public void durataProrogaDataUnaRisorsa() {
+		int actual = archivio.durataProrogaDataUnaRisorsa(0);
+		int expected = 30;
+		assertEquals(expected, actual);
+	}
 	
 	@Test
 	public void testElencoCategorie() {
@@ -65,7 +76,4 @@ public class ArchivioTest {
 		assert archivio.getDescrizioneRisorsa(0) != null;
 		
 	}
-	
-	
-	
 }
