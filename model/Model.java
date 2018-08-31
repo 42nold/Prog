@@ -1,44 +1,30 @@
 package model;
 
 import java.util.*;
-import storico.Evento;
-import storico.Storico;
-import utenti.Fruitore;
-import utenti.Operatore;
-import utility.Load;
-import utility.Save;
+
+import utility.*;
+import storico.*;
+import utenti.*;
 
 public class Model extends Observable {
 	
 	private static final String NOMEFILEFRUITORI = "Fruitori.dat";
-	
 	private static final String NOMEFILEOPERATORI = "Operatori.dat";
-	
 	public static final String ISCRIZIONE_FRUITORE = "ISCRIZIONE DEL FRUITORE: ";
-	
 	public static final String FRUITORE_DECADUTO = "E' DECADUTO IL FRUITORE: ";
-	
 	public static final String RINNOVO_ISCRIZIONE = "ISCRIZIONE RINNOVATA PER IL FRUITORE: ";
-	
 	public static final String RISORSA_AGGIUNTA = "AGGIUNTA LA RISORSA : ";
-
 	public static final String RISORSA_ELIMINATA = "E' STATA ELIMINATA LA RISORSA : ";
-
 	public static final String NUOVO_PRESTITO = "NUOVO PRESTITO CONCESSO A : ";
-
 	public static final String TERMINE_DISPONIBILITA = "LA RISORSA NON E' PIU' DISPONIBILE AL PRESTITO";
-
 	public static final String PROROGA_PRESTITO = "PROROGA DEL PRESTITO A : ";
-
 	public static final String RISORSA_DISPONIBILE = "LA RISORSA E' NUOVAMENTE DISPONIBILE AL PRESTITO : ";
-	
 	private static final int VALORE_NULLO_EVENTI = -1;
 	
 	private Archivio archivio;
 	private Storico storico;
 	private static ArrayList<Operatore> operatori;
 	private static ArrayList<Fruitore> fruitori; 
-
 	
 	public Model() {
 		archivio = new Archivio();
@@ -61,6 +47,7 @@ public class Model extends Observable {
 		assert operatoriPre==operatori && fruitoriPre == fruitori && archivioPre == archivio;
 		return invariante ;
 	}
+	
 	/**
 	 * verifica se il fruitore relativo a username e password � iscritto
 	 * @param username del fruitore
@@ -111,8 +98,6 @@ public class Model extends Observable {
 		return -1;
 	}
 	
-
-	
 	/**
 	 * elimino fruitori decaduti e aggiorno il numero di licenze delle risorse liberate
 	 * @pre true
@@ -154,117 +139,115 @@ public class Model extends Observable {
 	 * @pre true
 	 * @post operatoriNoChange()	
 	 */
-		public  void eliminaPrestitiScaduti() {
-			//assert invariante();
-			ArrayList<Operatore> operatoriPre = operatori ;
+	public  void eliminaPrestitiScaduti() {
+		//assert invariante();
+		ArrayList<Operatore> operatoriPre = operatori ;
 			
-			if(fruitori!=null) {
-				for (int i=0; i<fruitori.size(); i++) {
-					//array contenente gli id delle risorse relative a prestiti scaduti
-					ArrayList<Integer> prestitiScaduti = new ArrayList<Integer>();
+		if(fruitori!=null) {
+			for (int i=0; i<fruitori.size(); i++) {
+				//array contenente gli id delle risorse relative a prestiti scaduti
+				ArrayList<Integer> prestitiScaduti = new ArrayList<Integer>();
 					
-					prestitiScaduti=fruitori.get(i).eliminaPrestitiScaduti();
-					int catRisorsa;
+				prestitiScaduti=fruitori.get(i).eliminaPrestitiScaduti();
+				int catRisorsa;
 					
-					if(prestitiScaduti!=null)
-						for (int j=0; j<prestitiScaduti.size(); j++) {
-							catRisorsa=archivio.trovaIdCategoria(prestitiScaduti.get(j));
-							if(catRisorsa==0 || catRisorsa==1)
-								archivio.aggiornaLicenze(prestitiScaduti.get(j), 1); //1 � il mio flag per incrementare numeroLicenze
+				if(prestitiScaduti!=null)
+					for (int j=0; j<prestitiScaduti.size(); j++) {
+						catRisorsa=archivio.trovaIdCategoria(prestitiScaduti.get(j));
+						if(catRisorsa==0 || catRisorsa==1)
+							archivio.aggiornaLicenze(prestitiScaduti.get(j), 1); //1 � il mio flag per incrementare numeroLicenze
 							
-							if(archivio.numeroLicenzeRisorsa(prestitiScaduti.get(j))==1) {
-								setChanged();
-								notifyObservers(new Evento(RISORSA_DISPONIBILE,prestitiScaduti.get(j)));
-							}
+						if(archivio.numeroLicenzeRisorsa(prestitiScaduti.get(j))==1) {
+							setChanged();
+							notifyObservers(new Evento(RISORSA_DISPONIBILE,prestitiScaduti.get(j)));
 						}
-				}
-				//assert invariante() && operatoriPre == operatori ; 
+					}
 			}
+			//assert invariante() && operatoriPre == operatori ; 
 		}
+	}
 		
-	
-
-		/**
-		 * ritorna la descrizione di tutti i fruitori iscritti	
-		 * @return stringa descrittiva 
-		 * @pre true
-		 * @post @nochange && @return!= null 
-		 */
-			public  String elencoFruitori() {
-				assert invariante() ;
-				ArrayList<Operatore> operatoriPre = operatori ;
-				ArrayList<Fruitore> fruitoriPre = fruitori ;
-				Archivio archivioPre = archivio ;
+	/**
+	 * ritorna la descrizione di tutti i fruitori iscritti	
+	 * @return stringa descrittiva 
+	 * @pre true
+	 * @post @nochange && @return!= null 
+	 */
+	public  String elencoFruitori() {
+		assert invariante() ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
+		Archivio archivioPre = archivio ;
 
 				
-				StringBuffer descrizione = new StringBuffer();
-				for(Fruitore f: fruitori) 
-					descrizione.append(f.visualizzaDatiFruitore()+"\n\n");
-				String risultato = descrizione.toString();	
+		StringBuffer descrizione = new StringBuffer();
+		for(Fruitore f: fruitori) 
+		descrizione.append(f.visualizzaDatiFruitore()+"\n\n");
+		String risultato = descrizione.toString();	
 			
-				assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio && risultato != null;
-				return risultato ;
-			}
-			/**
-			 * ritorna la descrizione di tutti i fruitori completa di prestiti per ognuno di essi 
-			 * @pre true
-			 * @post @nochange && @return!= null
-			 * @return
-			 */
-				public  String elencoFruitoriFull() {
-					assert invariante() ;
-					ArrayList<Operatore> operatoriPre = operatori ;
-					ArrayList<Fruitore> fruitoriPre = fruitori ;
-					Archivio archivioPre = archivio ;
-
+		assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio && risultato != null;
+		return risultato ;
+	}
+	
+	/**
+	 * ritorna la descrizione di tutti i fruitori completa di prestiti per ognuno di essi 
+	 * @pre true
+	 * @post @nochange && @return!= null
+	 * @return
+	 */
+	public  String elencoFruitoriFull() {
+		assert invariante() ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
+		Archivio archivioPre = archivio ;
+		
+		StringBuffer descrizione = new StringBuffer();
+		
+		for(Fruitore f: fruitori) 
+			descrizione.append(f.toString()+"\n\n");
+		String risultato = descrizione.toString();	
 					
-					StringBuffer descrizione = new StringBuffer();
-					for(Fruitore f: fruitori) 
-						descrizione.append(f.toString()+"\n\n");
-					String risultato = descrizione.toString();	
-					
-					assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio && risultato != null;
-					return risultato;
-				}
+		assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio && risultato != null;
+		return risultato;
+	}
 			
-
-				/**
-				 * ritorna la descrizione di tutti gli operatori esistenti
-				 * @pre true
-				 * @post @return != null && @nochange			
-				 * @return la stringa descrittiva
-				 */
-					public String elencoOperatori() {
-						assert invariante() ;
-						ArrayList<Operatore> operatoriPre = operatori ;
-						ArrayList<Fruitore> fruitoriPre = fruitori ;
-						Archivio archivioPre = archivio ;
+	/**
+	 * ritorna la descrizione di tutti gli operatori esistenti
+	 * @pre true
+	 * @post @return != null && @nochange			
+	 * @return la stringa descrittiva
+	 */
+	public String elencoOperatori() {
+		assert invariante() ;
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
+		Archivio archivioPre = archivio ;
 						
-								StringBuffer descrizione = new StringBuffer();
-								for(Operatore o: operatori) 
-									descrizione.append(o.toString()+"\n\n");
+		StringBuffer descrizione = new StringBuffer();
+		for(Operatore o: operatori) 
+			descrizione.append(o.toString()+"\n\n");
 								
-								String risultato = descrizione.toString();
-								assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio && risultato!= null;
-								return 	risultato ;	
-							}
+		String risultato = descrizione.toString();
+		assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio && risultato!= null;
+		return 	risultato ;	
+	}
 					
-					/**
-					 * salvare fruitori e operatori a fine sessione su file 
-					 * @pre true
-					 * @post @nochange
-					 */
-						public  void salvaFruitoriOperatori() {
-								//assert	invariante() ;	
-								ArrayList<Operatore> operatoriPre = operatori ;
-								ArrayList<Fruitore> fruitoriPre = fruitori ;
-								Archivio archivioPre = archivio ;
+	/**
+	 * salvare fruitori e operatori a fine sessione su file 
+	 * @pre true
+	 * @post @nochange
+	 */
+	public  void salvaFruitoriOperatori() {
+		//assert	invariante() ;	
+		ArrayList<Operatore> operatoriPre = operatori ;
+		ArrayList<Fruitore> fruitoriPre = fruitori ;
+		Archivio archivioPre = archivio ;
 							
-								Save.salvaDatiSuFile(NOMEFILEFRUITORI, fruitori);
-								Save.salvaDatiSuFile(NOMEFILEOPERATORI, operatori);
+		Save.salvaDatiSuFile(NOMEFILEFRUITORI, fruitori);
+		Save.salvaDatiSuFile(NOMEFILEOPERATORI, operatori);
 									
-								//assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
-								}
+		//assert invariante() && operatoriPre == operatori && fruitoriPre == fruitori && archivioPre == archivio ;
+	}
 						
 						/**
 						 *  carica da file i fruitori e operatori
@@ -307,46 +290,20 @@ public class Model extends Observable {
 								}
 				
 								
-								/**
-								 * 	verifica se � possibile dare la risorsa scelta in prestito al fruitore scelto
-								 * @param fruitore scelto
-								 * @param risorsaScelta id della risorsa
-								 * @return true se il prestito desiderato soddisfa tutti i requisiti
-								 * @pre id>=0 fruitore!=null 
-								 * @post @nochange
-								 */
-									private  boolean verificaPrerequisitiPrestito(Fruitore fruitore, int risorsaScelta) {
-										assert invariante() && risorsaScelta>=0 && fruitore!= null;
-										
-
-										int maxRisorsePerCategoria = archivio.maxRisorsePerCategoriaDataUnaRisorsa(risorsaScelta);
-										
-										ArrayList<Integer> idRisorseGiaPossedute = fruitore.getPrestiti();
-										
-										int match=0;
-										
-										int catRisorsa=archivio.trovaIdCategoria(risorsaScelta);
-										int catPosseduta;
-										
-										for (Integer idInEsame : idRisorseGiaPossedute) {
-											catPosseduta=archivio.trovaIdCategoria(idInEsame);
-										
-											if(catRisorsa==catPosseduta)
-												match++;
-										}
-										
-										
-										int numLicenze=archivio.numeroLicenzeRisorsa(risorsaScelta);
-										
-										if( !fruitore.giaPresente(risorsaScelta) && match < maxRisorsePerCategoria && numLicenze>0 ) {
-											
-											assert invariante() ;
-											return true;	
-											}
-										assert invariante() ;
-										return false;
-									}
-				public void addFruitore(String nome,String cognome,int eta,String username,String password,Calendar data_iscrizione,Calendar data_scadenza) {
+	/**
+	 * 	verifica se � possibile dare la risorsa scelta in prestito al fruitore scelto
+	 * @param fruitore scelto
+	 * @param risorsaScelta id della risorsa
+	 * @return true se il prestito desiderato soddisfa tutti i requisiti
+	 * @pre id>=0 fruitore!=null 
+	 * @post @nochange
+	 */
+	private  boolean verificaPrerequisitiPrestito(Fruitore fruitore, int risorsaScelta){
+		
+		return new VerificaPrerequisitiPrestito(this, fruitore, risorsaScelta).compute();
+	}
+	
+	public void addFruitore(String nome,String cognome,int eta,String username,String password,Calendar data_iscrizione,Calendar data_scadenza) {
 
 
 					fruitori.add(new Fruitore(nome, cognome, eta, username, password, data_iscrizione, data_scadenza));
@@ -536,13 +493,11 @@ public class Model extends Observable {
 				}
 
 				public ArrayList<Integer> filtraRisorse(int attributoScelto, Object parametroDiRicerca) throws ClassCastException{
-					// TODO Auto-generated method stub
 					return    archivio.filtraRisorse(parametroDiRicerca,attributoScelto);
 
 				}
 
 				public String getNomeRisorsa(int r) {
-					// TODO Auto-generated method stub
 					return archivio.getNomeRisorsa(r);
 				}
 
@@ -568,7 +523,6 @@ public class Model extends Observable {
 				}
 
 				public boolean verificaUsernameOperatore(int i, String username) {
-					// TODO Auto-generated method stub
 					return operatori.get(i).getUsername().equals(username);
 				}
 
@@ -625,7 +579,6 @@ public class Model extends Observable {
 		}
 
 		public String getDescrizioneStorico() {
-			// TODO Auto-generated method stub
 			return storico.getDescrizione();
 		}
 
@@ -648,4 +601,3 @@ public class Model extends Observable {
 			return storico;
 		}
 }
-

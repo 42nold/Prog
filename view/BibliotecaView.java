@@ -1,15 +1,12 @@
 package view;
 
-import java.util.Observable;
-
 import it.unibs.ing.mylib.BelleStringhe;
 import it.unibs.ing.mylib.InputDati;
 import it.unibs.ing.mylib.MyMenu;
 import it.unibs.ing.mylib.Stampa;
 
 public class BibliotecaView implements MyView{
-
-
+	
 	@Override
 	public String StringaNonVuota(String string) {
 
@@ -36,7 +33,6 @@ public class BibliotecaView implements MyView{
 
 		Stampa.aVideo(string);
 	}
-
 	
 	@Override
 	public char Char(String messaggio) {
@@ -75,7 +71,6 @@ public class BibliotecaView implements MyView{
 			}
 		}
 		
-		return s;		
-		
+		return s;
 	}
 }
