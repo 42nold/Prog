@@ -538,14 +538,7 @@ public class Model extends Observable {
 			return 	archivio.scegliRisorsa(categoriaScelta,sottoCategoriaScelta,risorsaSelezionata);
 
 		}
-		/**
-		 * triggera il metodo che aggiorna il contatore di id prestiti dell'archivio
-		 * @pre true
-		 * @post true	
-		 */
-		public void idCorrente() {
-			archivio.setIdCorrente();
-		}
+	
 
 		public boolean verificaPrerequisitiPrestito(int numFruitore, int risorsaScelta) {
 

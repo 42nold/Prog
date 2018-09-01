@@ -275,27 +275,7 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 	
 		//assert invariante();
 	}
-	/**
-	 * ritorna l'indice massimo di risorsa presente nella categoria
-	 * @pre true
-	 * @post @nochange && @return>=-1
-	 * @return risultato il valore dell'id più alto presente
-	 */
-	/*public int idMax() {
-		//assert invariante();
-		//CategoriaPrimoLivello<T> categoriaPre = this;
-		
-		int risultato=-1;
-		sottocategorie = new ArrayList<Categoria<T>>();
-		if(this.hasSottoCategoria()) 
-			for(Categoria<T> sottocategoria : sottocategorie) {
-				int var = sottocategoria.idMax();
-				if(var>risultato) risultato=var ;
-			}
-		
-		//assert invariante() && categoriaPre==this && risultato>=-1 ;
-		return risultato;		
-	}*/
+	
 	
 	public ArrayList<Categoria<T>> getSottocategorie() {
 

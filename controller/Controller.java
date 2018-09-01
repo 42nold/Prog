@@ -22,7 +22,7 @@ public class Controller  implements Serializable{
 	private static final String TITOLO_MENU_GESTIONERISORSA= "Opzioni disponibili";
 	private static final String[] OPZIONI = {"visualizza risorse","aggiungi risorsa","elimina risorsa","modifica risorsa"};
 	private static final String TITOLO_MENU_STORICO = "scegli l'opzione desiderata";
-	private static final String[] vociMenuStorico = {"visualizza storico completo","visualizza numero prestiti per anno solare","visualizza numero proroghe per anno solare","visualizza risorsa prestata piï¿½ volte per anno solare","visualizza i prestiti per fruitore per anno solare"};
+	private static final String[] vociMenuStorico = {"visualizza storico completo","visualizza numero prestiti per anno solare","visualizza numero proroghe per anno solare","visualizza risorsa prestata più volte per anno solare","visualizza i prestiti per fruitore per anno solare"};
 	private static final String TITOLO_ELI_O_MOD = "seleziona l'azione desiderata";
 	private static final String[] OPZIONI_ELI_O_MOD = {"visualizza", "modifica", "elimina"};
 	private static final String INPUT_USERNAME = "Inserire username -> ";
@@ -58,7 +58,6 @@ public class Controller  implements Serializable{
 		importaArchivio();    //importa archivio da file 
 		eliminaDecaduti();    //cerco decaduti a inizio di ogni sessione
 		eliminaPrestitiScaduti();
-		idCorrente();		
 		
 		interact();
 		
@@ -303,9 +302,9 @@ public class Controller  implements Serializable{
 		model.salvaArchivio();	
 	}
 		
-	public  void idCorrente() {
+	/*public  void idCorrente() {
 		model.idCorrente();
-	}
+	}*/
 	
 	private void azioneDaRicerca(int id, int eliMod, int categoria) {
 		
@@ -435,14 +434,14 @@ public class Controller  implements Serializable{
 
 	private  String elencoFruitori() {
 		
-		if(model.hasFruitori()) view.notify("elenco fruitori vuoto");
+		if(!model.hasFruitori()) view.notify("elenco fruitori vuoto");
 
 		return model.elencoFruitori();
 	}
 	
 	private  String elencoFruitoriFull() {
 		
-		if(model.hasFruitori()) view.notify("elenco fruitori vuoto");
+		if(!model.hasFruitori()) view.notify("elenco fruitori vuoto");
 		
 		return model.elencoFruitoriFull();
 	}

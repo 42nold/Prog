@@ -73,7 +73,6 @@ public class Storico implements Serializable, Observer{
 	 * @post invariante()
 	 */
 	public void importaDati() {
-		//assert invariante() ;
 		
 		ArrayList<Evento> b =(ArrayList<Evento>) Load.importaDatiDaFile(NOMEFILESTORICO);
 				
@@ -82,7 +81,6 @@ public class Storico implements Serializable, Observer{
 		else 
 			storia=b;
 		
-		//assert invariante();
 	}
 	/**
 	 * verifica che l'array storia non sia nullo

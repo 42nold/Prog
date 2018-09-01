@@ -19,7 +19,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 	protected ArrayList<String> descrizioneCampi;
 	protected String nome;
 	protected ArrayList<Risorsa> risorse;
-	protected static int idRisorsa=0;														
+	protected static int idRisorsa;														
 	protected int idCategoria;
 	private int durataMassimaPrestito;
 	private int durataMassimaProroga;
@@ -45,9 +45,6 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 		this.termineProroga = termineProroga;
 		this.maxRisorse = maxRisorse;
 		this.idCategoria=id;
-		//assert invarianteC() && (risorse!=null ) ;
-		
-		//idRisorsa=idMax();	
 	}
 
 	public Categoria (String nome) {
@@ -55,28 +52,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 		descrizioneCampi=new ArrayList<String>();
 		risorse = new ArrayList<Risorsa>();
 	}
-	/**
-	 * cerca nelle risorse libro l'indice di risorsa massimo
-	 * @pre true
-	 * @post @nochange
-	 * @return il valore dell'id risorsa pi� alto trovato oppure -1
-	 */
-	public int idMax() {	
-		
-		if (risorse.size() > 0) {
-			int max=((Integer)risorse.get(0).getValue(ID));
-			
-			for(int i=1; i<risorse.size();i++)
-				
-				if(((Integer)risorse.get(i).getValue(ID))>max) {
-					max=((Integer)risorse.get(i).getValue(ID));
-				}
-			
-			return max;
-		}
-		
-		return -1;			
-	}
+	
 	
 	/**
 	 * verifica se ci sono risorse nelle sottocategorie, se esistono
@@ -114,8 +90,6 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
  * @return elenco di nomi
  */
 	public String[] elencoRisorse() {	
-		/*assert invarianteC();
-		Categoria<T> thisPre = this ;*/
 		
 		String[] risultato = new String[0];
 		
@@ -130,7 +104,6 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 				elenco[i]=r.toString();
 				i++;					
 			}
-			//assert invarianteC() && thisPre==this ;
 			return elenco;
 		}
 	}

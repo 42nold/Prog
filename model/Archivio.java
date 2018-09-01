@@ -14,11 +14,13 @@ import risorse.Categoria;
 import risorse.FactoryCategoria;
 import risorse.FactoryLibreria;
 import risorse.FactoryVideoteca;
+import storico.Evento;
 
 @SuppressWarnings("serial")
 public class Archivio implements Serializable {
 	
-	private static final String NOMEFILECATEGORIE = "Categorie.dat";	
+	private static final String NOMEFILECATEGORIE = "Categorie.dat";
+	private static final String NOMEFILEID = "Id.dat";
 	
 	private static final int ID_FILM= 1; //per identificare la categoria film
 	private static final int ID_LIBRI= 0; //per identificare la categoria libri
@@ -29,8 +31,7 @@ public class Archivio implements Serializable {
 	private static ArrayList<CategoriaPrimoLivello> categorie;
 	private int attributoScelto;
 	private ArrayList<Integer> match;
-	private Save save;
-	private Load load;
+
 	
 	/**
 	 * Istanzia la classe archivio con due categorie e due sottocategorie
@@ -42,7 +43,6 @@ public class Archivio implements Serializable {
 		aggiungiCategoriaPrimoLivello("libri",new FactoryLibreria(),ID_LIBRI);
 		aggiungiCategoriaPrimoLivello("film",new FactoryVideoteca(),ID_FILM); 
 
-		//idCorrente();
 	}
 	
 	private void aggiungiCategoriaPrimoLivello(String nome,FactoryCategoria factory,int idCategoria) {
@@ -199,17 +199,20 @@ public class Archivio implements Serializable {
 	 * @post true
 	 */
 	public void importaDati() {
-		File f = new File(NOMEFILECATEGORIE);
-		@SuppressWarnings("unchecked")
-		 ArrayList<CategoriaPrimoLivello> a = ( ArrayList<CategoriaPrimoLivello>)ServizioFile.caricaSingoloOggetto(f);
-
+		Object id = Load.importaDatiDaFile(NOMEFILEID);
+		
+		if(id==null)
+			Categoria.setId(0);
+		else
+			Categoria.setId((Integer)id);
+		
+		 ArrayList<CategoriaPrimoLivello> a = ( ArrayList<CategoriaPrimoLivello>)Load.importaDatiDaFile(NOMEFILECATEGORIE);
 		
 		if( a==null ) {
 			return;
 		}
 		else 
 			categorie=a; 
-				
 	}
 	
 	/**
@@ -220,6 +223,8 @@ public class Archivio implements Serializable {
 	public void salvaDati() {
 		
 		Save.salvaDatiSuFile(NOMEFILECATEGORIE, categorie);
+		
+		Save.salvaDatiSuFile(NOMEFILEID, Categoria.getIdRisorsaCorrente());
 	}
 	
 		
@@ -407,34 +412,7 @@ public class Archivio implements Serializable {
 			c.aggiornaLicenze(risorsaScelta, flag);
 	
 	}
-	/**
-	 * cerca il massimo valore id tra le risorse dell'archivio e aggiorna il contatore di id
-	 * @pre true
-	 */
-	/*public void setIdCorrente() {
-		assert invariante() ;
-		
-		int maxIdCorrente;
-		int maxIdNext;
-		
-		if(categorie.size()>0) {
-			
-			maxIdCorrente=categorie.get(0).idMax();
-			for(int i=1; i< categorie.size(); i++) {
-				maxIdNext=categorie.get(i).idMax();
-				if (maxIdNext>maxIdCorrente)
-					maxIdCorrente=maxIdNext;
-			}	
-			
-			Categoria.setId(maxIdCorrente+1);  
-		}
 
-		assert invariante() && storicoPre == storico;
-	}*/
-	public void setIdCorrente() {
-		Categoria.setId(0);
-	}
-	
 	public int getIdCorrente() {
 		return Categoria.getIdRisorsaCorrente();
 	}
@@ -472,16 +450,6 @@ public class Archivio implements Serializable {
 	}
 	
 	
-	/**
-	 * chiama il metodo scegli risorsa della categoria voluta nell'archivio
-	 * @param posizione della categoria
-	 * @return id della risorsa selezionata
-	 */
-	/*public int scegliRisorsa(int i) {
-
-		return 	categorie.get(i).scegliRisorsa();
-
-	}*/
 	public String showRisorsa(int id, int c) {
 		return categorie.get(c).showRisorsa(id);
 	}
@@ -516,7 +484,6 @@ public class Archivio implements Serializable {
 	
 	protected void aggiungiRisorsa(ArrayList<Object> nuoviAttributi, int categoria) throws ClassCastException {
 		
-		//assert attributiStringaFinali!=null && attributiNumericiFinali != null && categoria >= 0;
 		categorie.get(categoria).aggiungiRisorsaEAggiornaStorico(nuoviAttributi);
 	}
 	

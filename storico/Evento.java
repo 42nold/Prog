@@ -38,7 +38,7 @@ public class Evento implements Serializable{
 		Evento eventoPre = this ;
 		
 		StringBuffer a =  new StringBuffer();
-		a.append(data.get(Calendar.DAY_OF_MONTH)+"/"+data.get(Calendar.MONTH)+"/"+data.get(Calendar.YEAR) + "\n");
+		a.append(data.get(Calendar.DAY_OF_MONTH)+"/"+(data.get(Calendar.MONTH)+1)+"/"+data.get(Calendar.YEAR) + "\n");
 		a.append(nome + "\n");
 		if(valore!=-1) a.append(valore);
 		String risultato = a.toString() ;
