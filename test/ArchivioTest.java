@@ -35,20 +35,6 @@ public class ArchivioTest {
 	}
 	
 	@Test
-	public void durataPrestitoDataUnaRisorsa() {
-		int actual = archivio.durataPrestitoDataUnaRisorsa(3);
-		int expected = 30;
-		assertEquals(expected, actual);
-	}
-	
-	@Test
-	public void durataProrogaDataUnaRisorsa() {
-		int actual = archivio.durataProrogaDataUnaRisorsa(0);
-		int expected = 30;
-		assertEquals(expected, actual);
-	}
-	
-	@Test
 	public void testElencoCategorie() {
 		assertEquals("libri", archivio.elencoCategorie()[0].toString());
 		assertEquals("film", archivio.elencoCategorie()[1].toString());
