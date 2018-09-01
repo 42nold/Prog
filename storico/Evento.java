@@ -26,7 +26,7 @@ public class Evento implements Serializable{
 		this.nome = nome ;
 		this.valore = valore ;
 		
-		assert invariante();	}
+		assert invariante();	} 
 	/**
 	 * formatta i dati contenuti nell'oggetto evento in una stringa ordinata
 	 * @pre true

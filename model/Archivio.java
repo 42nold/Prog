@@ -136,7 +136,7 @@ public class Archivio implements Serializable {
 	/**
 	 * filtra tutte le risorse che rispecchiano i parametri immessi in un unico array : pu� ritornare null!
 	 * @param attributoScelto attributo da confrontare
-	 * @param chiaveDiRicerca stringa da confrontare
+	 * @param chiaveDiRicerca stringa da confrontare 
 	 * @param numDiRicerca intero da confrontare
 	 * @return lista di identificativi delle risorse che fanno match
 	 * @pre attributoScelto>=0 && attributoScelto<=attributiSize() && chiaveDiricerca!=null & numDiRicerca!=null

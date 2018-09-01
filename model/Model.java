@@ -546,7 +546,7 @@ public class Model extends Observable {
 		}
 		
 		public ArrayList<String> getDescrizioneCampiRisorsa(int categoriaScelta){
-			return archivio.getDescrizioneCampiRisorsa(categoriaScelta);
+			return archivio.getDescrizioneCampiRisorsa(categoriaScelta); 
 		}
 			
 

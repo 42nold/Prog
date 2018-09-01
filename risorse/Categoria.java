@@ -500,7 +500,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 		
 	//	assert invariante();
 	}
-	/**
+	/** 
 	 * getter
 	 * @return numero massimo di risorse prestabili contemporaneamente
 	 * @pre true

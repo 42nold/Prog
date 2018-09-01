@@ -327,7 +327,7 @@ public abstract class CategoriaPrimoLivello<T extends Risorsa> extends Categoria
 	public void aggiungiRisorsaEAggiornaStorico(ArrayList<Object> nuoviAttributi, int sottocategoria) throws ClassCastException {
 
 		sottocategorie.get(sottocategoria).aggiungiRisorsa(nuoviAttributi);	
-	}
+	} 
 	
 	/**
 		 * verifica che le proprietà invarianti della classe siano verificate

@@ -90,7 +90,7 @@ public class Controller  implements Serializable{
 					username = iscrizioneFruitore();
 					 if (username != "") {
 						 usaFruitore(username);
-					}
+					}  
 					break;
 					
 				default:

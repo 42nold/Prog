@@ -1,7 +1,7 @@
 package storico;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;

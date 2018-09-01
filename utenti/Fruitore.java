@@ -225,7 +225,7 @@ public class Fruitore extends Utente implements Serializable{
  * @return la stringa descrittiva	
  */
 	public String  toString() {
-		assert invariante() ;
+		assert invariante() ; 
 		Fruitore fruitorePre = this;
 		
 		StringBuffer descrizione = new StringBuffer();
