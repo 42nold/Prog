@@ -101,11 +101,11 @@ public abstract class Risorsa implements Serializable{
 	}
 	
 /**
- * controlla se una stringa data come parametro è contenuta in uno degli attributi della risorsa (no case sensitive)
+ * controlla se una stringa data come parametro ï¿½ contenuta in uno degli attributi della risorsa (no case sensitive)
  * @param parametroDiRicerca stringa da controllare
  * @pre parametroDiRicerca!=null
  * @post @nochange
- * @return true se la stringa è contenuta
+ * @return true se la stringa ï¿½ contenuta
  */
 	public boolean match(Object parametroDiRicerca, String campo) throws ClassCastException {
 		/*assert invarianteR();
@@ -120,7 +120,7 @@ public abstract class Risorsa implements Serializable{
 	}
 
 /**
- * verifica che le proprietà invarianti della classe siano rispettate
+ * verifica che le proprietï¿½ invarianti della classe siano rispettate
  * @pre true
  * @post @nochange
  * @return true se i getters restituiscano i reali valori degli attributi, che le stringhe non siano nulle e che i valori numerici non siano negativi	

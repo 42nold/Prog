@@ -44,7 +44,7 @@ public class Videoteca extends Categoria<Film>{
 		descrizioneCampi.add(CASAPRODUZIONE);
 		descrizioneCampi.add(DURATA);
 	}
-	
+	//TODO refactor
 	public void aggiungiRisorsa(ArrayList<Object> attributiNuovaRisorsa) throws ClassCastException{
 		/*assert invarianteC() && attributiStringa.length==NUM_ATTRIBUTI_STRINGA && attributiNumerici.length == NUM_ATTRIBUTI_NUMERICI+1;//+1 comprende anche il num di licenze
 		int libriPre = risorse.size();

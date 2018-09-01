@@ -252,9 +252,7 @@ public class Controller  implements Serializable{
 			model.aggiungiRisorsa(attributi,categoria,sottocategoria);		
 		}catch(ClassCastException e) {
 			view.notify(ERROREINPUT);
-		}
-		
-		
+		}	
 	}
 	
 	

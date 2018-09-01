@@ -80,7 +80,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 	
 	/**
 	 * verifica se ci sono risorse nelle sottocategorie, se esistono
-	 * @return true se c'è almeno una risorsa
+	 * @return true se c'ï¿½ almeno una risorsa
 	 * @pre true
 	 * @post @nochange
 	 */
@@ -99,6 +99,7 @@ public abstract class Categoria<T extends Risorsa> implements Serializable {
 	 * @post (sizeLibri()==sizeLibri()@pre+1 || sizeFilm()==sizeFilm()@pre+1) && idRisorse()==idRisorse()@pre+1 
 	 * 	
 	 */
+	//TODO pattern refactory
 	public abstract void aggiungiRisorsa(ArrayList<Object> attributiNuovaRisorsa) throws ClassCastException;
 
 

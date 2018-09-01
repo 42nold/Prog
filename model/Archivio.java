@@ -515,10 +515,8 @@ public class Archivio implements Serializable {
 	}
 	
 	protected void aggiungiRisorsa(ArrayList<Object> nuoviAttributi, int categoria) throws ClassCastException {
-
-
-		//assert attributiStringaFinali!=null && attributiNumericiFinali != null && categoria >= 0;
 		
+		//assert attributiStringaFinali!=null && attributiNumericiFinali != null && categoria >= 0;
 		categorie.get(categoria).aggiungiRisorsaEAggiornaStorico(nuoviAttributi);
 	}
 	

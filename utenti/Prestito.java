@@ -40,14 +40,14 @@ public class Prestito implements Serializable{
  * @return true se tutte le invarianti sono soddisfatte
  */
  	private boolean invariante() {
-	Prestito prestitoPre = this;
-	
-	boolean invariante=false;
-	if(idPrestito>=0 && idRisorsa>=0 && descrizione!=null && inizio!=null && fine!=null && inizio.before(fine) && proroga>=0 && termineProroga>=0 && getIdRisorsa()==idRisorsa && getDescrizione()==descrizione && getIdPrestito()==idPrestito && getFine()==fine && getInizio()==inizio && getProroga()==proroga && getTermineProroga()==termineProroga) invariante=true;
-	
-	assert prestitoPre==this;
-	return invariante ;
-}
+ 		Prestito prestitoPre = this;
+ 		
+ 		boolean invariante=false;
+ 		if(idPrestito>=0 && idRisorsa>=0 && descrizione!=null && inizio!=null && fine!=null && inizio.before(fine) && proroga>=0 && termineProroga>=0 && getIdRisorsa()==idRisorsa && getDescrizione()==descrizione && getIdPrestito()==idPrestito && getFine()==fine && getInizio()==inizio && getProroga()==proroga && getTermineProroga()==termineProroga) invariante=true;
+ 		
+ 		assert prestitoPre==this;
+ 		return invariante ;
+ 	}
 
 	/**
 	 * ritorna la data di inizio prestito

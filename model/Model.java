@@ -36,7 +36,6 @@ public class Model extends Observable {
 	}
 
 	private  boolean invariante() {
-		
 		boolean invariante = false ;
 		ArrayList<Operatore> operatoriPre = operatori ;
 		ArrayList<Fruitore> fruitoriPre = fruitori ;
